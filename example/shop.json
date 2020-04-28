@@ -1,76 +1,81 @@
 {
   "silk_version": "0.0.1",
-  "tables": [
-    {
-      "name": "product",
-      "group": "shop",
-      "columns": [
-        { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
-        { "name": "category_id", "type": "uint", "nullable": false },
-        { "name": "name", "type": "text", "nullable": false },
-        { "name": "description", "type": "text", "nullable": true },
-        { "name": "price", "type": "real(10,2)", "nullable": false }
-      ],
-      "primary_key": [ "id" ],
-      "references": [
-        { "from_columns":  [ "category_id" ], "to_table": "category", "to_columns": [ "id" ] }
-      ],
-      "unique_constraints": [
-        { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
-      ],
-      "check_constraints": [
-        { "name": "no_free_lunch", "type": "greater_than", "minimum": "0" }
-      ],
-      "database_specific": {}
-    },
-    {
-      "name": "category",
-      "group": "shop",
-      "columns": [
-        { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
-        { "name": "name", "type": "text", "nullable": false },
-        { "name": "slug", "type": "text", "nullable": false }
-      ],
-      "primary_key": [ "id" ],
-      "references": [],
-      "unique_constraints": [
-        { "name":  "category_name", "columns": [ "name" ] },
-        { "name":  "category_slug", "columns": [ "slug" ] }
-      ],
-      "check_constraints": [
-        { "name": "category_slug", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$" }
-      ]
-    },
-    {
-      "name": "customer",
-      "group": "shop",
-      "columns": [
-        { "name": "logon", "type": "text", "nullable": false },
-        { "name": "name", "type": "text", "nullable": true },
-        { "name": "address", "type": "text", "nullable": true }
-      ],
-      "primary_key": [ "logon" ],
-      "references": [],
-      "unique_constraints": [
-        { "name": "customer_logon", "columns": [ "logon" ] }
-      ],
-      "check_constraints": [
-        { "name": "customer_logon_chars", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_]*$" }
-      ]
-    },
-    {
-      "name":  "product_selection",
-      "group": "shop",
-      "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order"
-    },
-    {
-      "name":  "cart",
-      "group": "shop"
-    },
-    {
-      "name":  "order",
-      "group": "shop"
-    }
-  ],
-  "database_specific": {}
+  "db": {
+    "name": "shop",
+    "description": "Webshop database",
+    "tables": [
+      {
+        "name": "product",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
+          { "name": "category_id", "type": "uint", "nullable": false },
+          { "name": "name", "type": "text", "nullable": false },
+          { "name": "description", "type": "text", "nullable": true },
+          { "name": "price", "type": "real(10,2)", "nullable": false }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "from_columns":  [ "category_id" ], "to_table": "category", "to_columns": [ "id" ] }
+        ],
+        "unique_constraints": [
+          { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
+        ],
+        "check_constraints": [
+          { "name": "no_free_lunch", "type": "greater_than", "minimum": "0" }
+        ],
+        "database_specific": {}
+      },
+      {
+        "name": "category",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
+          { "name": "name", "type": "text", "nullable": false },
+          { "name": "slug", "type": "text", "nullable": false }
+        ],
+        "primary_key": [ "id" ],
+        "references": [],
+        "unique_constraints": [
+          { "name":  "category_name", "columns": [ "name" ] },
+          { "name":  "category_slug", "columns": [ "slug" ] }
+        ],
+        "check_constraints": [
+          { "name": "category_slug", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$" }
+        ]
+      },
+      {
+        "name": "customer",
+        "group": "shop",
+        "columns": [
+          { "name": "logon", "type": "text", "nullable": false },
+          { "name": "name", "type": "text", "nullable": true },
+          { "name": "address", "type": "text", "nullable": true }
+        ],
+        "primary_key": [ "logon" ],
+        "references": [],
+        "unique_constraints": [
+          { "name": "customer_logon", "columns": [ "logon" ] }
+        ],
+        "check_constraints": [
+          { "name": "customer_logon_chars", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_]*$" }
+        ]
+      },
+      {
+        "name":  "product_selection",
+        "group": "shop",
+        "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order"
+      },
+      {
+        "name":  "cart",
+        "group": "shop"
+      },
+      {
+        "name":  "order",
+        "group": "shop"
+      }
+    ],
+    "database_type": "postgres",
+    "database_specific": {}
+  }
 }

@@ -12,11 +12,21 @@
       "maxLength": 14,
       "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
     },
-    "tables": {
-      "description": "The tables in the database",
-      "type": "array",
-      "items": "object"
-    }
+    "db": { "$ref":  "#/definitions/db" },
+    "table": { "$ref":  "#/definitions/table" }
   },
-  "required": ["silk_version", "tables"]
+  "definitions": {
+    "db": {
+      "tables": {
+        "description": "The tables in the database",
+        "type": "array",
+        "items": { "$ref":  "#/definitions/table" }
+      }
+    },
+    "table": {}
+  },
+  "oneOf": [
+      { "required": ["silk_version", "db"] },
+      { "required": ["silk_version", "table"] }
+  ]
 }
