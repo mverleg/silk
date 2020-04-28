@@ -3,6 +3,7 @@
   "tables": [
     {
       "name": "product",
+      "group": "shop",
       "columns": [
         { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
         { "name": "category_id", "type": "uint", "nullable": false },
@@ -19,10 +20,12 @@
       ],
       "check_constraints": [
         { "name": "no_free_lunch", "type": "greater_than", "minimum": "0" }
-      ]
+      ],
+      "database_specific": {}
     },
     {
       "name": "category",
+      "group": "shop",
       "columns": [
         { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
         { "name": "name", "type": "text", "nullable": false },
@@ -40,6 +43,7 @@
     },
     {
       "name": "customer",
+      "group": "shop",
       "columns": [
         { "name": "logon", "type": "text", "nullable": false },
         { "name": "name", "type": "text", "nullable": true },
@@ -55,13 +59,18 @@
       ]
     },
     {
-      "name":  "product_selection"
+      "name":  "product_selection",
+      "group": "shop",
+      "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order"
     },
     {
-      "name":  "cart"
+      "name":  "cart",
+      "group": "shop"
     },
     {
-      "name":  "order"
+      "name":  "order",
+      "group": "shop"
     }
-  ]
+  ],
+  "database_specific": {}
 }

@@ -8,7 +8,6 @@
     "silk_version": {
       "description": "The semantic version of Silk that this data schema is exported in",
       "type": "string",
-      "required": true,
       "minLength": 5,
       "maxLength": 14,
       "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
@@ -16,8 +15,7 @@
     "tables": {
       "description": "The tables in the database",
       "type": "array",
-      "items": "object",
-      "required": true
+      "items": "object"
     }
   },
   "required": ["silk_version", "tables"]
