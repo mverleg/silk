@@ -13,17 +13,27 @@
       "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
     },
     "db": { "$ref":  "#/definitions/db" },
-    "table": { "$ref":  "#/definitions/table" }
+    "table": { "$ref":  "#/definitions/table" },
+    "additionalProperties": false
   },
   "definitions": {
     "db": {
-      "tables": {
-        "description": "The tables in the database",
-        "type": "array",
-        "items": { "$ref":  "#/definitions/table" }
-      }
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "tables": {
+          "description": "The tables in the database",
+          "type": "array",
+          "items": { "$ref":  "#/definitions/table" }
+        },
+        "database_type": { "type": "string" },
+        "database_specific": { "type": "object" }
+      },
+      "additionalProperties": false
     },
-    "table": {}
+    "table": {
+      "additionalProperties": false
+    }
   },
   "oneOf": [
       { "required": ["silk_version", "db"] },
