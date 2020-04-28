@@ -17,23 +17,61 @@
     "additionalProperties": false
   },
   "definitions": {
+    "identifier": {
+      "type": "string",
+      "min_length": 1,
+      "max_length": 512,
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+    },
     "db": {
+      "name":  "A full database with multiple tables.",
       "properties": {
-        "name": { "type": "string" },
+        "name": { "$ref": "#/definitions/identifier" },
         "description": { "type": "string" },
         "tables": {
           "description": "The tables in the database",
           "type": "array",
-          "items": { "$ref":  "#/definitions/table" }
+          "items": { "$ref": "#/definitions/table" }
         },
-        "database_type": { "type": "string" },
+        "database_type": { "$ref": "#/definitions/identifier" },
         "database_specific": { "type": "object" }
       },
       "additionalProperties": false
     },
     "table": {
+      "name": "A single database table",
+      "properties": {
+        "name": { "$ref": "#/definitions/identifier" },
+        "group": { "$ref": "#/definitions/identifier" },
+        "description": { "type": "string" },
+        "columns": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/column" }
+        },
+        "primary_key": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/identifier" }
+        },
+        "references": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/foreign_key" }
+        },
+        "unique_constraints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/unique_constraint" }
+        },
+        "check_constraints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/check_constraint" }
+        },
+        "database_specific": { "type": "object" }
+      },
       "additionalProperties": false
-    }
+    },
+    "column": { "type": "object" },
+    "foreign_key": { "type": "object" },
+    "unique_constraint": { "type": "object" },
+    "check_constraint": { "type": "object" }
   },
   "oneOf": [
       { "required": ["silk_version", "db"] },
