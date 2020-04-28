@@ -17,7 +17,9 @@
       "unique_constraints": [
         { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
       ],
-      "check_constraints": []
+      "check_constraints": [
+        { "name": "no_free_lunch", "type": "greater_than", "minimum": "0" }
+      ]
     },
     {
       "name": "category",
