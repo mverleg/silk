@@ -18,7 +18,7 @@ Uses
 It could be used for:
 
 * Query building and checking
-* Code generation (e.g. create value objects to hold data from the database)
+* Code generation (e.g. create value src.objects to hold data from the database)
 * Test data generation
 
 It is _not_ intended for:
