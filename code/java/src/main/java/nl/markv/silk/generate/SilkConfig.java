@@ -1,4 +1,4 @@
-package nl.markv.silk.objects.generate;
+package nl.markv.silk.generate;
 
 import java.io.File;
 

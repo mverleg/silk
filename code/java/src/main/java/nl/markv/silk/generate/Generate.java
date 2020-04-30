@@ -1,8 +1,12 @@
-package nl.markv.silk.objects.generate;
+package nl.markv.silk.generate;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.annotation.Nonnull;
 
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.NoopAnnotator;
@@ -16,23 +20,34 @@ import com.sun.codemodel.JCodeModel;
 public class Generate {
 
 	public static void main(String[] args) {
-		generateSilkObjects();
+		generateSilkObjects(
+				Paths.get("schema", "v0.0.1", "silk.schema.json"),
+				Paths.get("src", "main", "java", "nl", "markv", "silk", "objects")
+		);
 	}
 
-	public static void generateSilkObjects() {
+	public static void generateSilkObjects(
+			@Nonnull Path inputFile,
+			@Nonnull Path outputDir
+	) {
 
 		JCodeModel codeModel = new JCodeModel();
 
-		URL source = Generate.class.getResource("../../schema/v0.0.1/silk.schema.json");
+		URL source;
+		try {
+			source = inputFile.toUri().toURL();
+		} catch (MalformedURLException ex) {
+			throw new IllegalStateException(ex);
+		}
 
 		GenerationConfig config = SilkConfig.make();
 		SchemaMapper mapper = new SchemaMapper(
 				new RuleFactory(config, new NoopAnnotator(), new SchemaStore()),
 				new SchemaGenerator());
-		mapper.generate(codeModel, "ClassName", "com.example", source);
+		mapper.generate(codeModel, "ClassName", "nl.markv.silk", source);
 
 		try {
-			codeModel.build(new File("output_dir"));
+			codeModel.build(outputDir.toFile());
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
