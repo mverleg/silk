@@ -19,6 +19,8 @@
   "definitions": {
     "identifier": {
       "type": "string",
+      "description": "A name of a table, column or similar in the database",
+      "examples": ["Shopping_Cart", "customer_id"],
       "min_length": 1,
       "max_length": 512,
       "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
