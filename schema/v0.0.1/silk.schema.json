@@ -13,8 +13,7 @@
       "pattern": "^(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)$"
     },
     "db": { "$ref":  "#/definitions/db" },
-    "table": { "$ref":  "#/definitions/table" },
-    "additionalProperties": false
+    "table": { "$ref":  "#/definitions/table" }
   },
   "definitions": {
     "identifier": {
@@ -37,8 +36,7 @@
         },
         "database_type": { "$ref": "#/definitions/identifier" },
         "database_specific": { "type": "object" }
-      },
-      "additionalProperties": false
+      }
     },
     "table": {
       "name": "A single database table",
@@ -67,8 +65,7 @@
           "items": { "$ref": "#/definitions/check_constraint" }
         },
         "database_specific": { "type": "object" }
-      },
-      "additionalProperties": false
+      }
     },
     "column": { "type": "object" },
     "foreign_key": { "type": "object" },
