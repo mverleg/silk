@@ -6,6 +6,7 @@ import org.jsonschema2pojo.AnnotationStyle;
 import org.jsonschema2pojo.DefaultGenerationConfig;
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Language;
+import org.jsonschema2pojo.SourceType;
 
 public class SilkConfig extends DefaultGenerationConfig {
 
@@ -13,6 +14,11 @@ public class SilkConfig extends DefaultGenerationConfig {
 
 	public static GenerationConfig make() {
 		return new SilkConfig();
+	}
+
+	@Override
+	public SourceType getSourceType() {
+		return SourceType.JSONSCHEMA;
 	}
 
 	@Override
