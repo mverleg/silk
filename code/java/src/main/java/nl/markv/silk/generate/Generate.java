@@ -1,5 +1,6 @@
 package nl.markv.silk.generate;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,14 +21,17 @@ import com.sun.codemodel.JCodeModel;
 public class Generate {
 
 	public static void main(String[] args) {
+		String version = "v0_0_1";
 		generateSilkObjects(
-				Paths.get("schema", "v0.0.1", "silk.schema.json"),
-				Paths.get("src", "main", "java", "nl", "markv", "silk", "objects")
+				version,
+				Paths.get("..", ".."),
+				Paths.get("src", "main", "java")
 		);
 	}
 
 	public static void generateSilkObjects(
-			@Nonnull Path inputFile,
+			@Nonnull String version,
+			@Nonnull Path projectDir,
 			@Nonnull Path outputDir
 	) {
 
@@ -35,7 +39,8 @@ public class Generate {
 
 		URL source;
 		try {
-			source = inputFile.toUri().toURL();
+			source = Paths.get(projectDir.toString(), "schema",
+					version, "silk.schema.json").toUri().toURL();
 		} catch (MalformedURLException ex) {
 			throw new IllegalStateException(ex);
 		}
@@ -44,10 +49,13 @@ public class Generate {
 		SchemaMapper mapper = new SchemaMapper(
 				new RuleFactory(config, new NoopAnnotator(), new SchemaStore()),
 				new SchemaGenerator());
-		mapper.generate(codeModel, "ClassName", "nl.markv.silk", source);
+		mapper.generate(codeModel, "Silk", version, source);
 
+		File absoluteFile = Paths.get(outputDir.toString(),
+				"nl", "markv", "silk", "objects").toFile().getAbsoluteFile();
+		absoluteFile.mkdirs();
 		try {
-			codeModel.build(outputDir.toFile());
+			codeModel.build(absoluteFile);
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}

@@ -63,7 +63,7 @@ public class SilkConfig extends DefaultGenerationConfig {
 
 	@Override
 	public boolean isParcelable() {
-		return true;
+		return false;
 	}
 
 	@Override

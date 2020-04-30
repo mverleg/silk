@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.markv.silk</groupId>
-    <artifactId>silk_schema</artifactId>
+    <artifactId>silk</artifactId>
 
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>silk_schema</name>
+    <name>silk</name>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

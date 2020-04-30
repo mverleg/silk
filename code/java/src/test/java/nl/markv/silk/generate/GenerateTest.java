@@ -11,8 +11,9 @@ public class GenerateTest {
 	@Test
 	public void generateObjects() {
 		generateSilkObjects(
-				Paths.get("schema", "v0.0.1", "silk.schema.json"),
-				Paths.get("src", "main", "java", "nl", "markv", "silk", "objects")
+				"v0.0.1",
+				Paths.get("schema"),
+				Paths.get("src", "main", "java")
 		);
 	}
 }
