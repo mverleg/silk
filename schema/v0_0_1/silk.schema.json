@@ -24,6 +24,11 @@
       "max_length": 512,
       "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
     },
+    "database_specific": {
+      "type": "object",
+      "description": "Properties for the specific database, not controlled by Silk",
+      "additionalProperties": true
+    },
     "db": {
       "name":  "A full database with multiple tables.",
       "properties": {
@@ -35,7 +40,7 @@
           "items": { "$ref": "#/definitions/table" }
         },
         "database_type": { "$ref": "#/definitions/identifier" },
-        "database_specific": { "type": "object" }
+        "database_specific": { "$ref": "#/definitions/database_specific" }
       }
     },
     "table": {
@@ -64,7 +69,7 @@
           "type": "array",
           "items": { "$ref": "#/definitions/check_constraint" }
         },
-        "database_specific": { "type": "object" }
+        "database_specific": { "$ref": "#/definitions/database_specific" }
       }
     },
     "column": { "type": "object" },

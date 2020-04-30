@@ -49,10 +49,9 @@ public class Generate {
 		SchemaMapper mapper = new SchemaMapper(
 				new RuleFactory(config, new NoopAnnotator(), new SchemaStore()),
 				new SchemaGenerator());
-		mapper.generate(codeModel, "Silk", version, source);
+		mapper.generate(codeModel, "Silk", "nl.markv.silk.objects." + version, source);
 
-		File absoluteFile = Paths.get(outputDir.toString(),
-				"nl", "markv", "silk", "objects").toFile().getAbsoluteFile();
+		File absoluteFile = Paths.get(outputDir.toString()).toFile().getAbsoluteFile();
 		absoluteFile.mkdirs();
 		try {
 			codeModel.build(absoluteFile);

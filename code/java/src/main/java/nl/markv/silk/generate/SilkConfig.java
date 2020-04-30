@@ -1,7 +1,5 @@
 package nl.markv.silk.generate;
 
-import java.io.File;
-
 import org.jsonschema2pojo.AnnotationStyle;
 import org.jsonschema2pojo.DefaultGenerationConfig;
 import org.jsonschema2pojo.GenerationConfig;
@@ -21,19 +19,14 @@ public class SilkConfig extends DefaultGenerationConfig {
 		return SourceType.JSONSCHEMA;
 	}
 
-	@Override
-	public boolean isGenerateBuilders() {
-		return true;
-	}
+//	@Override
+//	public boolean isGenerateBuilders() {
+//		return true;
+//	}
 
 	@Override
 	public boolean isUsePrimitives() {
 		return true;
-	}
-
-	@Override
-	public File getTargetDirectory() {
-		return new File("src/main/java/nl/markv/silk/objects");
 	}
 
 	@Override
