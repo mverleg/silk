@@ -1,7 +1,6 @@
 package nl.markv.silk.parse;
 
 import java.io.BufferedReader;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
