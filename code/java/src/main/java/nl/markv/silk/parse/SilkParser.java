@@ -1,6 +1,7 @@
 package nl.markv.silk.parse;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,8 +10,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.objects.v0_0_1.Db;
-import nl.markv.silk.objects.v0_0_1.Table;
+import nl.markv.silk.objects.v0_0_1.SilkSchema;
 
 public interface SilkParser {
 
@@ -20,8 +20,9 @@ public interface SilkParser {
 			@Nonnull Function<BufferedReader, T> parseFunc
 	) {
 		BufferedReader reader;
+		File file = jsonPath.toAbsolutePath().toFile();
 		try {
-			reader = new BufferedReader(new FileReader(jsonPath.toFile()));
+			reader = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException ex) {
 			throw new IllegalStateException(ex);
 		}
@@ -37,18 +38,11 @@ public interface SilkParser {
 	}
 
 	@Nonnull
-	default Db parseDb(@Nonnull Path jsonPath) {
-		return feedFileToParser(jsonPath, this::parseDb);
+	default SilkSchema parse(@Nonnull Path jsonPath) {
+		return feedFileToParser(jsonPath, this::parse);
 	}
 
 	@Nonnull
-	Db parseDb(@Nonnull BufferedReader reader);
+	SilkSchema parse(@Nonnull BufferedReader reader);
 
-	@Nonnull
-	default Table parseTable(@Nonnull Path jsonPath) {
-		return feedFileToParser(jsonPath, this::parseTable);
-	}
-
-	@Nonnull
-	Table parseTable(@Nonnull BufferedReader reader);
 }
