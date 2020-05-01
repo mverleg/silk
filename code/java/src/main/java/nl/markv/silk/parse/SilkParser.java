@@ -19,6 +19,7 @@ public interface SilkParser {
 			@Nonnull Path jsonPath,
 			@Nonnull Function<BufferedReader, T> parseFunc
 	) {
+		Validator.validate(jsonPath);
 		BufferedReader reader;
 		File file = jsonPath.toAbsolutePath().toFile();
 		try {
