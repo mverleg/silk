@@ -1,13 +1,16 @@
 package nl.markv.silk.parse;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.io.FileUtils;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
@@ -22,7 +25,7 @@ public class Validator {
 		try (InputStream inputStream = new FileInputStream(schemaPth.toString())) {
 			JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
 			Schema schema = SchemaLoader.load(rawSchema);
-			schema.validate(new JSONObject(jsonPath.toString()));
+			schema.validate(new JSONObject(jsonPath));
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
