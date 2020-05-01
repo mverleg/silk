@@ -15,13 +15,13 @@ import org.jsonschema2pojo.SchemaStore;
 import org.jsonschema2pojo.rules.RuleFactory;
 
 import com.sun.codemodel.JCodeModel;
+import nl.markv.silk.SilkVersion;
 
 public class Generate {
 
 	public static void main(String[] args) {
-		String version = "v0_0_1";
 		generateSilkObjects(
-				version,
+				SilkVersion.versionPath(),
 				Paths.get("..", ".."),
 				Paths.get("src", "main", "java")
 		);
