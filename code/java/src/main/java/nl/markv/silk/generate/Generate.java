@@ -9,8 +9,6 @@ import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
 
-import org.jsonschema2pojo.GenerationConfig;
-import org.jsonschema2pojo.NoopAnnotator;
 import org.jsonschema2pojo.SchemaGenerator;
 import org.jsonschema2pojo.SchemaMapper;
 import org.jsonschema2pojo.SchemaStore;
