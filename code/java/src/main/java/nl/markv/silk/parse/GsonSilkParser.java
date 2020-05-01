@@ -2,6 +2,7 @@ package nl.markv.silk.parse;
 
 import java.io.BufferedReader;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
 
@@ -15,9 +16,11 @@ public class GsonSilkParser implements SilkParser {
 
 	public static void main(String[] args) {
 		SilkParser parser = new GsonSilkParser();
-		parser.parseDb();
+		Db db = parser.parseDb(Paths.get("..", "..", "example", "shop.json"));
+		System.out.println(db);
 	}
 
+	@Override
 	@Nonnull
 	public Db parseDb(@Nonnull BufferedReader reader) {
 		Db result = gson.fromJson(reader, Db.class);
@@ -27,8 +30,13 @@ public class GsonSilkParser implements SilkParser {
 		return result;
 	}
 
+	@Override
 	@Nonnull
-	public Table parseTable() {
-
+	public Table parseTable(@Nonnull BufferedReader reader) {
+		Table result = gson.fromJson(reader, Table.class);
+		if (result == null) {
+			throw new IllegalStateException("Failed to parse json");
+		}
+		return result;
 	}
 }
