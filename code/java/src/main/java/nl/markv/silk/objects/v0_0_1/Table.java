@@ -4,6 +4,8 @@ package nl.markv.silk.objects.v0_0_1;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Table implements Serializable
 {
@@ -12,22 +14,40 @@ public class Table implements Serializable
      * A name of a table, column or similar in the database
      * 
      */
+    @SerializedName("name")
+    @Expose
     public String name;
     /**
      * A name of a table, column or similar in the database
      * 
      */
+    @SerializedName("group")
+    @Expose
     public String group;
+    @SerializedName("description")
+    @Expose
     public String description;
+    @SerializedName("columns")
+    @Expose
     public List<Column> columns = new ArrayList<Column>();
+    @SerializedName("primary_key")
+    @Expose
     public List<String> primaryKey = new ArrayList<String>();
+    @SerializedName("references")
+    @Expose
     public List<ForeignKey> references = new ArrayList<ForeignKey>();
+    @SerializedName("unique_constraints")
+    @Expose
     public List<UniqueConstraint> uniqueConstraints = new ArrayList<UniqueConstraint>();
+    @SerializedName("check_constraints")
+    @Expose
     public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
     /**
      * Properties for the specific database, not controlled by Silk
      * 
      */
+    @SerializedName("database_specific")
+    @Expose
     public DatabaseSpecific databaseSpecific;
     private final static long serialVersionUID = 941470271926895127L;
 

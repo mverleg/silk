@@ -45,9 +45,9 @@ public class Generate {
 			throw new IllegalStateException(ex);
 		}
 
-		GenerationConfig config = SilkConfig.make();
+		SilkConfig config = SilkConfig.make();
 		SchemaMapper mapper = new SchemaMapper(
-				new RuleFactory(config, new NoopAnnotator(), new SchemaStore()),
+				new RuleFactory(config, config.makeAnnotator(), new SchemaStore()),
 				new SchemaGenerator());
 		mapper.generate(codeModel, "Silk", "nl.markv.silk.objects." + version, source);
 

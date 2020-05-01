@@ -2,6 +2,8 @@
 package nl.markv.silk.objects.v0_0_1;
 
 import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 
 /**
@@ -17,8 +19,14 @@ public class SilkSchema implements Serializable
      * The semantic version of Silk that this data schema is exported in
      * 
      */
+    @SerializedName("silk_version")
+    @Expose
     public String silkVersion;
+    @SerializedName("db")
+    @Expose
     public Db db;
+    @SerializedName("table")
+    @Expose
     public Table table;
     private final static long serialVersionUID = 4231964390122566060L;
 
