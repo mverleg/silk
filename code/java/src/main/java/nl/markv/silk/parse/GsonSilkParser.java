@@ -11,12 +11,12 @@ import nl.markv.silk.objects.v0_0_1.SilkSchema;
 
 public class GsonSilkParser implements SilkParser {
 
-	Gson gson = new Gson();
+	static Gson gson = new Gson();
 
 	public static void main(String[] args) {
 		SilkParser parser = new GsonSilkParser();
 		SilkSchema silk = parser.parse(Paths.get("..", "..", "example", "shop.json"));
-		System.out.println(silk);
+		System.out.println(gson.toJson(silk));
 	}
 
 	@Override

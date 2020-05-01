@@ -2,7 +2,6 @@
 package nl.markv.silk.objects.v0_0_1;
 
 import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
