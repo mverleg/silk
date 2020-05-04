@@ -77,6 +77,15 @@
     },
     "column": {
       "type": "object",
+      "properties": {
+        "name": { "$ref": "#/definitions/identifier" },
+        "type": { "$ref": "#/definitions/data_types" },
+        "nullable": {
+          "type": "boolean",
+          "description": "Can the value be null"
+        },
+        "auto_value": { "$ref": "#/definitions/auto_options" }
+      },
       "additionalProperties": false
     },
     "foreign_key": {

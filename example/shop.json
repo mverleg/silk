@@ -8,7 +8,7 @@
         "name": "product",
         "group": "shop",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
           { "name": "category_id", "type": "uint", "nullable": false },
           { "name": "name", "type": "text", "nullable": false },
           { "name": "description", "type": "text", "nullable": true },
@@ -30,7 +30,7 @@
         "name": "category",
         "group": "shop",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_increment": 1 },
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
           { "name": "name", "type": "text", "nullable": false },
           { "name": "slug", "type": "text", "nullable": false }
         ],
