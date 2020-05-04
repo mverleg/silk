@@ -15,6 +15,7 @@
     "db": { "$ref":  "#/definitions/db" },
     "table": { "$ref":  "#/definitions/table" }
   },
+  "additionalProperties": true,
   "definitions": {
     "identifier": {
       "type": "string",
@@ -41,7 +42,8 @@
         },
         "database_type": { "$ref": "#/definitions/identifier" },
         "database_specific": { "$ref": "#/definitions/database_specific" }
-      }
+      },
+      "additionalProperties": false
     },
     "table": {
       "name": "A single database table",
@@ -70,12 +72,25 @@
           "items": { "$ref": "#/definitions/check_constraint" }
         },
         "database_specific": { "$ref": "#/definitions/database_specific" }
-      }
+      },
+      "additionalProperties": false
     },
-    "column": { "type": "object" },
-    "foreign_key": { "type": "object" },
-    "unique_constraint": { "type": "object" },
-    "check_constraint": { "type": "object" }
+    "column": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "foreign_key": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "unique_constraint": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "check_constraint": {
+      "type": "object",
+      "additionalProperties": false
+    }
   },
   "oneOf": [
       { "required": ["silk_version", "db"] },
