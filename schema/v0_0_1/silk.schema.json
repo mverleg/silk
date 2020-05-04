@@ -144,7 +144,17 @@
     },
     "unique_constraint": {
       "type": "object",
-      "additionalProperties": true
+      "properties": {
+        "name": { "type": "string" },
+        "columns": {
+          "type": "array",
+          "description": "The columns whose combination is unique",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/identifier" }
+        }
+      },
+      "required": ["columns"],
+      "additionalProperties": false
     },
     "check_constraint": {
       "type": "object",

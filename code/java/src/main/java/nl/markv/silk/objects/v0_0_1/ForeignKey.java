@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 public class ForeignKey implements Serializable
 {
 
+    @SerializedName("name")
+    @Expose
+    public String name;
     /**
      * 
      * (Required)
@@ -24,7 +27,7 @@ public class ForeignKey implements Serializable
     @SerializedName("columns")
     @Expose
     public Columns columns;
-    private final static long serialVersionUID = 6073393776538097593L;
+    private final static long serialVersionUID = 1435607865866415055L;
 
     /**
      * No args constructor for use in serialization
@@ -36,10 +39,12 @@ public class ForeignKey implements Serializable
     /**
      * 
      * @param columns
+     * @param name
      * @param table
      */
-    public ForeignKey(String table, Columns columns) {
+    public ForeignKey(String name, String table, Columns columns) {
         super();
+        this.name = name;
         this.table = table;
         this.columns = columns;
     }
@@ -48,6 +53,10 @@ public class ForeignKey implements Serializable
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(ForeignKey.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("name");
+        sb.append('=');
+        sb.append(((this.name == null)?"<null>":this.name));
+        sb.append(',');
         sb.append("table");
         sb.append('=');
         sb.append(((this.table == null)?"<null>":this.table));
@@ -67,6 +76,7 @@ public class ForeignKey implements Serializable
     @Override
     public int hashCode() {
         int result = 1;
+        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
         result = ((result* 31)+((this.table == null)? 0 :this.table.hashCode()));
         result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
         return result;
@@ -81,7 +91,7 @@ public class ForeignKey implements Serializable
             return false;
         }
         ForeignKey rhs = ((ForeignKey) other);
-        return (((this.table == rhs.table)||((this.table!= null)&&this.table.equals(rhs.table)))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
+        return ((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.table == rhs.table)||((this.table!= null)&&this.table.equals(rhs.table))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
     }
 
 }
