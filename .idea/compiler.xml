@@ -6,11 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="silk" />
+        <module name="silk_parse" />
+        <module name="silk_generate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="silk" target="1.8" />
+      <module name="silk_generate" target="1.8" />
+      <module name="silk_parse" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

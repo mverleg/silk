@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Generate" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="nl.markv.silk.generate.Generate" />
-    <module name="silk" />
+    <module name="silk_generate" />
     <option name="VM_PARAMETERS" value="-ea" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/code/java" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/generate/java" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="nl.markv.silk.generate.*" />
