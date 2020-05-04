@@ -109,20 +109,37 @@
         "group": "shop",
         "columns": [
           "id uint! increment",
+          "customer_id uint!",
+          "product_selection_id uint!",
           "created_at timestamp! created_timestamp",
           "updated_at timestamp! updated_timestamp"
         ],
-        "primary_key": [ "id" ]
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "cart_products", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+        ]
       },
       {
         "name":  "order",
         "group": "shop",
         "columns": [
           "id uint! increment",
+          "customer_id uint!",
+          "product_selection_id uint!",
+          "paid_at timestamp?",
+          "sent_at timestamp?",
           "created_at timestamp! created_timestamp",
           "updated_at timestamp! updated_timestamp"
         ],
-        "primary_key": [ "id" ]
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "order_products", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+        ],
+        "check_constraints": [
+          { "name": "pay_before_sending", "condition": "sent_at is null or (sent_at is not null and paid_at is not null)" }
+        ]
       }
     ],
     "database_type": "postgres",
