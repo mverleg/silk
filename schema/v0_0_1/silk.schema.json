@@ -167,7 +167,7 @@
         "name": { "type": "string" },
         "condition": { "$ref": "#/definitions/sql_condition" }
       },
-      "required": ["columns"],
+      "required": ["condition"],
       "additionalProperties": false
     }
   },

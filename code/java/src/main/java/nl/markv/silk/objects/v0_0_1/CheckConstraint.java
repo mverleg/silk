@@ -13,6 +13,7 @@ public class CheckConstraint implements Serializable
     public String name;
     /**
      * A boolean sql condition (cross-database syntax)
+     * (Required)
      * 
      */
     @SerializedName("condition")
