@@ -12,7 +12,8 @@
           { "name": "category_id", "type": "uint", "nullable": false },
           { "name": "name", "type": "text", "nullable": false },
           { "name": "description", "type": "text", "nullable": true },
-          { "name": "price", "type": "real(10,2)", "nullable": false }
+          { "name": "buy_price", "type": "real(10,2)", "nullable": false },
+          { "name": "sell_price", "type": "real(10,2)", "nullable": false }
         ],
         "primary_key": [ "id" ],
         "references": [
@@ -22,7 +23,8 @@
           { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
         ],
         "check_constraints": [
-          { "name": "no_free_lunch", "type": "greater_than", "minimum": "0" }
+          { "name": "no_free_lunch", "column": "sell_price", "type": "greater_than", "minimum": "0" },
+          { "name": "profit", "column": "buy_price", "type": "small_than", "minimum": "sell_price" }
         ],
         "database_specific": {}
       },
@@ -41,7 +43,7 @@
           { "name":  "category_slug", "columns": [ "slug" ] }
         ],
         "check_constraints": [
-          { "name": "category_slug", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$" }
+          { "name": "category_slug", "column": "slug", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$" }
         ]
       },
       {
@@ -58,7 +60,7 @@
           { "name": "customer_logon", "columns": [ "logon" ] }
         ],
         "check_constraints": [
-          { "name": "customer_logon_chars", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_]*$" }
+          { "name": "customer_logon_chars", "column": "logon", "type": "similar_to", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_]*$" }
         ]
       },
       {
