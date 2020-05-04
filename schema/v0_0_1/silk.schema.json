@@ -15,7 +15,7 @@
     "db": { "$ref":  "#/definitions/db" },
     "table": { "$ref":  "#/definitions/table" }
   },
-  "additionalProperties": true,
+  "additionalProperties": false,
   "definitions": {
     "identifier": {
       "type": "string",
@@ -28,6 +28,9 @@
     "database_specific": {
       "type": "object",
       "description": "Properties for the specific database, not controlled by Silk",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]?$"
+      },
       "additionalProperties": true
     },
     "data_types": {
@@ -106,7 +109,11 @@
         "default_value":  { "$ref": "#/definitions/value_literal" },
         "auto_value": { "$ref": "#/definitions/auto_options" }
       },
-      "required": ["name", "type", "nullable"],
+      "oneOf": [
+        { "required": ["name", "type", "nullable", "default_value"] },
+        { "required": ["name", "type", "nullable", "auto_value"] },
+        { "required": ["name", "type", "nullable"] }
+      ],
       "additionalProperties": false
     },
     "foreign_key": {
