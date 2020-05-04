@@ -20,14 +20,16 @@ public class Validator {
 
 	public static void validate(@Nonnull Path jsonPath) {
 		Path schemaPth = Paths.get("..", "..", "schema", SilkVersion.versionPath(), "silk.schema.json").toAbsolutePath();
-		try (InputStream inputStream = new FileInputStream(schemaPth.toString())) {
-			JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
+		try (InputStream schemaStream = new FileInputStream(schemaPth.toString());
+			 	InputStream jsonStream = new FileInputStream(jsonPath.toString())) {
+			JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
 			Schema schema = SchemaLoader.load(rawSchema);
-			schema.validate(new JSONObject(jsonPath));
+			JSONObject rawJson = new JSONObject(new JSONTokener(jsonStream));
+			schema.validate(rawJson);
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		} catch (ValidationException ex) {
-			System.out.println(ex.toJSON().toString(4));
+			System.out.println("Validation errors:\n" + ex.toJSON().toString(4));
 			throw ex;
 		}
 	}
