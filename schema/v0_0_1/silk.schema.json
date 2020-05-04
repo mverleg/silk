@@ -30,6 +30,18 @@
       "description": "Properties for the specific database, not controlled by Silk",
       "additionalProperties": true
     },
+    "data_types": {
+      "type": "string",
+      "description": "Type of the data that can be stored in the column",
+      "examples": ["text", "real(10,2)"],
+      "pattern": "^(text|uint|real\\(\\d+,\\d+\\))$"
+    },
+    "auto_options": {
+      "type": "string",
+      "description": "Automatic way to fill the column",
+      "examples": ["increment", "updated_timestamp"],
+      "enum": ["increment", "created_timestamp", "updated_timestamp"]
+    },
     "db": {
       "name":  "A full database with multiple tables.",
       "properties": {
