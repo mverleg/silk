@@ -57,6 +57,11 @@
       "examples": ["'hello world'", "42"],
       "pattern": "^('null|'[^']*'|\\d+|\\d\\.\\d+)$"
     },
+    "sql_condition": {
+      "type": "string",
+      "description": "A boolean sql condition (cross-database syntax)",
+      "examples": ["age > 0", "col_a is null OR col_b is null"]
+    },
     "db": {
       "name":  "A full database with multiple tables.",
       "properties": {

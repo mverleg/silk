@@ -23,8 +23,8 @@
           { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
         ],
         "check_constraints": [
-          { "name": "no_free_lunch", "column": "sell_price", "type": "greater_than", "minimum": "0" },
-          { "name": "profit", "column": "buy_price", "type": "small_than", "minimum": "sell_price" }
+          { "name": "no_free_lunch", "condition": "sell_price > 0" },
+          { "name": "profit", "condition": "buy_price < sell_price" }
         ],
         "database_specific": {}
       },
