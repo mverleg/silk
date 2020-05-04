@@ -84,7 +84,8 @@
         },
         "primary_key": {
           "type": "array",
-          "items": { "$ref": "#/definitions/identifier" }
+          "items": { "$ref": "#/definitions/identifier" },
+          "minItems": 1
         },
         "references": {
           "type": "array",
@@ -118,26 +119,22 @@
             "default_value":  { "$ref": "#/definitions/value_literal" },
             "auto_value": { "$ref": "#/definitions/auto_options" }
           },
-          "oneOf": [
-            { "required": ["name", "type", "nullable", "default_value"] },
-            { "required": ["name", "type", "nullable", "auto_value"] },
-            { "required": ["name", "type", "nullable"] }
-          ],
+          "required": ["name", "type", "nullable"],
           "additionalProperties": false
         }
       ]
     },
     "foreign_key": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "unique_constraint": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "check_constraint": {
       "type": "object",
-      "additionalProperties": false
+      "additionalProperties": true
     }
   },
   "oneOf": [

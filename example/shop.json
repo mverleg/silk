@@ -64,15 +64,27 @@
       {
         "name":  "product_selection",
         "group": "shop",
-        "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order"
+        "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+        ],
+        "primary_key": [ "id" ]
       },
       {
         "name":  "cart",
-        "group": "shop"
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+        ],
+        "primary_key": [ "id" ]
       },
       {
         "name":  "order",
-        "group": "shop"
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+        ],
+        "primary_key": [ "id" ]
       }
     ],
     "database_type": "postgres",
