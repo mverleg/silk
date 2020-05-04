@@ -16,7 +16,7 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "from_columns":  [ "category_id" ], "to_table": "category", "to_columns": [ "id" ] }
+          { "table":  "category", "columns": { "category_id": "id" } }
         ],
         "unique_constraints": [
           { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
