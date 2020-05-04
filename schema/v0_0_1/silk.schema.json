@@ -163,7 +163,12 @@
     },
     "check_constraint": {
       "type": "object",
-      "additionalProperties": true
+      "properties": {
+        "name": { "type": "string" },
+        "condition": { "$ref": "#/definitions/sql_condition" }
+      },
+      "required": ["columns"],
+      "additionalProperties": false
     }
   },
   "oneOf": [
