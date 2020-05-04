@@ -30,9 +30,9 @@
         "name": "category",
         "group": "shop",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
-          { "name": "name", "type": "text", "nullable": false },
-          { "name": "slug", "type": "text", "nullable": false }
+          "id uint! increment",
+          "name text!",
+          "slug text!"
         ],
         "primary_key": [ "id" ],
         "references": [],
@@ -48,9 +48,9 @@
         "name": "customer",
         "group": "shop",
         "columns": [
-          { "name": "logon", "type": "text", "nullable": false },
-          { "name": "name", "type": "text", "nullable": true },
-          { "name": "address", "type": "text", "nullable": true }
+          "logon text!",
+          "name text?",
+          "address text?"
         ],
         "primary_key": [ "logon" ],
         "references": [],
@@ -66,7 +66,7 @@
         "group": "shop",
         "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+          "id uint! increment"
         ],
         "primary_key": [ "id" ]
       },
@@ -74,7 +74,7 @@
         "name":  "cart",
         "group": "shop",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+          "id uint! increment"
         ],
         "primary_key": [ "id" ]
       },
@@ -82,7 +82,7 @@
         "name":  "order",
         "group": "shop",
         "columns": [
-          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+          "id uint! increment"
         ],
         "primary_key": [ "id" ]
       }
