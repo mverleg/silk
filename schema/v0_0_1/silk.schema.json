@@ -42,6 +42,12 @@
       "examples": ["increment", "updated_timestamp"],
       "enum": ["increment", "created_timestamp", "updated_timestamp"]
     },
+    "value_literal": {
+      "type": "string",
+      "description": "A literal column value (type is not checked by silk)",
+      "examples": ["'hello world'", "42"],
+      "pattern": "^('null|'[^']*'|\\d+|\\d\\.\\d+)$"
+    },
     "db": {
       "name":  "A full database with multiple tables.",
       "properties": {
@@ -85,6 +91,7 @@
         },
         "database_specific": { "$ref": "#/definitions/database_specific" }
       },
+      "required": ["name", "columns", "primary_key"],
       "additionalProperties": false
     },
     "column": {
@@ -96,8 +103,10 @@
           "type": "boolean",
           "description": "Can the value be null"
         },
+        "default_value":  { "$ref": "#/definitions/value_literal" },
         "auto_value": { "$ref": "#/definitions/auto_options" }
       },
+      "required": ["name", "type", "nullable"],
       "additionalProperties": false
     },
     "foreign_key": {
