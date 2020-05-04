@@ -39,6 +39,12 @@
       "examples": ["text", "real(10,2)"],
       "pattern": "^(text|uint|real\\(\\d+,\\d+\\))$"
     },
+    "short_types": {
+      "type": "string",
+      "description": "Type of the data that can be stored in the column. Expressed as a abbreviated string of 'identifier type', followed by '!' for required or '?' for optional. Other properties can only be given in the extended form",
+      "examples": ["text", "real(10,2)"],
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]* (text|uint|real\\(\\d+,\\d+\\))[?!]$"
+    },
     "auto_options": {
       "type": "string",
       "description": "Automatic way to fill the column",
@@ -98,23 +104,28 @@
       "additionalProperties": false
     },
     "column": {
-      "type": "object",
-      "properties": {
-        "name": { "$ref": "#/definitions/identifier" },
-        "type": { "$ref": "#/definitions/data_types" },
-        "nullable": {
-          "type": "boolean",
-          "description": "Can the value be null"
-        },
-        "default_value":  { "$ref": "#/definitions/value_literal" },
-        "auto_value": { "$ref": "#/definitions/auto_options" }
-      },
       "oneOf": [
-        { "required": ["name", "type", "nullable", "default_value"] },
-        { "required": ["name", "type", "nullable", "auto_value"] },
-        { "required": ["name", "type", "nullable"] }
-      ],
-      "additionalProperties": false
+        { "$ref": "#/definitions/short_types" },
+        {
+          "type": "object",
+          "properties": {
+            "name": { "$ref": "#/definitions/identifier" },
+            "type": { "$ref": "#/definitions/data_types" },
+            "nullable": {
+              "type": "boolean",
+              "description": "Can the value be null"
+            },
+            "default_value":  { "$ref": "#/definitions/value_literal" },
+            "auto_value": { "$ref": "#/definitions/auto_options" }
+          },
+          "oneOf": [
+            { "required": ["name", "type", "nullable", "default_value"] },
+            { "required": ["name", "type", "nullable", "auto_value"] },
+            { "required": ["name", "type", "nullable"] }
+          ],
+          "additionalProperties": false
+        }
+      ]
     },
     "foreign_key": {
       "type": "object",
