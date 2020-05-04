@@ -12,6 +12,7 @@ public class Table implements Serializable
 
     /**
      * A name of a table, column or similar in the database
+     * (Required)
      * 
      */
     @SerializedName("name")
@@ -27,9 +28,19 @@ public class Table implements Serializable
     @SerializedName("description")
     @Expose
     public String description;
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @SerializedName("columns")
     @Expose
-    public List<Column> columns = new ArrayList<Column>();
+    public List<Object> columns = new ArrayList<Object>();
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @SerializedName("primary_key")
     @Expose
     public List<String> primaryKey = new ArrayList<String>();
@@ -49,7 +60,7 @@ public class Table implements Serializable
     @SerializedName("database_specific")
     @Expose
     public DatabaseSpecific databaseSpecific;
-    private final static long serialVersionUID = 941470271926895127L;
+    private final static long serialVersionUID = 3031155339481462217L;
 
     /**
      * No args constructor for use in serialization
@@ -70,7 +81,7 @@ public class Table implements Serializable
      * @param primaryKey
      * @param databaseSpecific
      */
-    public Table(String name, String group, String description, List<Column> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
+    public Table(String name, String group, String description, List<Object> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
         super();
         this.name = name;
         this.group = group;
