@@ -32,6 +32,6 @@ public class Validator {
 			System.out.println("Validation errors:\n" + ex.toJSON().toString(4));
 			throw ex;
 		}
-		System.out.println("json in '" + jsonPath.toAbsolutePath() + "' is valid");
+		System.out.println("json in '" + jsonPath + "' is valid");
 	}
 }

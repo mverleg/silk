@@ -2,6 +2,12 @@
 Plans for extensions
 ===============================
 
+Known issues
+-------------------------------
+
+* Gson does not parse column fields
+* Gson does not accept short column format (it expects object, seems oneOf fails)
+
 Before v1.0
 -------------------------------
 
