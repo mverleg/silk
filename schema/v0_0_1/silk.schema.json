@@ -37,7 +37,7 @@
       "type": "string",
       "description": "Type of the data that can be stored in the column",
       "examples": ["text", "real(10,2)"],
-      "pattern": "^(text|uint|real\\(\\d+,\\d+\\))$"
+      "pattern": "^(text|uint|real\\(\\d+,\\d+\\)|timestamp)$"
     },
     "short_types": {
       "type": "string",

@@ -13,7 +13,9 @@
           { "name": "name", "type": "text", "nullable": false },
           { "name": "description", "type": "text", "nullable": true },
           { "name": "buy_price", "type": "real(10,2)", "nullable": false },
-          { "name": "sell_price", "type": "real(10,2)", "nullable": false }
+          { "name": "sell_price", "type": "real(10,2)", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [
@@ -34,7 +36,9 @@
         "columns": [
           "id uint! increment",
           "name text!",
-          "slug text!"
+          "slug text!",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
         ],
         "primary_key": [ "id" ],
         "references": [],
@@ -52,7 +56,9 @@
         "columns": [
           "logon text!",
           "name text?",
-          "address text?"
+          "address text?",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
         ],
         "primary_key": [ "logon" ],
         "references": [],
@@ -66,14 +72,34 @@
       {
         "name":  "product_selection",
         "group": "shop",
+        "description": "A list of products and their quantities",
+        "columns": [
+          "id uint! increment",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
+        ],
+        "primary_key": [ "id" ]
+      },
+      {
+        "name":  "product_quantity",
+        "group": "shop",
         "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order",
         "columns": [
           "id uint! increment",
           "product_id uint!",
-          "count uint!"
+          "selection_id uint!",
+          "count uint!",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
         ],
         "primary_key": [ "id" ],
-        "references": [],
+        "references": [
+          { "name": "selection", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "product_orders", "table": "product", "columns": { "product_id": "id" } }
+        ],
+        "unique_constraints": [
+          { "columns": [ "product_id" ] }
+        ],
         "check_constraints": [
           { "condition": "count >= 1" }
         ]
@@ -82,7 +108,9 @@
         "name":  "cart",
         "group": "shop",
         "columns": [
-          "id uint! increment"
+          "id uint! increment",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
         ],
         "primary_key": [ "id" ]
       },
@@ -90,7 +118,9 @@
         "name":  "order",
         "group": "shop",
         "columns": [
-          "id uint! increment"
+          "id uint! increment",
+          "created_at timestamp! created_timestamp",
+          "updated_at timestamp! updated_timestamp"
         ],
         "primary_key": [ "id" ]
       }
