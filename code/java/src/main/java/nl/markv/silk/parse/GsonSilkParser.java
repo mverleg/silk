@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import javax.annotation.Nonnull;
 
 import com.google.gson.Gson;
-import nl.markv.silk.objects.v0_0_1.Db;
 import nl.markv.silk.objects.v0_0_1.SilkSchema;
 
 public class GsonSilkParser implements SilkParser {
