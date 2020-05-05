@@ -1,5 +1,5 @@
 
-package nl.markv.silk.pojos.v0_0_1;
+package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
 
@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class DatabaseSpecific implements Serializable
 {
 
-    private final static long serialVersionUID = -3199824039701781029L;
+    private final static long serialVersionUID = -355090285293841984L;
 
     @Override
     public String toString() {

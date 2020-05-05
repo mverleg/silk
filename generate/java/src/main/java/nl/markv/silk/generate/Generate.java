@@ -55,7 +55,9 @@ public class Generate {
 		absoluteFile.mkdirs();
 		Path pojoDir = Paths.get(absoluteFile.toString(), "nl", "markv", "silk", "pojos", version);
 		try {
-			FileUtils.cleanDirectory(pojoDir.toFile());
+			if (pojoDir.toFile().exists()) {
+				FileUtils.cleanDirectory(pojoDir.toFile());
+			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

@@ -1,5 +1,5 @@
 
-package nl.markv.silk.pojos.v0_0_1;
+package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class Table implements Serializable
     @SerializedName("database_specific")
     @Expose
     public DatabaseSpecific databaseSpecific;
-    private final static long serialVersionUID = 4047448030233267506L;
+    private final static long serialVersionUID = -672490759956180939L;
 
     /**
      * No args constructor for use in serialization

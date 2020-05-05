@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.pojos.v0_0_1.SilkSchema;
+import nl.markv.silk.pojos.v0_1_0.SilkSchema;
 
 public interface SilkParser {
 

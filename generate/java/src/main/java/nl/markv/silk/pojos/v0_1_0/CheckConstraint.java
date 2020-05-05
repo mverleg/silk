@@ -1,5 +1,5 @@
 
-package nl.markv.silk.pojos.v0_0_1;
+package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
 import com.google.gson.annotations.Expose;
@@ -19,7 +19,7 @@ public class CheckConstraint implements Serializable
     @SerializedName("condition")
     @Expose
     public String condition;
-    private final static long serialVersionUID = 2365847033887986572L;
+    private final static long serialVersionUID = 4987772636935005288L;
 
     /**
      * No args constructor for use in serialization

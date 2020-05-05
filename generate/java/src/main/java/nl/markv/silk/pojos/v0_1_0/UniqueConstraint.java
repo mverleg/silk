@@ -1,65 +1,53 @@
 
-package nl.markv.silk.pojos.v0_0_1;
+package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ForeignKey implements Serializable
+public class UniqueConstraint implements Serializable
 {
 
     @SerializedName("name")
     @Expose
     public String name;
     /**
-     * 
-     * (Required)
-     * 
-     */
-    @SerializedName("table")
-    @Expose
-    public String table;
-    /**
-     * The mapping of columns, from current table on the left, to target table on the right
+     * The columns whose combination is unique
      * (Required)
      * 
      */
     @SerializedName("columns")
     @Expose
-    public Columns columns;
-    private final static long serialVersionUID = 3592304148874695832L;
+    public List<String> columns = new ArrayList<String>();
+    private final static long serialVersionUID = -4339775276494195144L;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public ForeignKey() {
+    public UniqueConstraint() {
     }
 
     /**
      * 
      * @param columns
      * @param name
-     * @param table
      */
-    public ForeignKey(String name, String table, Columns columns) {
+    public UniqueConstraint(String name, List<String> columns) {
         super();
         this.name = name;
-        this.table = table;
         this.columns = columns;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(ForeignKey.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(UniqueConstraint.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("table");
-        sb.append('=');
-        sb.append(((this.table == null)?"<null>":this.table));
         sb.append(',');
         sb.append("columns");
         sb.append('=');
@@ -77,7 +65,6 @@ public class ForeignKey implements Serializable
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.table == null)? 0 :this.table.hashCode()));
         result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
         return result;
     }
@@ -87,11 +74,11 @@ public class ForeignKey implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof ForeignKey) == false) {
+        if ((other instanceof UniqueConstraint) == false) {
             return false;
         }
-        ForeignKey rhs = ((ForeignKey) other);
-        return ((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.table == rhs.table)||((this.table!= null)&&this.table.equals(rhs.table))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
+        UniqueConstraint rhs = ((UniqueConstraint) other);
+        return (((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
     }
 
 }

@@ -1,5 +1,5 @@
 
-package nl.markv.silk.pojos.v0_0_1;
+package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class LongColumn implements Serializable
     @SerializedName("auto_value")
     @Expose
     public LongColumn.AutoOptions autoValue;
-    private final static long serialVersionUID = -7333792579340029553L;
+    private final static long serialVersionUID = -6146141790791519789L;
 
     /**
      * No args constructor for use in serialization
