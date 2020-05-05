@@ -1,5 +1,5 @@
 {
-  "silk_version": "0.0.1",
+  "silk": "https://silk.markv.nl/v0.1.0.json",
   "db": {
     "name": "shop",
     "description": "Webshop database",
