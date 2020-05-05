@@ -19,11 +19,11 @@ import nl.markv.silk.SilkVersion;
 public class Validator {
 
 	public static void validate(@Nonnull Path jsonPath) {
-		Path schemaPth = Paths.get("..", "..", "schema", SilkVersion.versionDirname(), "silk.schema.json").toAbsolutePath();
-		try (InputStream schemaStream = new FileInputStream(schemaPth.toString());
+		try (InputStream schemaStream = new FileInputStream(SilkVersion.schemaPath().toString());
 			 	InputStream jsonStream = new FileInputStream(jsonPath.toString())) {
 			JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
 			Schema schema = SchemaLoader.load(rawSchema);
+			System.out.println("schema id = " + schema.getId());  //TODO @mark: TEMPORARY! REMOVE THIS!
 			JSONObject rawJson = new JSONObject(new JSONTokener(jsonStream));
 			schema.validate(rawJson);
 		} catch (IOException ex) {

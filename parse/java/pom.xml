@@ -28,7 +28,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <mainClass>nl.markv.silk.generate.Generate</mainClass>
+                    <mainClass>nl.markv.silk.parse.GsonSilkParser</mainClass>
                 </configuration>
             </plugin>
         </plugins>

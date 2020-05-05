@@ -41,6 +41,14 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <mainClass>nl.markv.silk.generate.Generate</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

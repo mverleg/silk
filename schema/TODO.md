@@ -2,7 +2,7 @@
 Plans for extensions
 ===============================
 
-To run: ``(cd generate/java/ && mvn install exec:java -Dexec.mainClass=nl.markv.silk.generate.Generate) && (cd parse/java/ && mvn install exec:java -Dexec.mainClass=nl.markv.silk.parse.GsonSilkParser)``
+To run: ``(cd generate/java/ && mvn install exec:java) && (cd parse/java/ && mvn install exec:java)``
 
 Known issues
 -------------------------------
