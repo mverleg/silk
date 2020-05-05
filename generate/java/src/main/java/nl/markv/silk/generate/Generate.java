@@ -18,6 +18,8 @@ import org.jsonschema2pojo.rules.RuleFactory;
 import com.sun.codemodel.JCodeModel;
 import nl.markv.silk.SilkVersion;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 public class Generate {
 
 	public static void main(String[] args) {
@@ -36,13 +38,11 @@ public class Generate {
 
 		JCodeModel codeModel = new JCodeModel();
 
-		URL source;
-		try {
-			source = Paths.get(projectDir.toString(), "schema",
-					version, "silk.schema.json").toUri().toURL();
-		} catch (MalformedURLException ex) {
-			throw new IllegalStateException(ex);
-		}
+		Path schemaPth = Paths.get("schema", version, "silk.schema.json");
+		URL source = notNull(
+				Generate.class.getResource(schemaPth.toString()),
+				"could not find schema file as class resource"
+		);
 
 		SilkConfig config = SilkConfig.make();
 		SchemaMapper mapper = new SchemaMapper(

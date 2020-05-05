@@ -15,8 +15,14 @@ Before v1.0
 Non-breaking
 -------------------------------
 
-* Support for reference data
-* Support for indices
+* v0.2.0
+
+  - Support for reference data
+  - Support for indices
+
+* Later
+
+  - ?
 
 Breaking
 -------------------------------

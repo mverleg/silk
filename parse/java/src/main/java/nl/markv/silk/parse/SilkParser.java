@@ -45,5 +45,4 @@ public interface SilkParser {
 
 	@Nonnull
 	SilkSchema parse(@Nonnull BufferedReader reader);
-
 }
