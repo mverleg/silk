@@ -16,7 +16,6 @@ public class ParseExampleTest {
 	public void generateExamples() throws IOException {
 		generateSilkObjects(
 				SilkVersion.versionDirname(),
-				Paths.get("..", ".."),
 				Files.createTempDirectory("silk")
 		);
 	}

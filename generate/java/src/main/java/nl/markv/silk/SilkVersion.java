@@ -2,7 +2,6 @@ package nl.markv.silk;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,10 +12,6 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
-
-import nl.markv.silk.generate.Generate;
-
-import static org.apache.commons.lang3.Validate.notNull;
 
 public class SilkVersion {
 
@@ -48,7 +43,7 @@ public class SilkVersion {
 			Validate.isTrue(match.find(), "could not extract version from pomfile");
 			cacheVersion = match.group(1).trim();
 
-			cachedSchemaPath = Paths.get("/schema", cacheVersion, "silk.schema.json");
+			cachedSchemaPath = Paths.get("/silk/schema", cacheVersion, "silk.schema.json");
 		}
 		cacheVersionPath = "v" + cacheVersion.replace(".", "_");
 	}
