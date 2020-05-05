@@ -5,9 +5,6 @@ Plans for extensions
 Known issues
 -------------------------------
 
-* Gson does not parse column fields
-* Gson does not accept short column format (it expects object, seems oneOf fails)
-
 Before v1.0
 -------------------------------
 
@@ -23,4 +20,5 @@ Non-breaking
 Breaking
 -------------------------------
 
-
+* Re-introduce short-column format (short_column) when pojo generation works.
+* 

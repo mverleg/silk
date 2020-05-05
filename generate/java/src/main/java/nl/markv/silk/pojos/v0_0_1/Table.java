@@ -35,7 +35,7 @@ public class Table implements Serializable
      */
     @SerializedName("columns")
     @Expose
-    public List<Object> columns = new ArrayList<Object>();
+    public List<LongColumn> columns = new ArrayList<LongColumn>();
     /**
      * 
      * (Required)
@@ -60,7 +60,7 @@ public class Table implements Serializable
     @SerializedName("database_specific")
     @Expose
     public DatabaseSpecific databaseSpecific;
-    private final static long serialVersionUID = -5354387791641119647L;
+    private final static long serialVersionUID = 4047448030233267506L;
 
     /**
      * No args constructor for use in serialization
@@ -81,7 +81,7 @@ public class Table implements Serializable
      * @param primaryKey
      * @param databaseSpecific
      */
-    public Table(String name, String group, String description, List<Object> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
+    public Table(String name, String group, String description, List<LongColumn> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
         super();
         this.name = name;
         this.group = group;

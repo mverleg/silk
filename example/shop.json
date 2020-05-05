@@ -34,11 +34,11 @@
         "name": "category",
         "group": "shop",
         "columns": [
-          "id uint! increment",
-          "name text!",
-          "slug text!",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "name", "type": "text", "nullable": false },
+          { "name": "slug", "type": "text", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [],
@@ -54,11 +54,11 @@
         "name": "customer",
         "group": "shop",
         "columns": [
-          "logon text!",
-          "name text?",
-          "address text?",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "logon", "type": "text", "nullable": false },
+          { "name": "name", "type": "text", "nullable":  true },
+          { "name": "address", "type": "text", "nullable":  true },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "logon" ],
         "references": [],
@@ -74,9 +74,9 @@
         "group": "shop",
         "description": "A list of products and their quantities",
         "columns": [
-          "id uint! increment",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ]
       },
@@ -85,12 +85,12 @@
         "group": "shop",
         "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order",
         "columns": [
-          "id uint! increment",
-          "product_id uint!",
-          "selection_id uint!",
-          "count uint!",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "product_id", "type": "uint", "nullable": false },
+          { "name": "selection_id", "type": "uint", "nullable": false },
+          { "name": "count", "type": "uint", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [
@@ -108,11 +108,11 @@
         "name":  "cart",
         "group": "shop",
         "columns": [
-          "id uint! increment",
-          "customer_id uint!",
-          "product_selection_id uint!",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "product_selection_id", "type": "uint", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [
@@ -124,13 +124,13 @@
         "name":  "order",
         "group": "shop",
         "columns": [
-          "id uint! increment",
-          "customer_id uint!",
-          "product_selection_id uint!",
-          "paid_at timestamp?",
-          "sent_at timestamp?",
-          "created_at timestamp! created_timestamp",
-          "updated_at timestamp! updated_timestamp"
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "product_selection_id", "type": "uint", "nullable": false },
+          { "name": "paid_at", "type": "timestamp", "nullable":  true },
+          { "name": "sent_at", "type": "timestamp", "nullable":  true },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [
