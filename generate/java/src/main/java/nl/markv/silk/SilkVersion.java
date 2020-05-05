@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import nl.markv.silk.generate.Generate;
+
+import static org.apache.commons.lang3.Validate.notNull;
 
 public class SilkVersion {
 
@@ -74,8 +79,12 @@ public class SilkVersion {
 		if (inst.cachedSchemaObject != null) {
 			return inst.cachedSchemaObject;
 		}
-		try (InputStream schemaStream = new FileInputStream(SilkVersion.schemaPath().toString())) {
-			inst.cachedSchemaObject = new JSONObject(new JSONTokener(schemaStream));
+		URL path = notNull(
+				Generate.class.getResource(SilkVersion.schemaPath().toString()),
+				"json schema not found: '" + SilkVersion.schemaPath() + "'"
+		);
+		try {
+			inst.cachedSchemaObject = new JSONObject(new JSONTokener(path.openStream()));
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
