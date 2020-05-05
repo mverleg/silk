@@ -5,6 +5,8 @@ Plans for extensions
 Known issues
 -------------------------------
 
+* Maven does not run tests
+
 Before v1.0
 -------------------------------
 

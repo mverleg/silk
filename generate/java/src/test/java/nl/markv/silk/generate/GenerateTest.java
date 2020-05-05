@@ -1,14 +1,20 @@
 package nl.markv.silk.generate;
 
-import java.io.IOException;
+import java.nio.file.Paths;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.Test;
+
+import nl.markv.silk.SilkVersion;
+
+import static nl.markv.silk.generate.Generate.generateSilkObjects;
 
 public class GenerateTest {
 
 	@Test
-	public void parseExamples() throws IOException {
-		throw new NotImplementedException("todo");  //TODO @mark: implement
+	public void parseExamples() {
+		generateSilkObjects(
+				SilkVersion.versionPath(),
+				Paths.get("src", "main", "java")
+		);
 	}
 }
