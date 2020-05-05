@@ -15,9 +15,12 @@ Before v1.0
 Non-breaking
 -------------------------------
 
+* Support for reference data
+* Support for indices
 
 Breaking
 -------------------------------
 
 * Re-introduce short-column format (short_column) when pojo generation works.
+* Upgrade to newer json-schema version, when all tools used support it.
 

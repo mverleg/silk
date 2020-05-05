@@ -10,7 +10,7 @@ Silk is format for relational database schemas.
 Status
 -------------------------------
 
-This project is far from usable!
+Version 0.1 of the schema, and accompanying Java gson objects, are available. However, this is still experimental, and there is no other tooling support yet.
 
 Uses
 -------------------------------
