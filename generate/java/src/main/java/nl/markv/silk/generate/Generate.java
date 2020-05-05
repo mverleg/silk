@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.io.FileUtils;
 import org.jsonschema2pojo.SchemaGenerator;
 import org.jsonschema2pojo.SchemaMapper;
 import org.jsonschema2pojo.SchemaStore;
@@ -50,7 +51,15 @@ public class Generate {
 		mapper.generate(codeModel, "Silk", "nl.markv.silk.pojos." + version, source);
 
 		File absoluteFile = Paths.get(outputDir.toString()).toFile().getAbsoluteFile();
+		//noinspection ResultOfMethodCallIgnored
 		absoluteFile.mkdirs();
+		Path pojoDir = Paths.get(absoluteFile.toString(), "nl", "markv", "silk", "pojos", version);
+		System.out.println(pojoDir);
+		try {
+			FileUtils.cleanDirectory(pojoDir.toFile());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		try {
 			codeModel.build(absoluteFile);
 		} catch (IOException ex) {

@@ -27,4 +27,7 @@ public class GsonSilkParser implements SilkParser {
 		}
 		return result;
 	}
+
+//	@Nonnull
+//	public static Optional<Column>
 }
