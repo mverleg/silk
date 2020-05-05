@@ -19,7 +19,7 @@ import nl.markv.silk.SilkVersion;
 public class Validator {
 
 	public static void validate(@Nonnull Path jsonPath) {
-		Path schemaPth = Paths.get("..", "..", "schema", SilkVersion.versionPath(), "silk.schema.json").toAbsolutePath();
+		Path schemaPth = Paths.get("..", "..", "schema", SilkVersion.versionDirname(), "silk.schema.json").toAbsolutePath();
 		try (InputStream schemaStream = new FileInputStream(schemaPth.toString());
 			 	InputStream jsonStream = new FileInputStream(jsonPath.toString())) {
 			JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));

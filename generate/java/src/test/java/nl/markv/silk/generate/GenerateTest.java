@@ -13,7 +13,7 @@ public class GenerateTest {
 	@Test
 	public void parseExamples() {
 		generateSilkObjects(
-				SilkVersion.versionPath(),
+				SilkVersion.versionDirname(),
 				Paths.get("src", "main", "java")
 		);
 	}
