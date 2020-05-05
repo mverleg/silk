@@ -1,7 +1,9 @@
 package nl.markv.silk;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +14,8 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.Validate;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class SilkVersion {
 
@@ -19,6 +23,7 @@ public class SilkVersion {
 	private String cacheVersion;
 	private String cacheVersionDirname;
 	private Path cachedSchemaPath;
+	private JSONObject cachedSchemaObject;
 
 	static {
 		inst = new SilkVersion();
@@ -62,6 +67,19 @@ public class SilkVersion {
 	@Nonnull
 	public static Path schemaPath() {
 		return inst.cachedSchemaPath;
+	}
+
+	@Nonnull
+	public static JSONObject loadSchema() {
+		if (inst.cachedSchemaObject != null) {
+			return inst.cachedSchemaObject;
+		}
+		try (InputStream schemaStream = new FileInputStream(SilkVersion.schemaPath().toString())) {
+			inst.cachedSchemaObject = new JSONObject(new JSONTokener(schemaStream));
+		} catch (IOException ex) {
+			throw new IllegalStateException(ex);
+		}
+		return inst.cachedSchemaObject;
 	}
 
 	//TODO: list of all versions

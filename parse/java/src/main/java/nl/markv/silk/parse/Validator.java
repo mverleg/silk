@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.annotation.Nonnull;
 
@@ -19,11 +18,8 @@ import nl.markv.silk.SilkVersion;
 public class Validator {
 
 	public static void validate(@Nonnull Path jsonPath) {
-		try (InputStream schemaStream = new FileInputStream(SilkVersion.schemaPath().toString());
-			 	InputStream jsonStream = new FileInputStream(jsonPath.toString())) {
-			JSONObject rawSchema = new JSONObject(new JSONTokener(schemaStream));
-			Schema schema = SchemaLoader.load(rawSchema);
-			System.out.println("schema id = " + schema.getId());  //TODO @mark: TEMPORARY! REMOVE THIS!
+		try (InputStream jsonStream = new FileInputStream(jsonPath.toString())) {
+			Schema schema = SchemaLoader.load(SilkVersion.loadSchema());
 			JSONObject rawJson = new JSONObject(new JSONTokener(jsonStream));
 			schema.validate(rawJson);
 		} catch (IOException ex) {

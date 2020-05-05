@@ -17,6 +17,25 @@
     <build>
         <finalName>silk_parse</finalName>
 
+        <resources>
+            <resource>
+                <directory>../../schema</directory>
+                <targetPath>silk/schema</targetPath>
+                <includes>
+                    <include>**/*.json</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>../../example</directory>
+                <targetPath>silk/example</targetPath>
+                <includes>
+                    <include>**/*.json</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
