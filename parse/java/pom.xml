@@ -12,7 +12,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <exec.mainClass>nl.markv.silk.generate.Generate</exec.mainClass>
     </properties>
 
     <build>
@@ -27,18 +26,10 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>java</id>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>nl.markv.silk.generate.Generate</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
+                <version>1.4.0</version>
+                <configuration>
+                    <mainClass>nl.markv.silk.generate.Generate</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

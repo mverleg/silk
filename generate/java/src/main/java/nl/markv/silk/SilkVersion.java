@@ -17,7 +17,7 @@ public class SilkVersion {
 
 	private static final SilkVersion inst;
 	private String cacheVersion;
-	private String cacheVersionPath;
+	private String cacheVersionDirname;
 	private Path cachedSchemaPath;
 
 	static {
@@ -43,9 +43,10 @@ public class SilkVersion {
 			Validate.isTrue(match.find(), "could not extract version from pomfile");
 			cacheVersion = match.group(1).trim();
 
-			cachedSchemaPath = Paths.get("/silk/schema", cacheVersion, "silk.schema.json");
+			cacheVersionDirname = "v" + cacheVersion.replace(".", "_");
+
+			cachedSchemaPath = Paths.get("/silk/schema", cacheVersionDirname, "silk.schema.json");
 		}
-		cacheVersionPath = "v" + cacheVersion.replace(".", "_");
 	}
 
 	@Nonnull
@@ -55,7 +56,7 @@ public class SilkVersion {
 
 	@Nonnull
 	public static String versionDirname() {
-		return inst.cacheVersionPath;
+		return inst.cacheVersionDirname;
 	}
 
 	@Nonnull
