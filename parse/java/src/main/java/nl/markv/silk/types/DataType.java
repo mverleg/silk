@@ -12,7 +12,7 @@ public abstract class DataType {
 
 	static final Pattern TEXT_RE = Pattern.compile("^text\\((\\d+)\\)$");
 	static final Pattern DECIMAL1_RE = Pattern.compile("^decimal\\((\\d+)\\)$");
-	static final Pattern DECIMAL2_RE = Pattern.compile("^decimal\\((\\d+),(\\d+)\\)$");
+	static final Pattern DECIMAL2_RE = Pattern.compile("^decimal\\((\\d+),\\s*(\\d+)\\)$");
 
 	@Nonnull
 	public static DataType fromSilkString(@Nonnull String typeStr) {
@@ -43,8 +43,6 @@ public abstract class DataType {
 		if (matcher.matches()) {
 			return new Decimal(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
 		}
-
-
 		throw new UnsupportedOperationException("unknown data type: " + typeStr);
 	}
 

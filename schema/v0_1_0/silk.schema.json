@@ -35,7 +35,7 @@
       "type": "string",
       "description": "Type of the data that can be stored in the column",
       "examples": ["text", "decimal(10,2)"],
-      "pattern": "^(text|text\\(\\d+\\)|uint|decimal\\(\\d+\\)|decimal\\(\\d+,\\d+\\)|timestamp)$"
+      "pattern": "^(text|text\\(\\d+\\)|int|uint|decimal\\(\\d+\\)|decimal\\(\\d+,\\d+\\)|timestamp)$"
     },
     "auto_options": {
       "type": "string",

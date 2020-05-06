@@ -54,7 +54,7 @@
         "name": "customer",
         "group": "shop",
         "columns": [
-          { "name": "logon", "type": "text", "nullable": false },
+          { "name": "logon", "type": "text(32)", "nullable": false },
           { "name": "name", "type": "text", "nullable":  true },
           { "name": "address", "type": "text", "nullable":  true },
           { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
