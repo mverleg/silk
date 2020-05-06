@@ -1,11 +1,13 @@
 package nl.markv.silk.parse;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
+import nl.markv.silk.pojos.v0_1_0.Db;
 import nl.markv.silk.pojos.v0_1_0.SilkSchema;
 import nl.markv.silk.pojos.v0_1_0.Table;
 import nl.markv.silk.types.DataType;
@@ -38,7 +40,7 @@ public class SilkDb {
 	}
 
 	@Nonnull
-	public DataType parseDataType(@Nonnull String dataTypeText) {
+	public static DataType parseDataType(@Nonnull String dataTypeText) {
 		return DataType.fromSilkString(dataTypeText);
 	}
 
@@ -59,5 +61,10 @@ public class SilkDb {
 		} else {
 			return Collections.singleton(schema.table);
 		}
+	}
+
+	@Nonnull
+	public Optional<Db> db() {
+		return Optional.ofNullable(schema.db);
 	}
 }

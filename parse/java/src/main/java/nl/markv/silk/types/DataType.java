@@ -111,4 +111,9 @@ public abstract class DataType {
 	}
 
 	public static class Timestamp extends DataType {}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
+	}
 }
