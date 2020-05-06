@@ -23,14 +23,13 @@ public class Examples {
 	private List<SilkDb> cachedJsonExamples;
 
 	@Nonnull
-	public List<SilkDb> schemas() {
+	public List<SilkDb> jsons() {
 		if (cachedJsonExamples != null) {
 			return cachedJsonExamples;
 		}
 		cachedJsonExamples = new ArrayList<>();
 		for (URL path : urls()) {
-			SilkDb schema = new GsonSilkParser().parse(path);
-			cachedJsonExamples.add(schema);
+			cachedJsonExamples.add(new GsonSilkParser().parse(path));
 		}
 		isTrue(!cachedJsonExamples.isEmpty());
 		return cachedJsonExamples;
