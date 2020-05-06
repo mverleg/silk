@@ -39,10 +39,10 @@ public interface SilkParser {
 	}
 
 	@Nonnull
-	default SilkSchema parse(@Nonnull Path jsonPath) {
+	default SilkDb parse(@Nonnull Path jsonPath) {
 		return feedFileToParser(jsonPath, this::parse);
 	}
 
 	@Nonnull
-	SilkSchema parse(@Nonnull BufferedReader reader);
+	SilkDb parse(@Nonnull BufferedReader reader);
 }
