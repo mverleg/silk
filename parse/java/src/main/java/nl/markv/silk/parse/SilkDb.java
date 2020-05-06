@@ -1,11 +1,13 @@
 package nl.markv.silk.parse;
 
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
 import nl.markv.silk.pojos.v0_1_0.SilkSchema;
+import nl.markv.silk.pojos.v0_1_0.Table;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 
@@ -26,6 +28,15 @@ public class SilkDb {
 				.matcher(schema.silk);
 		isTrue(re.matches(), "invalid Silk version url: " + schema.silk);
 		return re.group(1) + "." + re.group(2) + "." + re.group(3);
+	}
+
+	@Nonnull
+	public Iterable<Table> tables() {
+		if (schema.db != null) {
+			return schema.db.tables;
+		} else {
+			return Collections.singleton(schema.table);
+		}
 	}
 
 	@Override
