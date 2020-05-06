@@ -13,14 +13,20 @@ import static org.apache.commons.lang3.Validate.isTrue;
 
 public class SilkDb {
 
+	private final String name;
 	private final SilkSchema schema;
 
-	private SilkDb(@Nonnull SilkSchema schema) {
+	private SilkDb(@Nonnull String name, @Nonnull SilkSchema schema) {
+		this.name = name;
 		this.schema = schema;
 	}
 
 	public static SilkDb wrap(@Nonnull SilkSchema schema) {
-		return new SilkDb(schema);
+		return new SilkDb("(nameless Silk schema)", schema);
+	}
+
+	public static SilkDb wrap(@Nonnull String name, @Nonnull SilkSchema schema) {
+		return new SilkDb(name, schema);
 	}
 
 	public String version() {
@@ -31,16 +37,21 @@ public class SilkDb {
 	}
 
 	@Nonnull
+	public String name() {
+		return this.name;
+	}
+
+	@Override
+	public String toString() {
+		return schema.toString();
+	}
+
+	@Nonnull
 	public Iterable<Table> tables() {
 		if (schema.db != null) {
 			return schema.db.tables;
 		} else {
 			return Collections.singleton(schema.table);
 		}
-	}
-
-	@Override
-	public String toString() {
-		return schema.toString();
 	}
 }

@@ -13,12 +13,12 @@ public class GsonSilkParser implements SilkParser {
 
 	@Override
 	@Nonnull
-	public SilkDb parse(@Nonnull BufferedReader reader) {
+	public SilkDb parse(@Nonnull String name, @Nonnull BufferedReader reader) {
 		SilkSchema result = gson.fromJson(reader, SilkSchema.class);
 		if (result == null) {
 			throw new IllegalStateException("Failed to parse json");
 		}
-		return SilkDb.wrap(result);
+		return SilkDb.wrap(name, result);
 	}
 
 //	@Nonnull

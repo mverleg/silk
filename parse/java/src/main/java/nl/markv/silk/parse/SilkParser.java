@@ -10,8 +10,6 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.pojos.v0_1_0.SilkSchema;
-
 public interface SilkParser {
 
 	@Nonnull
@@ -40,9 +38,9 @@ public interface SilkParser {
 
 	@Nonnull
 	default SilkDb parse(@Nonnull Path jsonPath) {
-		return feedFileToParser(jsonPath, this::parse);
+		return feedFileToParser(jsonPath, reader -> parse(jsonPath.toFile().getName(), reader));
 	}
 
 	@Nonnull
-	SilkDb parse(@Nonnull BufferedReader reader);
+	SilkDb parse(@Nonnull String name, @Nonnull BufferedReader reader);
 }
