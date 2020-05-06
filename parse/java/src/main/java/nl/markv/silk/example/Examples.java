@@ -11,10 +11,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import nl.markv.silk.generate.Generate;
+import nl.markv.silk.parse.GsonSilkParser;
+import nl.markv.silk.parse.SilkDb;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -22,28 +20,24 @@ import static org.apache.commons.lang3.Validate.notNull;
 public class Examples {
 
 	public static final String SILK_EXAMPLE_DIR = "/silk/example";
-	private List<JSONObject> cachedJsonExamples;
+	private List<SilkDb> cachedJsonExamples;
 
 	@Nonnull
-	public List<JSONObject> jsons() {
+	public List<SilkDb> schemas() {
 		if (cachedJsonExamples != null) {
 			return cachedJsonExamples;
 		}
 		cachedJsonExamples = new ArrayList<>();
-		for (URL path : getResourceFiles()) {
-			try {
-				JSONObject example = new JSONObject(new JSONTokener(path.openStream()));
-				cachedJsonExamples.add(example);
-			} catch (IOException ex) {
-				throw new IllegalStateException(ex);
-			}
+		for (URL path : urls()) {
+			SilkDb schema = new GsonSilkParser().parse(path);
+			cachedJsonExamples.add(schema);
 		}
 		isTrue(!cachedJsonExamples.isEmpty());
 		return cachedJsonExamples;
 	}
 
 	@Nonnull
-	public List<URL> getResourceFiles() {
+	public List<URL> urls() {
 		List<URL> filenames = new ArrayList<>();
 
 		try (InputStream in = getResourceAsStream();
