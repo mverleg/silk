@@ -72,10 +72,15 @@ public interface SilkParser {
 		try {
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(jsonUrl.openStream()));
-			return parse(jsonUrl.getFile(), in);
+			return parse(toName(jsonUrl.getFile()), in);
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
+	}
+
+	default String toName(@Nonnull String pth) {
+		String[] parts = pth.split("[/\\]]");
+		return parts[parts.length - 1];
 	}
 
 	@Nonnull

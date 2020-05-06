@@ -20,7 +20,4 @@ public class GsonSilkParser implements SilkParser {
 		}
 		return SilkDb.wrap(name, result);
 	}
-
-//	@Nonnull
-//	public static Optional<Column>
 }
