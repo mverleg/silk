@@ -34,8 +34,8 @@
     "data_types": {
       "type": "string",
       "description": "Type of the data that can be stored in the column",
-      "examples": ["text", "real(10,2)"],
-      "pattern": "^(text|uint|real\\(\\d+,\\d+\\)|timestamp)$"
+      "examples": ["text", "decimal(10,2)"],
+      "pattern": "^(text|text\\(\\d+\\)|uint|decimal\\(\\d+\\)|decimal\\(\\d+,\\d+\\)|timestamp)$"
     },
     "auto_options": {
       "type": "string",
@@ -104,8 +104,8 @@
     "short_column": {
       "type": "string",
       "description": "Type of the data that can be stored in the column. Expressed as a abbreviated string of 'identifier type', followed by '!' for required or '?' for optional. Other properties can only be given in the extended form",
-      "examples": ["text", "real(10,2)"],
-      "pattern": "^[a-zA-Z][a-zA-Z0-9_]* (text|uint|real\\(\\d+,\\d+\\)|timestamp)[?!]( (increment|created_timestamp|updated_timestamp))?$"
+      "examples": ["text", "decimal(10,2)"],
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]* (text|uint|decimal\\(\\d+,\\d+\\)|timestamp)[?!]( (increment|created_timestamp|updated_timestamp))?$"
     },
     "long_column": {
       "type": "object",

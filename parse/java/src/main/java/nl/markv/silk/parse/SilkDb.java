@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 
 import nl.markv.silk.pojos.v0_1_0.SilkSchema;
 import nl.markv.silk.pojos.v0_1_0.Table;
+import nl.markv.silk.types.DataType;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 
@@ -34,6 +35,11 @@ public class SilkDb {
 				.matcher(schema.silk);
 		isTrue(re.matches(), "invalid Silk version url: " + schema.silk);
 		return re.group(1) + "." + re.group(2) + "." + re.group(3);
+	}
+
+	@Nonnull
+	public DataType parseDataType(@Nonnull String dataTypeText) {
+		return DataType.fromSilkString(dataTypeText);
 	}
 
 	@Nonnull

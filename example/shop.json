@@ -12,8 +12,8 @@
           { "name": "category_id", "type": "uint", "nullable": false },
           { "name": "name", "type": "text", "nullable": false },
           { "name": "description", "type": "text", "nullable": true },
-          { "name": "buy_price", "type": "real(10,2)", "nullable": false },
-          { "name": "sell_price", "type": "real(10,2)", "nullable": false },
+          { "name": "buy_price", "type": "decimal(10,2)", "nullable": false },
+          { "name": "sell_price", "type": "decimal(10,2)", "nullable": false },
           { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
           { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
