@@ -3,11 +3,9 @@ package nl.markv.silk.flatdag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -39,7 +37,8 @@ public class Flattener {
 
 		// Iterate over all the items, skipping known ones.
 		// This finds disconnected groups, and fixes bad starting points.
-		for (String tableName : todos.keySet()) {
+		while (!todos.isEmpty()) {
+			String tableName = todos.keySet().iterator().next();
 			recursivelyAddDependencies(reverseList, todos, tableName);
 		}
 
