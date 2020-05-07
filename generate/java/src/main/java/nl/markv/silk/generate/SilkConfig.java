@@ -93,7 +93,7 @@ public class SilkConfig extends DefaultGenerationConfig {
 
 	@Override
 	public boolean isIncludeAdditionalProperties() {
-		return false;
+		return true;
 	}
 
 	@Override
