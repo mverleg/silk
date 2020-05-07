@@ -11,8 +11,7 @@ import nl.markv.silk.pojos.v0_1_0.Table;
 public class Node {
 
 	public final Table table;
-	public final List<Node> older = new ArrayList<>();
-	public final List<Node> newer = new ArrayList<>();
+	public final List<Node> refersTo = new ArrayList<>();
 
 	public Node(@Nonnull Table table) {
 		this.table = table;

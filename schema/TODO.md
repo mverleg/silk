@@ -26,7 +26,7 @@ Non-breaking
 
 * Later
 
-  - ?
+  - Make a semi-stable stucture that 1) does validation 2) adds more data 3) is more stable for new schema versions
 
 Breaking
 -------------------------------
