@@ -53,4 +53,31 @@ class FlattenerTest {
 		List<Table> flat4 = dependencyOrder(listOf(f, c, g, a, d, b, e).iterator());
 		assertEquals(listOf(g, f, e, d, c, b, a), flat4);
 	}
+
+	@Test
+	void testIndependent() {
+		//   AB  G
+		//  CDEF H I
+		Table a = new Table("A", null, null, null, null, listOf(), null, null, null);
+		Table b = new Table("B", null, null, null, null, listOf(), null, null, null);
+		ForeignKey ra = new ForeignKey(null, a.name, null);
+		ForeignKey rb = new ForeignKey(null, b.name, null);
+		Table c = new Table("C", null, null, null, null, listOf(ra, rb), null, null, null);
+		Table d = new Table("D", null, null, null, null, listOf(rb, rb), null, null, null);
+		Table e = new Table("E", null, null, null, null, listOf(ra, rb), null, null, null);
+		Table f = new Table("F", null, null, null, null, listOf(ra, rb), null, null, null);
+		Table g = new Table("G", null, null, null, null, listOf(), null, null, null);
+		ForeignKey rg = new ForeignKey(null, g.name, null);
+		Table h = new Table("H", null, null, null, null, listOf(rg), null, null, null);
+		Table i = new Table("I", null, null, null, null, listOf(), null, null, null);
+
+		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d, e, f, g, h, i).iterator());
+		assertEquals(listOf(f, e, d, c, b, a, h, g, i), flat1);
+
+		List<Table> flat2 = dependencyOrder(listOf(i, h, g, f, e, d, c, b, a).iterator());
+		assertEquals(listOf(i, h, g, f, e, d, c, b, a), flat2);
+
+		List<Table> flat3 = dependencyOrder(listOf(d, h, f, e, a, c, i, g, b).iterator());
+		assertEquals(listOf(i, h, g, f, e, d, c, b, a), flat3);
+	}
 }
