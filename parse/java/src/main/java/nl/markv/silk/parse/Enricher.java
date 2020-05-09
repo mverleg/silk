@@ -1,5 +1,6 @@
 package nl.markv.silk.parse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,8 +9,11 @@ import java.util.Map;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
+import com.sun.tools.javac.util.Pair;
 import nl.markv.silk.flatdag.Flattener;
+import nl.markv.silk.pojos.v0_2_0.LongColumn;
 import nl.markv.silk.types.Column;
 import nl.markv.silk.types.DatabaseSpecific;
 import nl.markv.silk.types.Db;
@@ -22,9 +26,10 @@ import static org.apache.commons.lang3.Validate.isTrue;
  * Convert pojo objects to a more stable representation that has more metadata.
  */
 public class Enricher {
+	//TODO @mark: link pojos everywhere
 
 	private Map<String, Table> tables;
-	private Map<String, Column> columns;
+	private Map<Pair<String, String>, Column> columns;
 
 	private void reset() {
 		tables = new HashMap<>();
@@ -39,13 +44,15 @@ public class Enricher {
 		// Do all the table and lower level processing first.
 		Collection<nl.markv.silk.pojos.v0_2_0.Table> pojoTables = pojoSchema.db != null
 				? pojoSchema.db.tables : Collections.singleton(pojoSchema.table);
-		for (nl.markv.silk.pojos.v0_2_0.Table table : pojoTables) {
+		for (nl.markv.silk.pojos.v0_2_0.Table pojoTable : pojoTables) {
 
 			// First convert all the tables.
-			convertMinimalTable();
+			Table richTable = convertMinimalTable(pojoTable);
 
 			// Add all the columns to them.
-
+			for (LongColumn pojoColumn : pojoTable.columns) {
+				Column richColumn = convertMinimalColumn(richTable, pojoColumn);
+			}
 
 			// Then create interconnections.
 		}
@@ -63,18 +70,53 @@ public class Enricher {
 
 	@Nonnull
 	private Table convertMinimalTable(nl.markv.silk.pojos.v0_2_0.Table table) {
-		return new Table(
-				null,
+		Table richTable = new Table(
+				null,  // database set later
 				table.name,
 				table.group,
 				table.description,
-				table.columns,
-				table.primaryKey,
-				table.references,
-				table.uniqueConstraints,
-				table.checkConstraints,
-				table.databaseSpecific
+				//TODO @mark:
+				new ArrayList<>(),  // columns added later
+				//TODO @mark:
+				new ArrayList<>(),  // primaryKey set later
+				//TODO @mark:
+				null,  // references set later
+				//TODO @mark:
+				null,  // uniqueConstraints set later
+				//TODO @mark:
+				null,  // checkConstraints set later
+				convertDbSpecific(table.databaseSpecific)
 		);
+		isTrue(tables.containsKey(table.name), "table " + table.name + " not unique in database " +
+				"(note that at this time, it must be unique across all groups)");
+		tables.put(table.name, richTable);
+		return richTable;
+	}
+
+	@Nonnull
+	private Column convertMinimalColumn(@Nonnull Table richTable, @Nonnull LongColumn pojoColumn) {
+		Column richColumn = new Column(
+				richTable,
+				pojoColumn.name,
+				//TODO @mark:
+				pojoColumn.type,
+				pojoColumn.nullable,
+				pojoColumn.defaultValue,
+				convertAutoValue(pojoColumn.autoValue)
+		);
+		richTable.columns.add(richColumn);
+		Pair<String, String> columnIdentifier = Pair.of(richTable.name, richColumn.name);
+		isTrue(!columns.containsKey(columnIdentifier), "column " + richColumn.name + " not unique in table " + richTable.name);
+		columns.put(columnIdentifier, richColumn);
+		return richColumn;
+	}
+
+	@Nullable
+	private Column.AutoOptions convertAutoValue(@Nullable LongColumn.AutoOptions autoValue) {
+		if (autoValue == null) {
+			return null;
+		}
+		return Column.AutoOptions.fromValue(autoValue.value());
 	}
 
 	@Nonnull

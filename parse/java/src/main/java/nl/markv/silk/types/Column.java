@@ -40,7 +40,7 @@ public class Column {
      */
     @JsonProperty("type")
     @JsonPropertyDescription("Type of the data that can be stored in the column")
-    public String type;
+    public String typeName;
     /**
      * Can the value be null
      */
@@ -62,15 +62,18 @@ public class Column {
     @JsonPropertyDescription("Automatic way to fill the column")
     public AutoOptions autoValue;
 
+    public DataType type;
+
     public Table table;
 
     public Column() {}
 
-    public Column(@Nonnull Table table, @Nonnull String name, @Nonnull String type, boolean nullable, @Nullable String defaultValue, @Nullable AutoOptions autoValue) {
+    public Column(@Nonnull Table table, @Nonnull String name, @Nonnull DataType type, boolean nullable, @Nullable String defaultValue, @Nullable AutoOptions autoValue) {
         super();
         this.table = table;
         this.name = name;
         this.type = type;
+        this.typeName = type.toString();
         this.nullable = nullable;
         this.defaultValue = defaultValue;
         this.autoValue = autoValue;
@@ -103,14 +106,16 @@ public class Column {
     }
 
     /**
-     * Automatic way to fill the column
+     * Automatic way to fill the column.
      **/
     public enum AutoOptions {
 
         INCREMENT("increment"),
         CREATED_TIMESTAMP("created_timestamp"),
         UPDATED_TIMESTAMP("updated_timestamp");
-        private final String value;
+
+        @Nonnull
+        public final String value;
         private final static Map<String, AutoOptions> CONSTANTS = new HashMap<String, AutoOptions>();
 
         static {
@@ -119,7 +124,7 @@ public class Column {
             }
         }
 
-        private AutoOptions(String value) {
+        AutoOptions(@Nonnull String value) {
             this.value = value;
         }
 
@@ -128,13 +133,9 @@ public class Column {
             return this.value;
         }
 
-        @JsonValue
-        public String value() {
-            return this.value;
-        }
-
         @JsonCreator
-        public static AutoOptions fromValue(String value) {
+        @Nonnull
+        public static AutoOptions fromValue(@Nonnull String value) {
             AutoOptions constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
@@ -142,7 +143,5 @@ public class Column {
                 return constant;
             }
         }
-
     }
-
 }

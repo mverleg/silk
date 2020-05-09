@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 import static org.apache.commons.lang.Validate.isTrue;
 
-//TODO @mark: toString / equals / hashCode?
+//TODO @mark: equals / hashCode?
 public abstract class DataType {
 
 	static final Pattern TEXT_RE = Pattern.compile("^text\\((\\d+)\\)$");
@@ -61,6 +61,14 @@ public abstract class DataType {
 		public Text() {
 			this.maxLength = null;
 		}
+
+		@Override
+		public String toString() {
+			if (maxLength == null) {
+				return "text";
+			}
+			return "text(" + maxLength + ")";
+		}
 	}
 
 	public static class Int extends DataType {
@@ -88,6 +96,15 @@ public abstract class DataType {
 		public static Int unsigned() {
 			return unsigned(null);
 		}
+
+		@Override
+		public String toString() {
+			if (min == null) {
+				return "int";
+			}
+			isTrue(min == 0);
+			return "uint";
+		}
 	}
 
 	public static class Decimal extends DataType {
@@ -109,12 +126,26 @@ public abstract class DataType {
 			this.precision = precision;
 			this.scale = scale;
 		}
+
+		@Override
+		public String toString() {
+			if (scale != null) {
+				return "decimal(" + precision + "," + scale + ")";
+			}
+			if (precision != null) {
+				return "decimal(" + precision + ")";
+			}
+			return "decimal";
+		}
 	}
 
-	public static class Timestamp extends DataType {}
+	public static class Timestamp extends DataType {
+		@Override
+		public String toString() {
+			return "timestamp";
+		}
+	}
 
 	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+	public abstract String toString();
 }
