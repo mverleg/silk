@@ -109,15 +109,15 @@
         "group": "shop",
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
-          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "customer_logon", "type": "text(32)", "nullable": false },
           { "name": "product_selection_id", "type": "uint", "nullable": false },
           { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
           { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "name": "cart_products", "targetTable": "product_selection", "columns": [{ "from": "selection_id", "to": "id" }] },
-          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_id", "to": "id" }] }
+          { "name": "cart_products", "targetTable": "product_selection", "columns": [{ "from": "product_selection_id", "to": "id" }] },
+          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_logon", "to": "logon" }] }
         ]
       },
       {
@@ -125,7 +125,7 @@
         "group": "shop",
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
-          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "customer_logon", "type": "text(32)", "nullable": false },
           { "name": "product_selection_id", "type": "uint", "nullable": false },
           { "name": "paid_at", "type": "timestamp", "nullable":  true },
           { "name": "sent_at", "type": "timestamp", "nullable":  true },
@@ -134,8 +134,8 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "name": "order_products", "targetTable": "product_selection", "columns": [{ "from": "selection_id", "to": "id" }] },
-          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_id", "to": "id" }] }
+          { "name": "order_products", "targetTable": "product_selection", "columns": [{ "from": "product_selection_id", "to": "id" }] },
+          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_logon", "to": "logon" }] }
         ],
         "check_constraints": [
           { "name": "pay_before_sending", "condition": "sent_at is null or (sent_at is not null and paid_at is not null)" }

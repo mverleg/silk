@@ -150,7 +150,7 @@ public class Enricher {
 					" to " + targetTable.name + "." + pojoMap.to;
 			Column fromCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.from)),
 					name + " failed because from-column " + pojoMap.from + " does not exist");
-			Column toCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.to)),
+			Column toCol = notNull(columns.get(columnIdentifier(targetTable, pojoMap.to)),
 					name + " failed because to-column " + pojoMap.to + " does not exist");
 			ColumnMapping richMap = new ColumnMapping(
 					null,  // foreignKey filled later
