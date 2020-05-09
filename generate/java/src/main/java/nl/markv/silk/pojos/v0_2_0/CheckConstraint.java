@@ -1,25 +1,28 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class CheckConstraint implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "condition"
+})
+public class CheckConstraint {
 
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
     public String name;
     /**
      * A boolean sql condition (cross-database syntax)
      * (Required)
      * 
      */
-    @SerializedName("condition")
-    @Expose
+    @JsonProperty("condition")
+    @JsonPropertyDescription("A boolean sql condition (cross-database syntax)")
     public String condition;
-    private final static long serialVersionUID = -6999073696447613719L;
 
     /**
      * No args constructor for use in serialization

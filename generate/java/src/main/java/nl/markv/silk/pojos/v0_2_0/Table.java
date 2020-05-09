@@ -1,66 +1,71 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class Table implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "group",
+    "description",
+    "columns",
+    "primary_key",
+    "references",
+    "unique_constraints",
+    "check_constraints",
+    "database_specific"
+})
+public class Table {
 
     /**
      * A name of a table, column or similar in the database
      * (Required)
      * 
      */
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
+    @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String name;
     /**
      * A name of a table, column or similar in the database
      * 
      */
-    @SerializedName("group")
-    @Expose
+    @JsonProperty("group")
+    @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String group;
-    @SerializedName("description")
-    @Expose
+    @JsonProperty("description")
     public String description;
     /**
      * 
      * (Required)
      * 
      */
-    @SerializedName("columns")
-    @Expose
+    @JsonProperty("columns")
     public List<LongColumn> columns = new ArrayList<LongColumn>();
     /**
      * 
      * (Required)
      * 
      */
-    @SerializedName("primary_key")
-    @Expose
+    @JsonProperty("primary_key")
     public List<String> primaryKey = new ArrayList<String>();
-    @SerializedName("references")
-    @Expose
+    @JsonProperty("references")
     public List<ForeignKey> references = new ArrayList<ForeignKey>();
-    @SerializedName("unique_constraints")
-    @Expose
+    @JsonProperty("unique_constraints")
     public List<UniqueConstraint> uniqueConstraints = new ArrayList<UniqueConstraint>();
-    @SerializedName("check_constraints")
-    @Expose
+    @JsonProperty("check_constraints")
     public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
     /**
      * Properties for the specific database, not controlled by Silk
      * 
      */
-    @SerializedName("database_specific")
-    @Expose
+    @JsonProperty("database_specific")
+    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
     public DatabaseSpecific databaseSpecific;
-    private final static long serialVersionUID = 946309259265924352L;
 
     /**
      * No args constructor for use in serialization

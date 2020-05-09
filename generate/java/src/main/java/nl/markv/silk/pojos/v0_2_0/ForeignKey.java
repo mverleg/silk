@@ -1,33 +1,36 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class ForeignKey implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "table",
+    "columns"
+})
+public class ForeignKey {
 
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
     public String name;
     /**
      * 
      * (Required)
      * 
      */
-    @SerializedName("table")
-    @Expose
+    @JsonProperty("table")
     public String table;
     /**
      * The mapping of columns, from current table on the left, to target table on the right
      * (Required)
      * 
      */
-    @SerializedName("columns")
-    @Expose
+    @JsonProperty("columns")
+    @JsonPropertyDescription("The mapping of columns, from current table on the left, to target table on the right")
     public Columns columns;
-    private final static long serialVersionUID = -3692735834757837441L;
 
     /**
      * No args constructor for use in serialization

@@ -1,54 +1,63 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-public class LongColumn implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "type",
+    "nullable",
+    "default_value",
+    "auto_value"
+})
+public class LongColumn {
 
     /**
      * A name of a table, column or similar in the database
      * (Required)
      * 
      */
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
+    @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String name;
     /**
      * Type of the data that can be stored in the column
      * (Required)
      * 
      */
-    @SerializedName("type")
-    @Expose
+    @JsonProperty("type")
+    @JsonPropertyDescription("Type of the data that can be stored in the column")
     public String type;
     /**
      * Can the value be null
      * (Required)
      * 
      */
-    @SerializedName("nullable")
-    @Expose
+    @JsonProperty("nullable")
+    @JsonPropertyDescription("Can the value be null")
     public boolean nullable;
     /**
      * A literal column value (type is not checked by silk)
      * 
      */
-    @SerializedName("default_value")
-    @Expose
+    @JsonProperty("default_value")
+    @JsonPropertyDescription("A literal column value (type is not checked by silk)")
     public String defaultValue;
     /**
      * Automatic way to fill the column
      * 
      */
-    @SerializedName("auto_value")
-    @Expose
+    @JsonProperty("auto_value")
+    @JsonPropertyDescription("Automatic way to fill the column")
     public LongColumn.AutoOptions autoValue;
-    private final static long serialVersionUID = -4921725734899683927L;
 
     /**
      * No args constructor for use in serialization
@@ -136,11 +145,8 @@ public class LongColumn implements Serializable
      */
     public enum AutoOptions {
 
-        @SerializedName("increment")
         INCREMENT("increment"),
-        @SerializedName("created_timestamp")
         CREATED_TIMESTAMP("created_timestamp"),
-        @SerializedName("updated_timestamp")
         UPDATED_TIMESTAMP("updated_timestamp");
         private final String value;
         private final static Map<String, LongColumn.AutoOptions> CONSTANTS = new HashMap<String, LongColumn.AutoOptions>();
@@ -160,10 +166,12 @@ public class LongColumn implements Serializable
             return this.value;
         }
 
+        @JsonValue
         public String value() {
             return this.value;
         }
 
+        @JsonCreator
         public static LongColumn.AutoOptions fromValue(String value) {
             LongColumn.AutoOptions constant = CONSTANTS.get(value);
             if (constant == null) {

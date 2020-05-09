@@ -1,47 +1,53 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class Db implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "description",
+    "tables",
+    "database_type",
+    "database_specific"
+})
+public class Db {
 
     /**
      * A name of a table, column or similar in the database
      * 
      */
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
+    @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String name;
-    @SerializedName("description")
-    @Expose
+    @JsonProperty("description")
     public String description;
     /**
      * The tables in the database
      * 
      */
-    @SerializedName("tables")
-    @Expose
+    @JsonProperty("tables")
+    @JsonPropertyDescription("The tables in the database")
     public List<Table> tables = new ArrayList<Table>();
     /**
      * A name of a table, column or similar in the database
      * 
      */
-    @SerializedName("database_type")
-    @Expose
+    @JsonProperty("database_type")
+    @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String databaseType;
     /**
      * Properties for the specific database, not controlled by Silk
      * 
      */
-    @SerializedName("database_specific")
-    @Expose
+    @JsonProperty("database_specific")
+    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
     public DatabaseSpecific databaseSpecific;
-    private final static long serialVersionUID = 4403181149533926437L;
 
     /**
      * No args constructor for use in serialization

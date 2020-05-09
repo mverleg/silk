@@ -1,9 +1,10 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
-import java.io.Serializable;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
@@ -12,23 +13,25 @@ import com.google.gson.annotations.SerializedName;
  * Cross-database relational database schema format
  * 
  */
-public class SilkSchema implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "silk",
+    "db",
+    "table"
+})
+public class SilkSchema {
 
     /**
      * The semantic version of Silk that this data schema is exported in
      * 
      */
-    @SerializedName("silk")
-    @Expose
+    @JsonProperty("silk")
+    @JsonPropertyDescription("The semantic version of Silk that this data schema is exported in")
     public String silk;
-    @SerializedName("db")
-    @Expose
+    @JsonProperty("db")
     public Db db;
-    @SerializedName("table")
-    @Expose
+    @JsonProperty("table")
     public Table table;
-    private final static long serialVersionUID = -6972401167884168371L;
 
     /**
      * No args constructor for use in serialization

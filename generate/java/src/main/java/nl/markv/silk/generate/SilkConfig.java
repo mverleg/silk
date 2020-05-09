@@ -64,7 +64,7 @@ public class SilkConfig extends DefaultGenerationConfig {
 
 	@Override
 	public boolean isSerializable() {
-		return true;
+		return false;
 	}
 
 	@Override

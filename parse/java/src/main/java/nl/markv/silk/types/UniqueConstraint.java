@@ -1,29 +1,31 @@
-//TODO @mark
 
 package nl.markv.silk.types;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class UniqueConstraint implements Serializable
-{
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "name",
+    "columns"
+})
+public class UniqueConstraint {
 
-    @SerializedName("name")
-    @Expose
+    @JsonProperty("name")
     public String name;
     /**
      * The columns whose combination is unique
      * (Required)
      * 
      */
-    @SerializedName("columns")
-    @Expose
+    @JsonProperty("columns")
+    @JsonPropertyDescription("The columns whose combination is unique")
     public List<String> columns = new ArrayList<String>();
-    private final static long serialVersionUID = 2108152404916374624L;
 
     /**
      * No args constructor for use in serialization
