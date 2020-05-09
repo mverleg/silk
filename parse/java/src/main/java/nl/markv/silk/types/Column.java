@@ -37,16 +37,12 @@ public class Column {
     public String name;
     /**
      * Type of the data that can be stored in the column
-     * (Required)
-     * 
      */
     @JsonProperty("type")
     @JsonPropertyDescription("Type of the data that can be stored in the column")
     public String type;
     /**
      * Can the value be null
-     * (Required)
-     * 
      */
     @JsonProperty("nullable")
     @JsonPropertyDescription("Can the value be null")

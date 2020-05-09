@@ -19,34 +19,34 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Db {
 
     /**
-     * A name of a table, column or similar in the database
+     * A name of a table, column or similar in the database.
      * 
      */
     @JsonProperty("name")
-    @JsonPropertyDescription("A name of a table, column or similar in the database")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String name;
     @JsonProperty("description")
     public String description;
     /**
-     * The tables in the database
+     * The tables in the database.
      * 
      */
     @JsonProperty("tables")
-    @JsonPropertyDescription("The tables in the database")
+    @JsonPropertyDescription("The tables in the database.")
     public List<Table> tables = new ArrayList<Table>();
     /**
-     * A name of a table, column or similar in the database
+     * A name of a table, column or similar in the database.
      * 
      */
     @JsonProperty("database_type")
-    @JsonPropertyDescription("A name of a table, column or similar in the database")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String databaseType;
     /**
-     * Properties for the specific database, not controlled by Silk
+     * Properties for the specific database, not controlled by Silk.
      * 
      */
     @JsonProperty("database_specific")
-    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
+    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk.")
     public DatabaseSpecific databaseSpecific;
 
     /**

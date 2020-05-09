@@ -16,12 +16,12 @@ public class CheckConstraint {
     @JsonProperty("name")
     public String name;
     /**
-     * A boolean sql condition (cross-database syntax)
+     * A boolean sql condition (cross-database syntax).
      * (Required)
      * 
      */
     @JsonProperty("condition")
-    @JsonPropertyDescription("A boolean sql condition (cross-database syntax)")
+    @JsonPropertyDescription("A boolean sql condition (cross-database syntax).")
     public String condition;
 
     /**

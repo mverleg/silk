@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft-07/schema#",
   "$id": "https://silk.markv.nl/v0.2.0.json",
   "title": "Silk",
-  "description": "Cross-database relational database schema format",
+  "description": "Cross-database relational database schema format.",
   "type": "object",
   "properties": {
     "silk": {
-      "description": "The semantic version of Silk that this data schema is exported in",
+      "description": "The semantic version of Silk that this data schema is exported in.",
       "type": "string",
       "pattern": "^https://silk\\.markv\\.nl/v(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.json$"
     },
@@ -17,7 +17,7 @@
   "definitions": {
     "identifier": {
       "type": "string",
-      "description": "A name of a table, column or similar in the database",
+      "description": "A name of a table, column or similar in the database.",
       "examples": ["Shopping_Cart", "customer_id"],
       "min_length": 1,
       "max_length": 512,
@@ -25,7 +25,7 @@
     },
     "database_specific": {
       "type": "object",
-      "description": "Properties for the specific database, not controlled by Silk",
+      "description": "Properties for the specific database, not controlled by Silk.",
       "propertyNames": {
         "pattern": "^[A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]?$"
       },
@@ -33,25 +33,25 @@
     },
     "data_types": {
       "type": "string",
-      "description": "Type of the data that can be stored in the column",
+      "description": "Type of the data that can be stored in the column.",
       "examples": ["text", "decimal(10,2)"],
       "pattern": "^(text|text\\(\\d+\\)|int|uint|decimal\\(\\d+\\)|decimal\\(\\d+,\\d+\\)|timestamp)$"
     },
     "auto_options": {
       "type": "string",
-      "description": "Automatic way to fill the column",
+      "description": "Automatic way to fill the column.",
       "examples": ["increment", "updated_timestamp"],
       "enum": ["increment", "created_timestamp", "updated_timestamp"]
     },
     "value_literal": {
       "type": "string",
-      "description": "A literal column value (type is not checked by silk)",
+      "description": "A literal column value (type is not checked by silk).",
       "examples": ["'hello world'", "42"],
       "pattern": "^('null|'[^']*'|\\d+|\\d\\.\\d+)$"
     },
     "sql_condition": {
       "type": "string",
-      "description": "A boolean sql condition (cross-database syntax)",
+      "description": "A boolean sql condition (cross-database syntax).",
       "examples": ["age > 0", "col_a is null OR col_b is null"]
     },
     "db": {
@@ -60,7 +60,7 @@
         "name": { "$ref": "#/definitions/identifier" },
         "description": { "type": "string" },
         "tables": {
-          "description": "The tables in the database",
+          "description": "The tables in the database.",
           "type": "array",
           "items": { "$ref": "#/definitions/table" }
         },
@@ -103,7 +103,7 @@
     },
     "short_column": {
       "type": "string",
-      "description": "Type of the data that can be stored in the column. Expressed as a abbreviated string of 'identifier type', followed by '!' for required or '?' for optional. Other properties can only be given in the extended form",
+      "description": "Type of the data that can be stored in the column. Expressed as a abbreviated string of 'identifier type', followed by '!' for required or '?' for optional. Other properties can only be given in the extended form.",
       "examples": ["text", "decimal(10,2)"],
       "pattern": "^[a-zA-Z][a-zA-Z0-9_]* (text|uint|decimal\\(\\d+,\\d+\\)|timestamp)[?!]( (increment|created_timestamp|updated_timestamp))?$"
     },
@@ -114,27 +114,32 @@
         "type": { "$ref": "#/definitions/data_types" },
         "nullable": {
           "type": "boolean",
-          "description": "Can the value be null"
+          "description": "Whether the value can be null."
         },
-        "default_value":  { "$ref": "#/definitions/value_literal" },
+        "default_value": { "$ref": "#/definitions/value_literal" },
         "auto_value": { "$ref": "#/definitions/auto_options" }
       },
       "required": ["name", "type", "nullable"],
+      "additionalProperties": false
+    },
+    "column_mapping": {
+      "type": "object",
+      "properties": {
+        "from": { "type":  "string", "description": "A column in the table that the foreign key belongs to." },
+        "to": { "type":  "string", "description": "A column in the target table that the 'from' column refers to." }
+      },
       "additionalProperties": false
     },
     "foreign_key": {
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "table": { "type": "string" },
+        "targetTable": { "type": "string" },
         "columns": {
-          "type": "object",
-          "description": "The mapping of columns, from current table on the left, to target table on the right",
-          "minItems": 1,
-          "propertyNames": {
-            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
-          },
-          "additionalProperties": { "$ref": "#/definitions/identifier" }
+          "type": "array",
+          "description": "The mapping of columns in the reference.",
+          "items": { "$ref": "#/definitions/column_mapping" },
+          "minItems": 1
         }
       },
       "required": ["table", "columns"],
@@ -146,7 +151,7 @@
         "name": { "type": "string" },
         "columns": {
           "type": "array",
-          "description": "The columns whose combination is unique",
+          "description": "The columns whose combination is unique.",
           "minItems": 1,
           "items": { "$ref": "#/definitions/identifier" }
         }

@@ -21,42 +21,42 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class LongColumn {
 
     /**
-     * A name of a table, column or similar in the database
+     * A name of a table, column or similar in the database.
      * (Required)
      * 
      */
     @JsonProperty("name")
-    @JsonPropertyDescription("A name of a table, column or similar in the database")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String name;
     /**
-     * Type of the data that can be stored in the column
+     * Type of the data that can be stored in the column.
      * (Required)
      * 
      */
     @JsonProperty("type")
-    @JsonPropertyDescription("Type of the data that can be stored in the column")
+    @JsonPropertyDescription("Type of the data that can be stored in the column.")
     public String type;
     /**
-     * Can the value be null
+     * Whether the value can be null.
      * (Required)
      * 
      */
     @JsonProperty("nullable")
-    @JsonPropertyDescription("Can the value be null")
+    @JsonPropertyDescription("Whether the value can be null.")
     public boolean nullable;
     /**
-     * A literal column value (type is not checked by silk)
+     * A literal column value (type is not checked by silk).
      * 
      */
     @JsonProperty("default_value")
-    @JsonPropertyDescription("A literal column value (type is not checked by silk)")
+    @JsonPropertyDescription("A literal column value (type is not checked by silk).")
     public String defaultValue;
     /**
-     * Automatic way to fill the column
+     * Automatic way to fill the column.
      * 
      */
     @JsonProperty("auto_value")
-    @JsonPropertyDescription("Automatic way to fill the column")
+    @JsonPropertyDescription("Automatic way to fill the column.")
     public LongColumn.AutoOptions autoValue;
 
     /**
@@ -140,7 +140,7 @@ public class LongColumn {
 
 
     /**
-     * Automatic way to fill the column
+     * Automatic way to fill the column.
      * 
      */
     public enum AutoOptions {

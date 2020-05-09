@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 /**
  * Silk
  * <p>
- * Cross-database relational database schema format
+ * Cross-database relational database schema format.
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,11 +22,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class SilkSchema {
 
     /**
-     * The semantic version of Silk that this data schema is exported in
+     * The semantic version of Silk that this data schema is exported in.
      * 
      */
     @JsonProperty("silk")
-    @JsonPropertyDescription("The semantic version of Silk that this data schema is exported in")
+    @JsonPropertyDescription("The semantic version of Silk that this data schema is exported in.")
     public String silk;
     @JsonProperty("db")
     public Db db;

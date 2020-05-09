@@ -18,12 +18,12 @@ public class UniqueConstraint {
     @JsonProperty("name")
     public String name;
     /**
-     * The columns whose combination is unique
+     * The columns whose combination is unique.
      * (Required)
      * 
      */
     @JsonProperty("columns")
-    @JsonPropertyDescription("The columns whose combination is unique")
+    @JsonPropertyDescription("The columns whose combination is unique.")
     public List<String> columns = new ArrayList<String>();
 
     /**

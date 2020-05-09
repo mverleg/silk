@@ -23,19 +23,19 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Table {
 
     /**
-     * A name of a table, column or similar in the database
+     * A name of a table, column or similar in the database.
      * (Required)
      * 
      */
     @JsonProperty("name")
-    @JsonPropertyDescription("A name of a table, column or similar in the database")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String name;
     /**
-     * A name of a table, column or similar in the database
+     * A name of a table, column or similar in the database.
      * 
      */
     @JsonProperty("group")
-    @JsonPropertyDescription("A name of a table, column or similar in the database")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String group;
     @JsonProperty("description")
     public String description;
@@ -60,11 +60,11 @@ public class Table {
     @JsonProperty("check_constraints")
     public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
     /**
-     * Properties for the specific database, not controlled by Silk
+     * Properties for the specific database, not controlled by Silk.
      * 
      */
     @JsonProperty("database_specific")
-    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
+    @JsonPropertyDescription("Properties for the specific database, not controlled by Silk.")
     public DatabaseSpecific databaseSpecific;
 
     /**

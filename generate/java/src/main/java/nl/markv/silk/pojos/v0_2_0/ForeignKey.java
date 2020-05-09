@@ -1,6 +1,8 @@
 
 package nl.markv.silk.pojos.v0_2_0;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -9,28 +11,23 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "name",
-    "table",
+    "targetTable",
     "columns"
 })
 public class ForeignKey {
 
     @JsonProperty("name")
     public String name;
+    @JsonProperty("targetTable")
+    public String targetTable;
     /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("table")
-    public String table;
-    /**
-     * The mapping of columns, from current table on the left, to target table on the right
+     * The mapping of columns in the reference.
      * (Required)
      * 
      */
     @JsonProperty("columns")
-    @JsonPropertyDescription("The mapping of columns, from current table on the left, to target table on the right")
-    public Columns columns;
+    @JsonPropertyDescription("The mapping of columns in the reference.")
+    public List<ColumnMapping> columns = new ArrayList<ColumnMapping>();
 
     /**
      * No args constructor for use in serialization
@@ -41,14 +38,14 @@ public class ForeignKey {
 
     /**
      * 
+     * @param targetTable
      * @param columns
      * @param name
-     * @param table
      */
-    public ForeignKey(String name, String table, Columns columns) {
+    public ForeignKey(String name, String targetTable, List<ColumnMapping> columns) {
         super();
         this.name = name;
-        this.table = table;
+        this.targetTable = targetTable;
         this.columns = columns;
     }
 
@@ -60,9 +57,9 @@ public class ForeignKey {
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
         sb.append(',');
-        sb.append("table");
+        sb.append("targetTable");
         sb.append('=');
-        sb.append(((this.table == null)?"<null>":this.table));
+        sb.append(((this.targetTable == null)?"<null>":this.targetTable));
         sb.append(',');
         sb.append("columns");
         sb.append('=');
@@ -80,7 +77,7 @@ public class ForeignKey {
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.table == null)? 0 :this.table.hashCode()));
+        result = ((result* 31)+((this.targetTable == null)? 0 :this.targetTable.hashCode()));
         result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
         return result;
     }
@@ -94,7 +91,7 @@ public class ForeignKey {
             return false;
         }
         ForeignKey rhs = ((ForeignKey) other);
-        return ((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.table == rhs.table)||((this.table!= null)&&this.table.equals(rhs.table))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
+        return ((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.targetTable == rhs.targetTable)||((this.targetTable!= null)&&this.targetTable.equals(rhs.targetTable))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
     }
 
 }

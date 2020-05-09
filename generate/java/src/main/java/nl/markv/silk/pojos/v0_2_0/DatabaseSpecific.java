@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * Properties for the specific database, not controlled by Silk
+ * Properties for the specific database, not controlled by Silk.
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
