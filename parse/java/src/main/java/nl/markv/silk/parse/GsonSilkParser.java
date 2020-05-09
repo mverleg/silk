@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import javax.annotation.Nonnull;
 
 import com.google.gson.Gson;
+import nl.markv.silk.types.SilkSchema;
 
 public class GsonSilkParser implements SilkParser {
 
@@ -12,7 +13,7 @@ public class GsonSilkParser implements SilkParser {
 
 	@Override
 	@Nonnull
-	public SilkDb parse(@Nonnull String name, @Nonnull BufferedReader reader) {
+	public SilkSchema parse(@Nonnull String name, @Nonnull BufferedReader reader) {
 		throw new UnsupportedOperationException("GSon parser no longer supported after 0.1.0");
 //		SilkSchema result = gson.fromJson(reader, SilkSchema.class);
 //		if (result == null) {

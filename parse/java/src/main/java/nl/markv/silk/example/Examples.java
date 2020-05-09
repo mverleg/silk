@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 import nl.markv.silk.parse.GsonSilkParser;
-import nl.markv.silk.parse.SilkDb;
+import nl.markv.silk.types.SilkSchema;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 
@@ -20,10 +20,10 @@ public class Examples {
 			"/silk/example/shop02.json",
 	};
 
-	private List<SilkDb> cachedJsonExamples;
+	private List<SilkSchema> cachedJsonExamples;
 
 	@Nonnull
-	public List<SilkDb> jsons() {
+	public List<SilkSchema> jsons() {
 		if (cachedJsonExamples != null) {
 			return cachedJsonExamples;
 		}

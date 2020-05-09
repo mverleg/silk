@@ -12,6 +12,8 @@ import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
+import nl.markv.silk.types.SilkSchema;
+
 public interface SilkParser {
 
 	@Nonnull
@@ -63,12 +65,12 @@ public interface SilkParser {
 	}
 
 	@Nonnull
-	default SilkDb parse(@Nonnull Path jsonPath) {
+	default SilkSchema parse(@Nonnull Path jsonPath) {
 		return feedFileToParser(jsonPath, reader -> parse(jsonPath.toFile().getName(), reader));
 	}
 
 	@Nonnull
-	default SilkDb parse(@Nonnull URL jsonUrl) {
+	default SilkSchema parse(@Nonnull URL jsonUrl) {
 		try {
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(jsonUrl.openStream()));
@@ -84,5 +86,5 @@ public interface SilkParser {
 	}
 
 	@Nonnull
-	SilkDb parse(@Nonnull String name, @Nonnull BufferedReader reader);
+	SilkSchema parse(@Nonnull String name, @Nonnull BufferedReader reader);
 }
