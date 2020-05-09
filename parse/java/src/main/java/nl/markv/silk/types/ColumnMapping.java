@@ -4,6 +4,7 @@ package nl.markv.silk.types;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,7 +39,8 @@ public class ColumnMapping {
 
     public ColumnMapping() {}
 
-    public ColumnMapping(@Nonnull ForeignKey foreignKey, @Nonnull Column from, @Nonnull Column to) {
+    // 'foreignKey' is required but may be filled later due to cyclic references
+    public ColumnMapping(@Nullable ForeignKey foreignKey, @Nonnull Column from, @Nonnull Column to) {
         super();
         this.foreignKey = foreignKey;
         this.from = from;

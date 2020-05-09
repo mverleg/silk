@@ -4,6 +4,7 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,7 +60,7 @@ public class Table {
      * 
      */
     @JsonProperty("primary_key")
-    public List<String> primaryKey = new ArrayList<String>();
+    public List<String> primaryKeyNames = new ArrayList<String>();
     @JsonProperty("references")
     public List<ForeignKey> references = new ArrayList<ForeignKey>();
     @JsonProperty("unique_constraints")
@@ -77,6 +78,8 @@ public class Table {
     /** Only set if the schema included a whole database (as opposed to one table). */
     public Db database;
 
+    public List<Column> primaryKey;
+
     public Table() {}
 
     public Table(
@@ -85,7 +88,7 @@ public class Table {
             @Nonnull String group,
             @Nullable String description,
             @Nonnull List<Column> columns,
-            @Nonnull List<String> primaryKey,
+            @Nonnull List<Column> primaryKey,
             @Nullable List<ForeignKey> references,
             @Nullable List<UniqueConstraint> uniqueConstraints,
             @Nullable List<CheckConstraint> checkConstraints,
@@ -98,6 +101,9 @@ public class Table {
         this.description = description;
         this.columns = columns;
         this.primaryKey = primaryKey;
+        this.primaryKeyNames = primaryKey.stream()
+                .map(col -> col.name)
+                .collect(Collectors.toList());
         if (references != null) {
             this.references = references;
         }

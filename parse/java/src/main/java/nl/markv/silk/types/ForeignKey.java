@@ -27,7 +27,7 @@ public class ForeignKey {
     @JsonProperty("name")
     public String name;
     @JsonProperty("targetTable")
-    public String targetTable;
+    public String targetTableName;
     /**
      * The mapping of columns in the reference.
      */
@@ -35,15 +35,18 @@ public class ForeignKey {
     @JsonPropertyDescription("The mapping of columns in the reference.")
     public List<ColumnMapping> columns = new ArrayList<ColumnMapping>();
 
+    public Table targetTable;
+
     public Table sourceTable;
 
     public ForeignKey() {}
 
-    public ForeignKey(@Nonnull Table sourceTable, @Nullable String name, @Nonnull String targetTable, @Nonnull List<ColumnMapping> columns) {
+    public ForeignKey(@Nonnull Table sourceTable, @Nullable String name, @Nonnull Table targetTable, @Nonnull List<ColumnMapping> columns) {
         super();
         this.name = name;
         this.sourceTable = sourceTable;
         this.targetTable = targetTable;
+        this.targetTableName = targetTable.name;
         this.columns = columns;
     }
 
