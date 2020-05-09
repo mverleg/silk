@@ -1,11 +1,9 @@
-//TODO @mark
 
-package nl.markv.silk.types;
+package nl.markv.silk.pojos.v0_2_0;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -49,7 +47,7 @@ public class LongColumn implements Serializable
      */
     @SerializedName("auto_value")
     @Expose
-    public AutoOptions autoValue;
+    public LongColumn.AutoOptions autoValue;
     private final static long serialVersionUID = -4921725734899683927L;
 
     /**
@@ -67,7 +65,7 @@ public class LongColumn implements Serializable
      * @param type
      * @param autoValue
      */
-    public LongColumn(String name, String type, boolean nullable, String defaultValue, AutoOptions autoValue) {
+    public LongColumn(String name, String type, boolean nullable, String defaultValue, LongColumn.AutoOptions autoValue) {
         super();
         this.name = name;
         this.type = type;
@@ -145,10 +143,10 @@ public class LongColumn implements Serializable
         @SerializedName("updated_timestamp")
         UPDATED_TIMESTAMP("updated_timestamp");
         private final String value;
-        private final static Map<String, AutoOptions> CONSTANTS = new HashMap<String, AutoOptions>();
+        private final static Map<String, LongColumn.AutoOptions> CONSTANTS = new HashMap<String, LongColumn.AutoOptions>();
 
         static {
-            for (AutoOptions c: values()) {
+            for (LongColumn.AutoOptions c: values()) {
                 CONSTANTS.put(c.value, c);
             }
         }
@@ -166,8 +164,8 @@ public class LongColumn implements Serializable
             return this.value;
         }
 
-        public static AutoOptions fromValue(String value) {
-            AutoOptions constant = CONSTANTS.get(value);
+        public static LongColumn.AutoOptions fromValue(String value) {
+            LongColumn.AutoOptions constant = CONSTANTS.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {

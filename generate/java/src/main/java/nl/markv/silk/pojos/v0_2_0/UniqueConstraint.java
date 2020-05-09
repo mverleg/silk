@@ -1,57 +1,57 @@
-//TODO @mark
 
-package nl.markv.silk.types;
+package nl.markv.silk.pojos.v0_2_0;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CheckConstraint implements Serializable
+public class UniqueConstraint implements Serializable
 {
 
     @SerializedName("name")
     @Expose
     public String name;
     /**
-     * A boolean sql condition (cross-database syntax)
+     * The columns whose combination is unique
      * (Required)
      * 
      */
-    @SerializedName("condition")
+    @SerializedName("columns")
     @Expose
-    public String condition;
-    private final static long serialVersionUID = -6999073696447613719L;
+    public List<String> columns = new ArrayList<String>();
+    private final static long serialVersionUID = 2108152404916374624L;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public CheckConstraint() {
+    public UniqueConstraint() {
     }
 
     /**
      * 
-     * @param condition
+     * @param columns
      * @param name
      */
-    public CheckConstraint(String name, String condition) {
+    public UniqueConstraint(String name, List<String> columns) {
         super();
         this.name = name;
-        this.condition = condition;
+        this.columns = columns;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(CheckConstraint.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(UniqueConstraint.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
         sb.append(',');
-        sb.append("condition");
+        sb.append("columns");
         sb.append('=');
-        sb.append(((this.condition == null)?"<null>":this.condition));
+        sb.append(((this.columns == null)?"<null>":this.columns));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
@@ -65,7 +65,7 @@ public class CheckConstraint implements Serializable
     public int hashCode() {
         int result = 1;
         result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.condition == null)? 0 :this.condition.hashCode()));
+        result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
         return result;
     }
 
@@ -74,11 +74,11 @@ public class CheckConstraint implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof CheckConstraint) == false) {
+        if ((other instanceof UniqueConstraint) == false) {
             return false;
         }
-        CheckConstraint rhs = ((CheckConstraint) other);
-        return (((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.condition == rhs.condition)||((this.condition!= null)&&this.condition.equals(rhs.condition))));
+        UniqueConstraint rhs = ((UniqueConstraint) other);
+        return (((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))));
     }
 
 }

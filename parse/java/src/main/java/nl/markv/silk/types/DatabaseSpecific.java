@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class DatabaseSpecific implements Serializable
 {
 
-    private final static long serialVersionUID = -355090285293841984L;
+    private final static long serialVersionUID = -6258693548568838608L;
 
     @Override
     public String toString() {

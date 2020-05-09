@@ -23,7 +23,7 @@ public class UniqueConstraint implements Serializable
     @SerializedName("columns")
     @Expose
     public List<String> columns = new ArrayList<String>();
-    private final static long serialVersionUID = -4339775276494195144L;
+    private final static long serialVersionUID = 2108152404916374624L;
 
     /**
      * No args constructor for use in serialization

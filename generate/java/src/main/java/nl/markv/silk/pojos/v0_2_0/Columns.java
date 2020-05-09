@@ -1,6 +1,5 @@
-//TODO @mark
 
-package nl.markv.silk.types;
+package nl.markv.silk.pojos.v0_2_0;
 
 import java.io.Serializable;
 

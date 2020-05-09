@@ -4,6 +4,7 @@ import org.jsonschema2pojo.AnnotationStyle;
 import org.jsonschema2pojo.Annotator;
 import org.jsonschema2pojo.DefaultGenerationConfig;
 import org.jsonschema2pojo.GsonAnnotator;
+import org.jsonschema2pojo.Jackson2Annotator;
 import org.jsonschema2pojo.Language;
 import org.jsonschema2pojo.SourceType;
 
@@ -48,12 +49,12 @@ public class SilkConfig extends DefaultGenerationConfig {
 	@Override
 	public AnnotationStyle getAnnotationStyle() {
 		// Also change makeAnnotator
-		return AnnotationStyle.GSON;
+		return AnnotationStyle.JACKSON2;
 	}
 
 	public Annotator makeAnnotator() {
 		// Also change getAnnotationStyle
-		return new GsonAnnotator(this);
+		return new Jackson2Annotator(this);
 	}
 
 	@Override

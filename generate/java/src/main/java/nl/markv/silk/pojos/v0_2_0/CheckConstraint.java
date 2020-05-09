@@ -1,9 +1,7 @@
-//TODO @mark
 
-package nl.markv.silk.types;
+package nl.markv.silk.pojos.v0_2_0;
 
 import java.io.Serializable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -1,23 +1,22 @@
-//TODO @mark
 
-package nl.markv.silk.types;
+package nl.markv.silk.pojos.v0_2_0;
 
 import java.io.Serializable;
 
 
 /**
- * The mapping of columns, from current table on the left, to target table on the right
+ * Properties for the specific database, not controlled by Silk
  * 
  */
-public class Columns implements Serializable
+public class DatabaseSpecific implements Serializable
 {
 
-    private final static long serialVersionUID = 69298281164920311L;
+    private final static long serialVersionUID = -6258693548568838608L;
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Columns.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(DatabaseSpecific.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
         } else {
@@ -37,10 +36,10 @@ public class Columns implements Serializable
         if (other == this) {
             return true;
         }
-        if ((other instanceof Columns) == false) {
+        if ((other instanceof DatabaseSpecific) == false) {
             return false;
         }
-        Columns rhs = ((Columns) other);
+        DatabaseSpecific rhs = ((DatabaseSpecific) other);
         return true;
     }
 
