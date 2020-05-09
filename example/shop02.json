@@ -1,0 +1,148 @@
+{
+  "silk": "https://silk.markv.nl/v0.2.0.json",
+  "db": {
+    "name": "shop",
+    "description": "Webshop database",
+    "tables": [
+      {
+        "name": "product",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "category_id", "type": "uint", "nullable": false },
+          { "name": "name", "type": "text", "nullable": false },
+          { "name": "description", "type": "text", "nullable": true },
+          { "name": "buy_price", "type": "decimal(10,2)", "nullable": false },
+          { "name": "sell_price", "type": "decimal(10,2)", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "table":  "category", "columns": { "category_id": "id" } }
+        ],
+        "unique_constraints": [
+          { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
+        ],
+        "check_constraints": [
+          { "name": "no_free_lunch", "condition": "sell_price > 0" },
+          { "name": "profit", "condition": "buy_price < sell_price" }
+        ],
+        "database_specific": {}
+      },
+      {
+        "name": "category",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "name", "type": "text", "nullable": false },
+          { "name": "slug", "type": "text", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [],
+        "unique_constraints": [
+          { "name":  "category_name", "columns": [ "name" ] },
+          { "name":  "category_slug", "columns": [ "slug" ] }
+        ],
+        "check_constraints": [
+          { "name": "category_slug", "condition": "slug similar to ^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$" }
+        ]
+      },
+      {
+        "name": "customer",
+        "group": "shop",
+        "columns": [
+          { "name": "logon", "type": "text(32)", "nullable": false },
+          { "name": "name", "type": "text", "nullable":  true },
+          { "name": "address", "type": "text", "nullable":  true },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "logon" ],
+        "references": [],
+        "unique_constraints": [
+          { "name": "customer_logon", "columns": [ "logon" ] }
+        ],
+        "check_constraints": [
+          { "name": "customer_logon_chars", "condition": "logon similar to '^[a-zA-Z0-9][a-zA-Z0-9_]*$'" }
+        ]
+      },
+      {
+        "name":  "product_selection",
+        "group": "shop",
+        "description": "A list of products and their quantities",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ]
+      },
+      {
+        "name":  "product_quantity",
+        "group": "shop",
+        "description": "A quantity of a product that has been selected, e.g. for shopping cart or an order",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "product_id", "type": "uint", "nullable": false },
+          { "name": "selection_id", "type": "uint", "nullable": false },
+          { "name": "count", "type": "uint", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "selection", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "product_orders", "table": "product", "columns": { "product_id": "id" } }
+        ],
+        "unique_constraints": [
+          { "columns": [ "product_id" ] }
+        ],
+        "check_constraints": [
+          { "condition": "count >= 1" }
+        ]
+      },
+      {
+        "name":  "cart",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "product_selection_id", "type": "uint", "nullable": false },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "cart_products", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+        ]
+      },
+      {
+        "name":  "order",
+        "group": "shop",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "customer_id", "type": "uint", "nullable": false },
+          { "name": "product_selection_id", "type": "uint", "nullable": false },
+          { "name": "paid_at", "type": "timestamp", "nullable":  true },
+          { "name": "sent_at", "type": "timestamp", "nullable":  true },
+          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "order_products", "table": "product_selection", "columns": { "selection_id": "id" } },
+          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+        ],
+        "check_constraints": [
+          { "name": "pay_before_sending", "condition": "sent_at is null or (sent_at is not null and paid_at is not null)" }
+        ]
+      }
+    ],
+    "database_type": "postgres",
+    "database_specific": {}
+  }
+}

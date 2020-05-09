@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.pojos.v0_1_0.Db;
-import nl.markv.silk.pojos.v0_1_0.SilkSchema;
-import nl.markv.silk.pojos.v0_1_0.Table;
+import nl.markv.silk.pojos.v0_2_0.Db;
+import nl.markv.silk.pojos.v0_2_0.SilkSchema;
+import nl.markv.silk.pojos.v0_2_0.Table;
 import nl.markv.silk.types.DataType;
 
 import static org.apache.commons.lang3.Validate.isTrue;
