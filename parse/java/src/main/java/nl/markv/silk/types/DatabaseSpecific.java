@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,37 +51,23 @@ public class DatabaseSpecific {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(DatabaseSpecific.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("additionalProperties");
-        sb.append('=');
-        sb.append(((this.additionalProperties == null)?"<null>":this.additionalProperties));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return pojo.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = ((result* 31)+((this.additionalProperties == null)? 0 :this.additionalProperties.hashCode()));
-        return result;
+        return Objects.hash(table, additionalProperties);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof DatabaseSpecific) == false) {
-            return false;
-        }
-        DatabaseSpecific rhs = ((DatabaseSpecific) other);
-        return ((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties)));
+        if (other == this) return true;
+        if (!(other instanceof DatabaseSpecific)) return false;
+        return equals((DatabaseSpecific) other);
     }
 
+    public boolean equals(@Nonnull DatabaseSpecific other) {
+        return Objects.equals(table, other.table)
+                && Objects.equals(additionalProperties, other.additionalProperties);
+    }
 }

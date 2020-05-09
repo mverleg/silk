@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import static org.apache.commons.lang.Validate.isTrue;
 
+//TODO @mark: toString / equals / hashCode?
 public abstract class DataType {
 
 	static final Pattern TEXT_RE = Pattern.compile("^text\\((\\d+)\\)$");

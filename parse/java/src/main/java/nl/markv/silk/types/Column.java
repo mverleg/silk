@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -81,64 +82,33 @@ public class Column {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Column.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("type");
-        sb.append('=');
-        sb.append(((this.type == null)?"<null>":this.type));
-        sb.append(',');
-        sb.append("nullable");
-        sb.append('=');
-        sb.append(this.nullable);
-        sb.append(',');
-        sb.append("defaultValue");
-        sb.append('=');
-        sb.append(((this.defaultValue == null)?"<null>":this.defaultValue));
-        sb.append(',');
-        sb.append("autoValue");
-        sb.append('=');
-        sb.append(((this.autoValue == null)?"<null>":this.autoValue));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return pojo.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
-        result = ((result* 31)+(this.nullable? 1 : 0));
-        result = ((result* 31)+((this.defaultValue == null)? 0 :this.defaultValue.hashCode()));
-        result = ((result* 31)+((this.autoValue == null)? 0 :this.autoValue.hashCode()));
-        return result;
+        return Objects.hash(table, name, type, nullable, defaultValue, autoValue);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof Column) == false) {
-            return false;
-        }
-        Column rhs = ((Column) other);
-        return ((((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&(this.nullable == rhs.nullable))&&((this.defaultValue == rhs.defaultValue)||((this.defaultValue!= null)&&this.defaultValue.equals(rhs.defaultValue))))&&((this.autoValue == rhs.autoValue)||((this.autoValue!= null)&&this.autoValue.equals(rhs.autoValue))));
+        if (other == this) return true;
+        if (!(other instanceof Column)) return false;
+        return equals((Column) other);
     }
 
+    public boolean equals(@Nonnull Column other) {
+        return Objects.equals(table, other.table) &&
+            Objects.equals(name, other.name) &&
+            Objects.equals(type, other.type) &&
+            nullable == other.nullable &&
+            Objects.equals(defaultValue, other.defaultValue) &&
+            Objects.equals(autoValue, other.autoValue);
+    }
 
     /**
      * Automatic way to fill the column
-     * 
-     */
+     **/
     public enum AutoOptions {
 
         INCREMENT("increment"),

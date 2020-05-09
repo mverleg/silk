@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -70,57 +71,26 @@ public class Db {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Db.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("description");
-        sb.append('=');
-        sb.append(((this.description == null)?"<null>":this.description));
-        sb.append(',');
-        sb.append("tables");
-        sb.append('=');
-        sb.append(((this.tables == null)?"<null>":this.tables));
-        sb.append(',');
-        sb.append("databaseType");
-        sb.append('=');
-        sb.append(((this.databaseType == null)?"<null>":this.databaseType));
-        sb.append(',');
-        sb.append("databaseSpecific");
-        sb.append('=');
-        sb.append(((this.databaseSpecific == null)?"<null>":this.databaseSpecific));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return pojo.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.databaseType == null)? 0 :this.databaseType.hashCode()));
-        result = ((result* 31)+((this.description == null)? 0 :this.description.hashCode()));
-        result = ((result* 31)+((this.tables == null)? 0 :this.tables.hashCode()));
-        result = ((result* 31)+((this.databaseSpecific == null)? 0 :this.databaseSpecific.hashCode()));
-        return result;
+        return Objects.hash(name, description, tables, databaseType, databaseSpecific);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof Db) == false) {
-            return false;
-        }
-        Db rhs = ((Db) other);
-        return ((((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.databaseType == rhs.databaseType)||((this.databaseType!= null)&&this.databaseType.equals(rhs.databaseType))))&&((this.description == rhs.description)||((this.description!= null)&&this.description.equals(rhs.description))))&&((this.tables == rhs.tables)||((this.tables!= null)&&this.tables.equals(rhs.tables))))&&((this.databaseSpecific == rhs.databaseSpecific)||((this.databaseSpecific!= null)&&this.databaseSpecific.equals(rhs.databaseSpecific))));
+        if (other == this) return true;
+        if (!(other instanceof Db)) return false;
+        return equals((Db) other);
     }
 
+    public boolean equals(@Nonnull Db other) {
+        return Objects.equals(name, other.name) &&
+            Objects.equals(description, other.description) &&
+            Objects.equals(tables, other.tables) &&
+            Objects.equals(databaseType, other.databaseType) &&
+            Objects.equals(databaseSpecific, other.databaseSpecific);
+    }
 }

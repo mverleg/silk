@@ -54,9 +54,12 @@ public class CheckConstraint {
     public boolean equals(Object other) {
         if (other == this) return true;
         if (!(other instanceof CheckConstraint)) return false;
-        CheckConstraint rhs = ((CheckConstraint) other);
-        return table.equals(rhs.table)
-                && name.equals(rhs.name)
-                && condition.equals(rhs.condition);
+        return equals((CheckConstraint) other);
+    }
+
+    public boolean equals(@Nonnull CheckConstraint other) {
+        return Objects.equals(table, other.table)
+                && Objects.equals(name, other.name)
+                && Objects.equals(condition, other.condition);
     }
 }
