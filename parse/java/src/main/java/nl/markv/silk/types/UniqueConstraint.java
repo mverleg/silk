@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class UniqueConstraint {
 
-    nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojo;
-
     @JsonProperty("name")
     public String name;
     /**
@@ -50,7 +48,10 @@ public class UniqueConstraint {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        if (name != null) {
+            return getClass().getSimpleName() + ":" + name + ":" + table.name + "(" + String.join(",", columnsNames) + ")";
+        }
+        return getClass().getSimpleName() + ":" + table.name + "(" + String.join(",", columnsNames) + ")";
     }
 
     @Override

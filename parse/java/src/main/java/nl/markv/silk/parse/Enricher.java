@@ -141,14 +141,13 @@ public class Enricher {
 	}
 
 	private void convertReferences(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
-		tables.keySet().stream().forEach(t -> System.out.println("table: " + t));  //TODO @mark: TEMPORARY! REMOVE THIS!
 		Table targetTable = notNull(tables.get(tableIdentifier(pojoForeignKey.targetTable)),
 				"Reference from " + richSourceTable.name + " to " + pojoForeignKey.targetTable +
 				" but the target table (" + pojoForeignKey.targetTable + ") was not found");
 		List<ColumnMapping> columnMappings = new ArrayList<>();
 		for (nl.markv.silk.pojos.v0_2_0.ColumnMapping pojoMap : pojoForeignKey.columns) {
 			String name = "Reference from " + richSourceTable.name + "." + pojoMap.from +
-					" to " + targetTable + "." + pojoMap.to;
+					" to " + targetTable.name + "." + pojoMap.to;
 			Column fromCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.from)),
 					name + " failed because from-column " + pojoMap.from + " does not exist");
 			Column toCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.to)),

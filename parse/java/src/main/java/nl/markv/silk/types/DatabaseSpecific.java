@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({})
 public class DatabaseSpecific {
 
-    nl.markv.silk.pojos.v0_2_0.DatabaseSpecific pojo;
-
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -40,7 +38,7 @@ public class DatabaseSpecific {
     /* Only set if these are table-specific properties. */
     public Table table;
 
-    public DatabaseSpecific() { }
+    public DatabaseSpecific() {}
 
     public DatabaseSpecific(@Nullable Table table, @Nullable Map<String, Object> additionalProperties) {
         this.table = table;
@@ -51,7 +49,10 @@ public class DatabaseSpecific {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        if (table == null) {
+            return getClass().getSimpleName() + ":(db)";
+        }
+        return getClass().getSimpleName() + ":" + table.name;
     }
 
     @Override

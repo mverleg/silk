@@ -18,8 +18,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class ColumnMapping {
 
-    nl.markv.silk.pojos.v0_2_0.LongColumn pojo;
-
     /**
      * A column in the table that the foreign key belongs to.
      */
@@ -51,7 +49,7 @@ public class ColumnMapping {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        return getClass().getSimpleName() + ":" + fromName + ">" + toName;
     }
 
     @Override

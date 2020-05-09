@@ -22,8 +22,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class ForeignKey {
 
-    nl.markv.silk.pojos.v0_2_0.ForeignKey pojo;
-
     @JsonProperty("name")
     public String name;
     @JsonProperty("targetTable")
@@ -41,6 +39,7 @@ public class ForeignKey {
 
     public ForeignKey() {}
 
+    //TODO @mark: generally be more consistent with source/target vs from/to naming
     public ForeignKey(@Nonnull Table sourceTable, @Nullable String name, @Nonnull Table targetTable, @Nonnull List<ColumnMapping> columns) {
         super();
         this.name = name;
@@ -66,7 +65,10 @@ public class ForeignKey {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        if (name != null) {
+            return getClass().getSimpleName() + ":" + name + "(" + sourceTable + ">" + targetTableName + ")";
+        }
+        return getClass().getSimpleName() + ":(" + sourceTable + ">" + targetTableName + ")";
     }
 
     @Override

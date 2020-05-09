@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -25,12 +24,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 })
 public class Column {
 
-    nl.markv.silk.pojos.v0_2_0.LongColumn pojo;
-
     /**
      * A name of a table, column or similar in the database
-     * (Required)
-     * 
      */
     @JsonProperty("name")
     @JsonPropertyDescription("A name of a table, column or similar in the database")
@@ -49,14 +44,12 @@ public class Column {
     public boolean nullable;
     /**
      * A literal column value (type is not checked by silk)
-     * 
      */
     @JsonProperty("default_value")
     @JsonPropertyDescription("A literal column value (type is not checked by silk)")
     public String defaultValue;
     /**
      * Automatic way to fill the column
-     * 
      */
     @JsonProperty("auto_value")
     @JsonPropertyDescription("Automatic way to fill the column")
@@ -81,7 +74,7 @@ public class Column {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        return getClass().getSimpleName() + ":" + table.name + "." + name;
     }
 
     @Override

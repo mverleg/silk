@@ -18,8 +18,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class CheckConstraint {
 
-    nl.markv.silk.pojos.v0_2_0.CheckConstraint pojo;
-
     @JsonProperty("name")
     public String name;
     /**
@@ -42,7 +40,10 @@ public class CheckConstraint {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        if (name != null) {
+            return getClass().getSimpleName() + ":" + name + ":" + table.name + "(" + condition + ")";
+        }
+        return getClass().getSimpleName() + ":" + table.name + "(" + condition + ")";
     }
 
     @Override

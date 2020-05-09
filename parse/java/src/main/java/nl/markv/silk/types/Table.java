@@ -28,37 +28,22 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Table {
 
-    nl.markv.silk.pojos.v0_2_0.Table pojo;
-
     /**
      * A name of a table, column or similar in the database
-     * (Required)
-     * 
      */
     @JsonProperty("name")
     @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String name;
     /**
      * A name of a table, column or similar in the database
-     * 
      */
     @JsonProperty("group")
     @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String group;
     @JsonProperty("description")
     public String description;
-    /**
-     * 
-     * (Required)
-     * 
-     */
     @JsonProperty("columns")
     public List<Column> columns = new ArrayList<Column>();
-    /**
-     * 
-     * (Required)
-     * 
-     */
     @JsonProperty("primary_key")
     public List<String> primaryKeyNames = new ArrayList<String>();
     @JsonProperty("references")
@@ -69,7 +54,6 @@ public class Table {
     public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
     /**
      * Properties for the specific database, not controlled by Silk
-     * 
      */
     @JsonProperty("database_specific")
     @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
@@ -120,7 +104,10 @@ public class Table {
 
     @Override
     public String toString() {
-        return pojo.toString();
+        if (group != null) {
+            return getClass().getSimpleName() + ":" + group + "." + name;
+        }
+        return getClass().getSimpleName() + ":" + name;
     }
 
     @Override

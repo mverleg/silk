@@ -25,8 +25,6 @@ import static org.apache.commons.lang3.Validate.isTrue;
 })
 public class SilkSchema {
 
-	nl.markv.silk.pojos.v0_2_0.SilkSchema pojo;
-
 	/**
 	 * The semantic version of Silk that this data schema is exported in.
 	 */
@@ -80,7 +78,7 @@ public class SilkSchema {
 
 	@Override
 	public String toString() {
-		return schemaName;
+		return getClass().getSimpleName() + ":" + schemaName;
 	}
 
 	@Nonnull
