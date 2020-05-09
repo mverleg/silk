@@ -4,6 +4,9 @@ package nl.markv.silk.types;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     "default_value",
     "auto_value"
 })
-public class LongColumn {
+public class Column {
 
     nl.markv.silk.pojos.v0_2_0.LongColumn pojo;
 
@@ -62,23 +65,13 @@ public class LongColumn {
     @JsonPropertyDescription("Automatic way to fill the column")
     public AutoOptions autoValue;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public LongColumn() {
-    }
+    public Table table;
 
-    /**
-     * 
-     * @param nullable
-     * @param defaultValue
-     * @param name
-     * @param type
-     * @param autoValue
-     */
-    public LongColumn(String name, String type, boolean nullable, String defaultValue, AutoOptions autoValue) {
+    public Column() {}
+
+    public Column(@Nonnull Table table, @Nonnull String name, @Nonnull String type, boolean nullable, @Nullable String defaultValue, @Nullable AutoOptions autoValue) {
         super();
+        this.table = table;
         this.name = name;
         this.type = type;
         this.nullable = nullable;
@@ -89,7 +82,7 @@ public class LongColumn {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(LongColumn.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Column.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
@@ -134,10 +127,10 @@ public class LongColumn {
         if (other == this) {
             return true;
         }
-        if ((other instanceof LongColumn) == false) {
+        if ((other instanceof Column) == false) {
             return false;
         }
-        LongColumn rhs = ((LongColumn) other);
+        Column rhs = ((Column) other);
         return ((((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&(this.nullable == rhs.nullable))&&((this.defaultValue == rhs.defaultValue)||((this.defaultValue!= null)&&this.defaultValue.equals(rhs.defaultValue))))&&((this.autoValue == rhs.autoValue)||((this.autoValue!= null)&&this.autoValue.equals(rhs.autoValue))));
     }
 

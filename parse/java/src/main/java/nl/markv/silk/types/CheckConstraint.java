@@ -33,8 +33,9 @@ public class CheckConstraint {
 
     public CheckConstraint() {}
 
-    public CheckConstraint(@Nullable String name, @Nonnull String condition) {
+    public CheckConstraint(@Nonnull Table table, @Nullable String name, @Nonnull String condition) {
         super();
+        this.table = table;
         this.name = name;
         this.condition = condition;
     }

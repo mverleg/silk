@@ -1,6 +1,9 @@
 
 package nl.markv.silk.types;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -24,7 +27,7 @@ public class ForeignKey {
      * 
      */
     @JsonProperty("table")
-    public String table;
+    public String toTable;
     /**
      * The mapping of columns, from current table on the left, to target table on the right
      * (Required)
@@ -34,23 +37,15 @@ public class ForeignKey {
     @JsonPropertyDescription("The mapping of columns, from current table on the left, to target table on the right")
     public Columns columns;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public ForeignKey() {
-    }
+    public Table fromTable;
 
-    /**
-     * 
-     * @param columns
-     * @param name
-     * @param table
-     */
-    public ForeignKey(String name, String table, Columns columns) {
+    public ForeignKey() {}
+
+    public ForeignKey(@Nonnull Table fromTable, @Nullable String name, @Nonnull String toTable, @Nonnull Columns columns) {
         super();
+        this.fromTable = fromTable;
         this.name = name;
-        this.table = table;
+        this.toTable = toTable;
         this.columns = columns;
     }
 

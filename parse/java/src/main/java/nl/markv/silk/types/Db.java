@@ -4,6 +4,9 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -50,30 +53,19 @@ public class Db {
      */
     @JsonProperty("database_specific")
     @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
-    public DatabaseSpecific databaseSpecific;
+    public DatabaseSpecific databaseSpecific = new DatabaseSpecific(null, null);
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Db() {
-    }
+    public Db() {}
 
-    /**
-     * 
-     * @param databaseType
-     * @param tables
-     * @param name
-     * @param description
-     * @param databaseSpecific
-     */
-    public Db(String name, String description, List<Table> tables, String databaseType, DatabaseSpecific databaseSpecific) {
+    public Db(@Nonnull String name, @Nullable String description, @Nonnull List<Table> tables, @Nullable String databaseType, @Nullable DatabaseSpecific databaseSpecific) {
         super();
         this.name = name;
         this.description = description;
         this.tables = tables;
         this.databaseType = databaseType;
-        this.databaseSpecific = databaseSpecific;
+        if (databaseSpecific != null) {
+            this.databaseSpecific = databaseSpecific;
+        }
     }
 
     @Override

@@ -4,6 +4,9 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -48,7 +51,7 @@ public class Table {
      * 
      */
     @JsonProperty("columns")
-    public List<LongColumn> columns = new ArrayList<LongColumn>();
+    public List<Column> columns = new ArrayList<Column>();
     /**
      * 
      * (Required)
@@ -68,38 +71,44 @@ public class Table {
      */
     @JsonProperty("database_specific")
     @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
-    public DatabaseSpecific databaseSpecific;
+    public DatabaseSpecific databaseSpecific = new DatabaseSpecific(this, null);
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Table() {
-    }
+    /** Only set if the schema included a whole database (as opposed to one table). */
+    public Db database;
 
-    /**
-     * 
-     * @param checkConstraints
-     * @param references
-     * @param uniqueConstraints
-     * @param columns
-     * @param name
-     * @param description
-     * @param group
-     * @param primaryKey
-     * @param databaseSpecific
-     */
-    public Table(String name, String group, String description, List<LongColumn> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
+    public Table() {}
+
+    public Table(
+            @Nullable Db database,
+            @Nonnull String name,
+            @Nonnull String group,
+            @Nullable String description,
+            @Nonnull List<Column> columns,
+            @Nonnull List<String> primaryKey,
+            @Nullable List<ForeignKey> references,
+            @Nullable List<UniqueConstraint> uniqueConstraints,
+            @Nullable List<CheckConstraint> checkConstraints,
+            @Nullable DatabaseSpecific databaseSpecific
+    ) {
         super();
+        this.database = database;
         this.name = name;
         this.group = group;
         this.description = description;
         this.columns = columns;
         this.primaryKey = primaryKey;
-        this.references = references;
-        this.uniqueConstraints = uniqueConstraints;
-        this.checkConstraints = checkConstraints;
-        this.databaseSpecific = databaseSpecific;
+        if (references != null) {
+            this.references = references;
+        }
+        if (uniqueConstraints != null) {
+            this.uniqueConstraints = uniqueConstraints;
+        }
+        if (checkConstraints != null) {
+            this.checkConstraints = checkConstraints;
+        }
+        if (databaseSpecific != null) {
+            this.databaseSpecific = databaseSpecific;
+        }
     }
 
     @Override

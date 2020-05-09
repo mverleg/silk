@@ -4,6 +4,9 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -22,27 +25,18 @@ public class UniqueConstraint {
     public String name;
     /**
      * The columns whose combination is unique
-     * (Required)
-     * 
      */
     @JsonProperty("columns")
     @JsonPropertyDescription("The columns whose combination is unique")
     public List<String> columns = new ArrayList<String>();
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public UniqueConstraint() {
-    }
+    public Table table;
 
-    /**
-     * 
-     * @param columns
-     * @param name
-     */
-    public UniqueConstraint(String name, List<String> columns) {
+    public UniqueConstraint() { }
+
+    public UniqueConstraint(@Nonnull Table table, @Nullable String name, @Nonnull List<String> columns) {
         super();
+        this.table = table;
         this.name = name;
         this.columns = columns;
     }

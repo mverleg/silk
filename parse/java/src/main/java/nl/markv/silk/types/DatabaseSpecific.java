@@ -4,6 +4,9 @@ package nl.markv.silk.types;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,13 +15,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * Properties for the specific database, not controlled by Silk
- * 
+ * Properties for the specific database, not controlled by Silk.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-
-})
+@JsonPropertyOrder({})
 public class DatabaseSpecific {
 
     nl.markv.silk.pojos.v0_2_0.DatabaseSpecific pojo;
@@ -34,6 +34,18 @@ public class DatabaseSpecific {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    /* Only set if these are table-specific properties. */
+    public Table table;
+
+    public DatabaseSpecific() { }
+
+    public DatabaseSpecific(@Nullable Table table, @Nullable Map<String, Object> additionalProperties) {
+        this.table = table;
+        if (additionalProperties != null) {
+            this.additionalProperties = additionalProperties;
+        }
     }
 
     @Override
