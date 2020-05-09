@@ -16,7 +16,7 @@ import static org.apache.commons.lang3.Validate.isTrue;
 public class Examples {
 
 	public static final String[] SILK_EXAMPLES = new String[]{
-			"/silk/example/shop01.json",
+			//"/silk/example/shop01.json",
 			"/silk/example/shop02.json",
 	};
 

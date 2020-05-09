@@ -19,7 +19,7 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "table":  "category", "columns": { "category_id": "id" } }
+          { "targetTable":  "category", "columns": [{ "from": "category_id", "to": "id" }] }
         ],
         "unique_constraints": [
           { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
@@ -94,8 +94,8 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "name": "selection", "table": "product_selection", "columns": { "selection_id": "id" } },
-          { "name": "product_orders", "table": "product", "columns": { "product_id": "id" } }
+          { "name": "selection", "targetTable": "product_selection", "columns": [{ "from": "selection_id", "to": "id" }] },
+          { "name": "product_orders", "targetTable": "product", "columns": [{ "from": "product_id", "to": "id" }] }
         ],
         "unique_constraints": [
           { "columns": [ "product_id" ] }
@@ -116,8 +116,8 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "name": "cart_products", "table": "product_selection", "columns": { "selection_id": "id" } },
-          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+          { "name": "cart_products", "targetTable": "product_selection", "columns": [{ "from": "selection_id", "to": "id" }] },
+          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_id", "to": "id" }] }
         ]
       },
       {
@@ -134,8 +134,8 @@
         ],
         "primary_key": [ "id" ],
         "references": [
-          { "name": "order_products", "table": "product_selection", "columns": { "selection_id": "id" } },
-          { "name": "cart_customer", "table": "customer", "columns": { "customer_id": "id" } }
+          { "name": "order_products", "targetTable": "product_selection", "columns": [{ "from": "selection_id", "to": "id" }] },
+          { "name": "cart_customer", "targetTable": "customer", "columns": [{ "from": "customer_id", "to": "id" }] }
         ],
         "check_constraints": [
           { "name": "pay_before_sending", "condition": "sent_at is null or (sent_at is not null and paid_at is not null)" }
