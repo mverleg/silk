@@ -1,22 +1,20 @@
 package nl.markv.silk.parse;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.types.CheckConstraint;
+import nl.markv.silk.flatdag.Flattener;
 import nl.markv.silk.types.Column;
 import nl.markv.silk.types.DatabaseSpecific;
 import nl.markv.silk.types.Db;
-import nl.markv.silk.types.ForeignKey;
 import nl.markv.silk.types.SilkSchema;
 import nl.markv.silk.types.Table;
-import nl.markv.silk.types.UniqueConstraint;
 
 import static org.apache.commons.lang3.Validate.isTrue;
 
@@ -25,18 +23,12 @@ import static org.apache.commons.lang3.Validate.isTrue;
  */
 public class Enricher {
 
-	private List<CheckConstraint> checkConstraints;
-	private List<Column> columns;
-	private List<UniqueConstraint> uniqueConstraints;
-	private List<ForeignKey> foreignKeys;
-	private List<Table> tables;
+	private Map<String, Table> tables;
+	private Map<String, Column> columns;
 
 	private void reset() {
-		checkConstraints = new ArrayList<>();
-		columns = new ArrayList<>();
-		uniqueConstraints = new ArrayList<>();
-		foreignKeys = new ArrayList<>();
-		tables = new ArrayList<>();
+		tables = new HashMap<>();
+		columns = new HashMap<>();
 	}
 
 	@Nonnull
@@ -49,6 +41,13 @@ public class Enricher {
 				? pojoSchema.db.tables : Collections.singleton(pojoSchema.table);
 		for (nl.markv.silk.pojos.v0_2_0.Table table : pojoTables) {
 
+			// First convert all the tables.
+			convertMinimalTable();
+
+			// Add all the columns to them.
+
+
+			// Then create interconnections.
 		}
 
 
@@ -60,18 +59,36 @@ public class Enricher {
 			isTrue(tables.size() == 1);
 			return SilkSchema.table(schemaName, pojoSchema.silk, tables.get(0));
 		}
+	}
 
+	@Nonnull
+	private Table convertMinimalTable(nl.markv.silk.pojos.v0_2_0.Table table) {
+		return new Table(
+				null,
+				table.name,
+				table.group,
+				table.description,
+				table.columns,
+				table.primaryKey,
+				table.references,
+				table.uniqueConstraints,
+				table.checkConstraints,
+				table.databaseSpecific
+		);
 	}
 
 	@Nonnull
 	private Db convertDb(@Nonnull nl.markv.silk.pojos.v0_2_0.Db db) {
-		return new Db(
+		List<Table> dbTables = Flattener.dependencyOrder(tables.values().iterator());
+		Db richDb = new Db(
 				db.name,
 				db.description,
-				tables,
+				dbTables,
 				db.databaseType,
 				convertDbSpecific(db.databaseSpecific)
 		);
+		dbTables.forEach(tab -> tab.database = richDb);
+		return richDb;
 	}
 
 	@Nonnull

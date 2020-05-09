@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.pojos.v0_1_0.ForeignKey;
-import nl.markv.silk.pojos.v0_1_0.Table;
+import nl.markv.silk.types.ForeignKey;
+import nl.markv.silk.types.Table;
 
 public class Flattener {
 
