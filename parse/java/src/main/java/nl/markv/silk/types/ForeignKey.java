@@ -1,7 +1,10 @@
 
 package nl.markv.silk.types;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "name",
-    "table",
+    "targetTable",
     "columns"
 })
 public class ForeignKey {
@@ -23,32 +26,39 @@ public class ForeignKey {
 
     @JsonProperty("name")
     public String name;
+    @JsonProperty("targetTable")
+    public String targetTable;
     /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("table")
-    public String toTable;
-    /**
-     * The mapping of columns, from current table on the left, to target table on the right
-     * (Required)
-     * 
+     * The mapping of columns in the reference.
      */
     @JsonProperty("columns")
-    @JsonPropertyDescription("The mapping of columns, from current table on the left, to target table on the right")
-    public Columns columns;
+    @JsonPropertyDescription("The mapping of columns in the reference.")
+    public List<ColumnMapping> columns = new ArrayList<ColumnMapping>();
 
-    public Table fromTable;
+    public Table sourceTable;
 
     public ForeignKey() {}
 
-    public ForeignKey(@Nonnull Table fromTable, @Nullable String name, @Nonnull String toTable, @Nonnull Columns columns) {
+    public ForeignKey(@Nonnull Table sourceTable, @Nullable String name, @Nonnull String targetTable, @Nonnull List<ColumnMapping> columns) {
         super();
         this.name = name;
-        this.fromTable = fromTable;
-        this.toTable = toTable;
+        this.sourceTable = sourceTable;
+        this.targetTable = targetTable;
         this.columns = columns;
+    }
+
+    @Nonnull
+    public List<Column> fromColumns() {
+        return columns.stream()
+                .map(m -> m.from)
+                .collect(Collectors.toList());
+    }
+
+    @Nonnull
+    public List<Column> toColumns() {
+        return columns.stream()
+                .map(m -> m.to)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -58,7 +68,7 @@ public class ForeignKey {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, fromTable, toTable, columns);
+        return Objects.hash(sourceTable, name, targetTable, columns);
     }
 
     @Override
@@ -70,8 +80,8 @@ public class ForeignKey {
 
     public boolean equals(@Nonnull ForeignKey other) {
         return Objects.equals(name, other.name) &&
-                Objects.equals(fromTable, other.fromTable) &&
-                Objects.equals(toTable, other.toTable) &&
+                Objects.equals(sourceTable, other.sourceTable) &&
+                Objects.equals(targetTable, other.targetTable) &&
                 Objects.equals(columns, other.columns);
     }
 }
