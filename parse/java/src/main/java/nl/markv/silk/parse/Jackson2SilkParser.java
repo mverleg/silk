@@ -10,7 +10,7 @@ import nl.markv.silk.types.SilkSchema;
 
 public class Jackson2SilkParser implements SilkParser {
 
-	Enricher enricher;
+	Enricher enricher = new Enricher();
 
 	@Override
 	@Nonnull

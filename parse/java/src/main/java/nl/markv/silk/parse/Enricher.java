@@ -11,7 +11,8 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.sun.tools.javac.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import nl.markv.silk.flatdag.Flattener;
 import nl.markv.silk.pojos.v0_2_0.LongColumn;
 import nl.markv.silk.types.Column;
@@ -20,6 +21,7 @@ import nl.markv.silk.types.Db;
 import nl.markv.silk.types.SilkSchema;
 import nl.markv.silk.types.Table;
 
+import static nl.markv.silk.types.DataType.fromSilkString;
 import static org.apache.commons.lang3.Validate.isTrue;
 
 /**
@@ -54,7 +56,8 @@ public class Enricher {
 				Column richColumn = convertMinimalColumn(richTable, pojoColumn);
 			}
 
-			// Then create interconnections.
+			// Now other entities can refer to their target objects.
+			
 		}
 
 
@@ -75,7 +78,6 @@ public class Enricher {
 				table.name,
 				table.group,
 				table.description,
-				//TODO @mark:
 				new ArrayList<>(),  // columns added later
 				//TODO @mark:
 				new ArrayList<>(),  // primaryKey set later
@@ -99,7 +101,7 @@ public class Enricher {
 				richTable,
 				pojoColumn.name,
 				//TODO @mark:
-				pojoColumn.type,
+				fromSilkString(pojoColumn.type),
 				pojoColumn.nullable,
 				pojoColumn.defaultValue,
 				convertAutoValue(pojoColumn.autoValue)

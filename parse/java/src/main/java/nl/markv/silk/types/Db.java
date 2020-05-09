@@ -27,7 +27,6 @@ public class Db {
 
     /**
      * A name of a table, column or similar in the database
-     * 
      */
     @JsonProperty("name")
     @JsonPropertyDescription("A name of a table, column or similar in the database")
@@ -36,21 +35,23 @@ public class Db {
     public String description;
     /**
      * The tables in the database
-     * 
+     *
+     * Note that, if there are no dependency cycles, then these tables are in order of dependencies.
+     * Therefore when generating (again, if no cyclic dependencies), foreign keys and data can be added at
+     * table creation since all tables being referred should already exist. Still, if the database supports it,
+     * it is safer to add all tables, then all data, then all foreign keys, for speed and circular references.
      */
     @JsonProperty("tables")
     @JsonPropertyDescription("The tables in the database")
     public List<Table> tables = new ArrayList<Table>();
     /**
      * A name of a table, column or similar in the database
-     * 
      */
     @JsonProperty("database_type")
     @JsonPropertyDescription("A name of a table, column or similar in the database")
     public String databaseType;
     /**
      * Properties for the specific database, not controlled by Silk
-     * 
      */
     @JsonProperty("database_specific")
     @JsonPropertyDescription("Properties for the specific database, not controlled by Silk")
