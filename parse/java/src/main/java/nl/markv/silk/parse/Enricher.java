@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.annotation.CheckReturnValue;
@@ -61,8 +60,11 @@ public class Enricher {
 			for (nl.markv.silk.pojos.v0_2_0.LongColumn pojoColumn : pojoTable.columns) {
 				Column richColumn = convertMinimalColumn(richTable, pojoColumn);
 			}
+		}
 
-			// Now other entities can refer to their target objects.
+		// Now other entities can refer to their target objects.
+		for (nl.markv.silk.pojos.v0_2_0.Table pojoTable : pojoTables) {
+			Table richTable = notNull(tables.get(tableIdentifier(pojoTable.name)));
 			convertPrimaryKey(richTable, pojoTable.primaryKey);
 			for (nl.markv.silk.pojos.v0_2_0.ForeignKey pojoReference : pojoTable.references) {
 				convertReferences(richTable, pojoReference);
@@ -98,7 +100,7 @@ public class Enricher {
 				null,  // checkConstraints set later
 				convertDbSpecific(table.databaseSpecific)
 		);
-		isTrue(tables.containsKey(tableIdentifier(table.name)), "table " + table.name + " not unique in database " +
+		isTrue(!tables.containsKey(tableIdentifier(table.name)), "table " + table.name + " not unique in database " +
 				"(note that at this time, it must be unique across all groups)");
 		tables.put(tableIdentifier(table.name), richTable);
 		return richTable;
@@ -139,12 +141,13 @@ public class Enricher {
 	}
 
 	private void convertReferences(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
+		tables.keySet().stream().forEach(t -> System.out.println("table: " + t));  //TODO @mark: TEMPORARY! REMOVE THIS!
 		Table targetTable = notNull(tables.get(tableIdentifier(pojoForeignKey.targetTable)),
-				"Foreign key from " + richSourceTable.name + " to " + pojoForeignKey.targetTable +
-				" but the target table was not found");
+				"Reference from " + richSourceTable.name + " to " + pojoForeignKey.targetTable +
+				" but the target table (" + pojoForeignKey.targetTable + ") was not found");
 		List<ColumnMapping> columnMappings = new ArrayList<>();
 		for (nl.markv.silk.pojos.v0_2_0.ColumnMapping pojoMap : pojoForeignKey.columns) {
-			String name = "Foreign key from " + richSourceTable.name + "." + pojoMap.from +
+			String name = "Reference from " + richSourceTable.name + "." + pojoMap.from +
 					" to " + targetTable + "." + pojoMap.to;
 			Column fromCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.from)),
 					name + " failed because from-column " + pojoMap.from + " does not exist");
@@ -213,8 +216,11 @@ public class Enricher {
 		return Pair.of(table.name.toLowerCase(), columnName.toLowerCase());
 	}
 
-	@Nonnull
-	private DatabaseSpecific convertDbSpecific(@Nonnull nl.markv.silk.pojos.v0_2_0.DatabaseSpecific databaseSpecific) {
+	@Nullable
+	private DatabaseSpecific convertDbSpecific(@Nullable nl.markv.silk.pojos.v0_2_0.DatabaseSpecific databaseSpecific) {
+		if (databaseSpecific == null) {
+			return null;
+		}
 		return new DatabaseSpecific(
 				null,
 				new HashMap<>(databaseSpecific.getAdditionalProperties())
