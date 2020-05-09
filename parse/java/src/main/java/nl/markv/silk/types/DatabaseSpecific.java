@@ -67,7 +67,7 @@ public class DatabaseSpecific {
     }
 
     public boolean equals(@Nonnull DatabaseSpecific other) {
-        return Objects.equals(table, other.table)
-                && Objects.equals(additionalProperties, other.additionalProperties);
+        return Objects.equals(table, other.table) &&
+                Objects.equals(additionalProperties, other.additionalProperties);
     }
 }

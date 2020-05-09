@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -113,77 +114,31 @@ public class Table {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Table.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("group");
-        sb.append('=');
-        sb.append(((this.group == null)?"<null>":this.group));
-        sb.append(',');
-        sb.append("description");
-        sb.append('=');
-        sb.append(((this.description == null)?"<null>":this.description));
-        sb.append(',');
-        sb.append("columns");
-        sb.append('=');
-        sb.append(((this.columns == null)?"<null>":this.columns));
-        sb.append(',');
-        sb.append("primaryKey");
-        sb.append('=');
-        sb.append(((this.primaryKey == null)?"<null>":this.primaryKey));
-        sb.append(',');
-        sb.append("references");
-        sb.append('=');
-        sb.append(((this.references == null)?"<null>":this.references));
-        sb.append(',');
-        sb.append("uniqueConstraints");
-        sb.append('=');
-        sb.append(((this.uniqueConstraints == null)?"<null>":this.uniqueConstraints));
-        sb.append(',');
-        sb.append("checkConstraints");
-        sb.append('=');
-        sb.append(((this.checkConstraints == null)?"<null>":this.checkConstraints));
-        sb.append(',');
-        sb.append("databaseSpecific");
-        sb.append('=');
-        sb.append(((this.databaseSpecific == null)?"<null>":this.databaseSpecific));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return pojo.toString();
     }
 
     @Override
     public int hashCode() {
-        int result = 1;
-        result = ((result* 31)+((this.checkConstraints == null)? 0 :this.checkConstraints.hashCode()));
-        result = ((result* 31)+((this.references == null)? 0 :this.references.hashCode()));
-        result = ((result* 31)+((this.uniqueConstraints == null)? 0 :this.uniqueConstraints.hashCode()));
-        result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
-        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.description == null)? 0 :this.description.hashCode()));
-        result = ((result* 31)+((this.group == null)? 0 :this.group.hashCode()));
-        result = ((result* 31)+((this.primaryKey == null)? 0 :this.primaryKey.hashCode()));
-        result = ((result* 31)+((this.databaseSpecific == null)? 0 :this.databaseSpecific.hashCode()));
-        return result;
+        return Objects.hash(database, group, name);
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof Table) == false) {
-            return false;
-        }
-        Table rhs = ((Table) other);
-        return ((((((((((this.checkConstraints == rhs.checkConstraints)||((this.checkConstraints!= null)&&this.checkConstraints.equals(rhs.checkConstraints)))&&((this.references == rhs.references)||((this.references!= null)&&this.references.equals(rhs.references))))&&((this.uniqueConstraints == rhs.uniqueConstraints)||((this.uniqueConstraints!= null)&&this.uniqueConstraints.equals(rhs.uniqueConstraints))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.description == rhs.description)||((this.description!= null)&&this.description.equals(rhs.description))))&&((this.group == rhs.group)||((this.group!= null)&&this.group.equals(rhs.group))))&&((this.primaryKey == rhs.primaryKey)||((this.primaryKey!= null)&&this.primaryKey.equals(rhs.primaryKey))))&&((this.databaseSpecific == rhs.databaseSpecific)||((this.databaseSpecific!= null)&&this.databaseSpecific.equals(rhs.databaseSpecific))));
+        if (other == this) return true;
+        if (!(other instanceof Table) ) return false;
+        return equals((Table) other);
     }
 
+    public boolean equals(@Nonnull Table other) {
+        return Objects.equals(database, other.database) &&
+                Objects.equals(name, other.name) &&
+                Objects.equals(group, other.group) &&
+                Objects.equals(description, other.description) &&
+                Objects.equals(columns, other.columns) &&
+                Objects.equals(primaryKey, other.primaryKey) &&
+                Objects.equals(references, other.references) &&
+                Objects.equals(uniqueConstraints, other.uniqueConstraints) &&
+                Objects.equals(checkConstraints, other.checkConstraints) &&
+                Objects.equals(databaseSpecific, other.databaseSpecific);
+    }
 }

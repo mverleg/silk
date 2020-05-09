@@ -47,7 +47,7 @@ public class CheckConstraint {
 
     @Override
     public int hashCode() {
-        return Objects.hash(table, name, condition);
+        return Objects.hash(table, condition);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class CheckConstraint {
     }
 
     public boolean equals(@Nonnull CheckConstraint other) {
-        return Objects.equals(table, other.table)
-                && Objects.equals(name, other.name)
-                && Objects.equals(condition, other.condition);
+        return Objects.equals(table, other.table) &&
+                Objects.equals(name, other.name) &&
+                Objects.equals(condition, other.condition);
     }
 }

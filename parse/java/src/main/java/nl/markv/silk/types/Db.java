@@ -76,7 +76,7 @@ public class Db {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, tables, databaseType, databaseSpecific);
+        return Objects.hash(name, databaseType);
     }
 
     @Override

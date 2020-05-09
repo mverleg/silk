@@ -87,7 +87,7 @@ public class Column {
 
     @Override
     public int hashCode() {
-        return Objects.hash(table, name, type, nullable, defaultValue, autoValue);
+        return Objects.hash(table, name);
     }
 
     @Override
@@ -99,11 +99,11 @@ public class Column {
 
     public boolean equals(@Nonnull Column other) {
         return Objects.equals(table, other.table) &&
-            Objects.equals(name, other.name) &&
-            Objects.equals(type, other.type) &&
-            nullable == other.nullable &&
-            Objects.equals(defaultValue, other.defaultValue) &&
-            Objects.equals(autoValue, other.autoValue);
+                Objects.equals(name, other.name) &&
+                Objects.equals(type, other.type) &&
+                nullable == other.nullable &&
+                Objects.equals(defaultValue, other.defaultValue) &&
+                Objects.equals(autoValue, other.autoValue);
     }
 
     /**

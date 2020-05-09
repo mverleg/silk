@@ -69,9 +69,9 @@ public class ForeignKey {
     }
 
     public boolean equals(@Nonnull ForeignKey other) {
-        return Objects.equals(name, other.name)
-                && Objects.equals(fromTable, other.fromTable)
-                && Objects.equals(toTable, other.toTable)
-                && Objects.equals(columns, other.columns);
+        return Objects.equals(name, other.name) &&
+                Objects.equals(fromTable, other.fromTable) &&
+                Objects.equals(toTable, other.toTable) &&
+                Objects.equals(columns, other.columns);
     }
 }
