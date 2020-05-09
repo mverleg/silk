@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class ForeignKey {
 
+    nl.markv.silk.pojos.v0_2_0.ForeignKey pojo;
+
     @JsonProperty("name")
     public String name;
     /**

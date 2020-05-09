@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 })
 public class LongColumn {
 
+    nl.markv.silk.pojos.v0_2_0.LongColumn pojo;
+
     /**
      * A name of a table, column or similar in the database
      * (Required)

@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class DatabaseSpecific {
 
+    nl.markv.silk.pojos.v0_2_0.DatabaseSpecific pojo;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

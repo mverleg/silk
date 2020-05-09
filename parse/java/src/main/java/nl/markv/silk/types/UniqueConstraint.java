@@ -16,6 +16,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class UniqueConstraint {
 
+    nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojo;
+
     @JsonProperty("name")
     public String name;
     /**

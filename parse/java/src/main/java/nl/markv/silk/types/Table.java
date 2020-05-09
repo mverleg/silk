@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class Table {
 
+    nl.markv.silk.pojos.v0_2_0.Table pojo;
+
     /**
      * A name of a table, column or similar in the database
      * (Required)
