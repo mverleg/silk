@@ -4,6 +4,7 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,17 +30,22 @@ public class UniqueConstraint {
      */
     @JsonProperty("columns")
     @JsonPropertyDescription("The columns whose combination is unique")
-    public List<String> columns = new ArrayList<String>();
+    public List<String> columnsNames = new ArrayList<String>();
+
+    public List<Column> columns;
 
     public Table table;
 
     public UniqueConstraint() { }
 
-    public UniqueConstraint(@Nonnull Table table, @Nullable String name, @Nonnull List<String> columns) {
+    public UniqueConstraint(@Nonnull Table table, @Nullable String name, @Nonnull List<Column> columns) {
         super();
         this.table = table;
         this.name = name;
         this.columns = columns;
+        this.columnsNames = columns.stream()
+                .map(col -> col.name)
+                .collect(Collectors.toList());
     }
 
     @Override

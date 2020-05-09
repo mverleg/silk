@@ -98,9 +98,9 @@ public class Enricher {
 				null,  // checkConstraints set later
 				convertDbSpecific(table.databaseSpecific)
 		);
-		isTrue(tables.containsKey(tableIdentifier(table)), "table " + table.name + " not unique in database " +
+		isTrue(tables.containsKey(tableIdentifier(table.name)), "table " + table.name + " not unique in database " +
 				"(note that at this time, it must be unique across all groups)");
-		tables.put(tableIdentifier(table), richTable);
+		tables.put(tableIdentifier(table.name), richTable);
 		return richTable;
 	}
 
@@ -170,16 +170,22 @@ public class Enricher {
 	private void convertUniqueConstraints(Table richTable, nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint) {
 		UniqueConstraint richUniqueConstraint = new UniqueConstraint(
 				richTable,
-
-				);
+				pojoUniqueConstraint.name,
+				pojoUniqueConstraint.columns.stream()
+						.map(colName -> notNull(columns.get(columnIdentifier(richTable, colName)),
+								"Unique constraint on table " + richTable.name +
+								" includes non-existent column " + colName))
+						.collect(Collectors.toList())
+		);
 		richTable.uniqueConstraints.add(richUniqueConstraint);
 	}
 
 	private void convertCheckConstraints(Table richTable, nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint) {
 		CheckConstraint richCheckConstraint = new CheckConstraint(
 				richTable,
-
-				);
+				pojoCheckConstraint.name,
+				pojoCheckConstraint.condition
+		);
 		richTable.checkConstraints.add(richCheckConstraint);
 	}
 
