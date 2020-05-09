@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -27,6 +28,7 @@ public class CheckConstraint {
     @JsonPropertyDescription("A boolean sql condition (cross-database syntax)")
     public String condition;
 
+    @JsonIgnore
     public Table table;
 
     public CheckConstraint() {}

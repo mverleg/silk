@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -30,8 +31,10 @@ public class UniqueConstraint {
     @JsonPropertyDescription("The columns whose combination is unique")
     public List<String> columnsNames = new ArrayList<String>();
 
+    @JsonIgnore
     public List<Column> columns;
 
+    @JsonIgnore
     public Table table;
 
     public UniqueConstraint() { }

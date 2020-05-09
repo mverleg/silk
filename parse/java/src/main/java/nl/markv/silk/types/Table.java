@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -60,8 +61,10 @@ public class Table {
     public DatabaseSpecific databaseSpecific = new DatabaseSpecific(this, null);
 
     /** Only set if the schema included a whole database (as opposed to one table). */
+    @JsonIgnore
     public Db database;
 
+    @JsonIgnore
     public List<Column> primaryKey;
 
     public Table() {}

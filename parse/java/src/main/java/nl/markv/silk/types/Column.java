@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -55,8 +56,10 @@ public class Column {
     @JsonPropertyDescription("Automatic way to fill the column")
     public AutoOptions autoValue;
 
+    @JsonIgnore
     public DataType type;
 
+    @JsonIgnore
     public Table table;
 
     public Column() {}

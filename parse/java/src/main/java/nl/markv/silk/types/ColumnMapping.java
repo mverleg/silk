@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -31,8 +32,11 @@ public class ColumnMapping {
     @JsonPropertyDescription("A column in the target table that the 'from' column refers to.")
     public String toName;
 
+    @JsonIgnore
     public ForeignKey foreignKey;
+    @JsonIgnore
     public Column from;
+    @JsonIgnore
     public Column to;
 
     public ColumnMapping() {}

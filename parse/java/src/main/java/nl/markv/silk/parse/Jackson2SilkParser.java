@@ -15,6 +15,12 @@ public class Jackson2SilkParser implements SilkParser {
 	@Override
 	@Nonnull
 	public SilkSchema parse(@Nonnull String name, @Nonnull BufferedReader reader) {
+		nl.markv.silk.pojos.v0_2_0.SilkSchema schema = deserialize(reader);
+		return enricher.enrich(name, schema);
+	}
+
+	@Nonnull
+	private nl.markv.silk.pojos.v0_2_0.SilkSchema deserialize(@Nonnull BufferedReader reader) {
 		ObjectMapper mapper = new ObjectMapper();
 		nl.markv.silk.pojos.v0_2_0.SilkSchema result;
 		try {
@@ -25,6 +31,6 @@ public class Jackson2SilkParser implements SilkParser {
 		if (result == null) {
 			throw new IllegalStateException("Failed to parse json");
 		}
-		return enricher.enrich(name, result);
+		return result;
 	}
 }

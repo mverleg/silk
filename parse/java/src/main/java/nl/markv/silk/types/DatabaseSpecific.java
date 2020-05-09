@@ -36,6 +36,7 @@ public class DatabaseSpecific {
     }
 
     /* Only set if these are table-specific properties. */
+    @JsonIgnore
     public Table table;
 
     public DatabaseSpecific() {}

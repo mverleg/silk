@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -33,8 +34,10 @@ public class ForeignKey {
     @JsonPropertyDescription("The mapping of columns in the reference.")
     public List<ColumnMapping> columns = new ArrayList<ColumnMapping>();
 
+    @JsonIgnore
     public Table targetTable;
 
+    @JsonIgnore
     public Table sourceTable;
 
     public ForeignKey() {}

@@ -3,6 +3,7 @@ package nl.markv.silk.parse;
 import java.net.URL;
 
 import nl.markv.silk.example.Examples;
+import nl.markv.silk.serialize.Jackson2SilkSerializer;
 import nl.markv.silk.types.SilkSchema;
 import nl.markv.silk.types.Table;
 
@@ -14,7 +15,7 @@ public class Main {
 			SilkSchema silk = parser.parse(examplePth);
 			System.out.println("Silk: " + silk.name() + " (" + silk.silkVersion + ")");
 			for (Table table : silk.tables()) {
-				System.out.println(GsonSilkParser.gson.toJson(table));
+				System.out.println(Jackson2SilkSerializer.toJson(table));
 			}
 		}
 	}
