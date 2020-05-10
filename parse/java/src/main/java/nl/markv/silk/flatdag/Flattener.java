@@ -53,7 +53,7 @@ public class Flattener {
 		}
 		Table currentTable = todos.remove(currentTableName);
 		for (ForeignKey referenceTable : currentTable.references) {
-			recursivelyAddDependencies(reverseList, todos, referenceTable.targetTable.name);
+			recursivelyAddDependencies(reverseList, todos, referenceTable.targetTableName);
 		}
 		reverseList.add(currentTable);
 	}

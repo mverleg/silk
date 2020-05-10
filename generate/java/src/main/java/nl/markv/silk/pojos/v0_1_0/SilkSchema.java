@@ -2,6 +2,7 @@
 package nl.markv.silk.pojos.v0_1_0;
 
 import java.io.Serializable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -75,15 +75,15 @@ class FlattenerTest {
 	@Test
 	void testIndependent() {
 		//   AB  G
-		//  CDEF H I
+		//  FEDC H I
 		Table a = table("A", listOf());
 		Table b = table("B", listOf());
 		ForeignKey ra = fk(a.name);
 		ForeignKey rb = fk(b.name);
-		Table c = table("C", listOf(ra, rb));
-		Table d = table("D", listOf(rb, rb));
-		Table e = table("E", listOf(ra, rb));
 		Table f = table("F", listOf(ra, rb));
+		Table e = table("E", listOf(rb, rb));
+		Table d = table("D", listOf(ra, rb));
+		Table c = table("C", listOf(ra, rb));
 		Table g = table("G", listOf());
 		ForeignKey rg = fk(g.name);
 		Table h = table("H", listOf(rg));

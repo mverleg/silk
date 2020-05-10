@@ -4,6 +4,7 @@ package nl.markv.silk.pojos.v0_1_0;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

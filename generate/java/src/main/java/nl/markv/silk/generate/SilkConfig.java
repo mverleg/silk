@@ -3,7 +3,6 @@ package nl.markv.silk.generate;
 import org.jsonschema2pojo.AnnotationStyle;
 import org.jsonschema2pojo.Annotator;
 import org.jsonschema2pojo.DefaultGenerationConfig;
-import org.jsonschema2pojo.GsonAnnotator;
 import org.jsonschema2pojo.Jackson2Annotator;
 import org.jsonschema2pojo.Language;
 import org.jsonschema2pojo.SourceType;

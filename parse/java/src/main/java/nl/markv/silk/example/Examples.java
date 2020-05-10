@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
-import nl.markv.silk.parse.GsonSilkParser;
+import nl.markv.silk.parse.Jackson2SilkParser;
 import nl.markv.silk.types.SilkSchema;
 
 import static org.apache.commons.lang3.Validate.isTrue;
@@ -28,8 +28,9 @@ public class Examples {
 			return cachedJsonExamples;
 		}
 		cachedJsonExamples = new ArrayList<>();
+		Jackson2SilkParser parser = new Jackson2SilkParser();
 		for (URL path : urls()) {
-			cachedJsonExamples.add(new GsonSilkParser().parse(path));
+			cachedJsonExamples.add(parser.parse(path));
 		}
 		isTrue(!cachedJsonExamples.isEmpty());
 		return cachedJsonExamples;
