@@ -1,7 +1,6 @@
 package nl.markv.silk.flatdag;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +25,7 @@ public class Flattener {
 	@CheckReturnValue
 	public static List<Table> dependencyOrder(@Nonnull Iterator<Table> originalColumns) {
 
-		// Collect the list in reverse order, because it's faster to grow that direction.
+		// Collect the list in order, fast to grow.
 		List<Table> reverseList = new ArrayList<>();
 		// Create a to-do map, which as two purposes:
 		// - Serve as a lookup of not-yet-seen items.
@@ -44,7 +43,6 @@ public class Flattener {
 			recursivelyAddDependencies(reverseList, todos, tableName);
 		}
 
-		Collections.reverse(reverseList);
 		return reverseList;
 	}
 

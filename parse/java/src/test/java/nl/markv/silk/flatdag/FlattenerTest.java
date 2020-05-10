@@ -52,28 +52,32 @@ class FlattenerTest {
 		Table d = table("D", listOf(fk(c)));
 		Table a = table("A", listOf(fk(d)));
 
+		private void validate(@Nonnull List<Table> flat) {
+			assertEquals(listOf(b, e, c, d, a), flat);
+		}
+
 		@Test
 		void input1() {
 			List<Table> flat = dependencyOrder(listOf(a, b, c, d, e).iterator());
-			assertEquals(listOf(a, d, c, e, b), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input2() {
 			List<Table> flat = dependencyOrder(listOf(e, d, c, b, a).iterator());
-			assertEquals(listOf(a, d, c, e, b), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input3() {
 			List<Table> flat = dependencyOrder(listOf(b, e, c, d, a).iterator());
-			assertEquals(listOf(a, d, c, e, b), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input4() {
 			List<Table> flat = dependencyOrder(listOf(a, d, c, e, b).iterator());
-			assertEquals(listOf(a, d, c, e, b), flat);
+			validate(flat);
 		}
 	}
 
@@ -97,28 +101,32 @@ class FlattenerTest {
 		Table f = table("F", listOf(re));
 		Table g = table("G", listOf(re));
 
+		private void validate(@Nonnull List<Table> flat) {
+			assertEquals(listOf(a, b, c, d, e, f, g), flat);
+		}
+
 		@Test
 		void input1() {
 			List<Table> flat = dependencyOrder(listOf(a, b, c, d, e, f, g).iterator());
-			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input2() {
 			List<Table> flat = dependencyOrder(listOf(g, c, a, d, e, f, b).iterator());
-			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input3() {
 			List<Table> flat = dependencyOrder(listOf(g, f, e, d, c, b, a).iterator());
-			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+			validate(flat);
 		}
 
 		@Test
 		void input4() {
 			List<Table> flat = dependencyOrder(listOf(f, c, g, a, d, b, e).iterator());
-			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+			validate(flat);
 		}
 
 	}
@@ -142,8 +150,8 @@ class FlattenerTest {
 
 		void validate(@Nonnull List<Table> flat) {
 			// This check is too strict; A and B can switch, as can any of CDEF.
-			assertNotEquals(-1, indexOfSubList(flat, listOf(f, e, d, c, b, a)));
-			assertNotEquals(-1, indexOfSubList(flat, listOf(h, g)));
+			assertNotEquals(-1, indexOfSubList(flat, listOf(a, b, c, d, e, f)));
+			assertNotEquals(-1, indexOfSubList(flat, listOf(g, h)));
 			assertNotEquals(-1, indexOfSubList(flat, listOf(i)));
 		}
 

@@ -58,7 +58,7 @@ public class Enricher {
 
 			// Add all the columns to them.
 			for (nl.markv.silk.pojos.v0_2_0.LongColumn pojoColumn : pojoTable.columns) {
-				Column richColumn = convertMinimalColumn(richTable, pojoColumn);
+				convertMinimalColumn(richTable, pojoColumn);
 			}
 		}
 
