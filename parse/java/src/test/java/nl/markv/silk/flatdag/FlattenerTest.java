@@ -2,10 +2,12 @@ package nl.markv.silk.flatdag;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import nl.markv.silk.types.ForeignKey;
@@ -23,7 +25,6 @@ class FlattenerTest {
 		return li;
 	}
 
-
 	@Nonnull
 	private ForeignKey fk(@Nonnull String name) {
 		ForeignKey fk = new ForeignKey();
@@ -37,6 +38,28 @@ class FlattenerTest {
 		fk.name = fromTable;
 		fk.references = referToTable;
 		return fk;
+	}
+
+	@Test
+	void testLinear() {
+		// A -> D -> C -> E -> B
+		Table b = table("B", listOf());
+		Table e = table("E", listOf(fk(b.name)));
+		Table c = table("C", listOf(fk(e.name)));
+		Table d = table("D", listOf(fk(c.name)));
+		Table a = table("A", listOf(fk(d.name)));
+
+		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d, e).iterator());
+		assertEquals(listOf(b, e, c, d, a), flat1);
+
+		List<Table> flat2 = dependencyOrder(listOf(e, d, c, b, a).iterator());
+		assertEquals(listOf(b, e, c, d, a), flat2);
+
+		List<Table> flat3 = dependencyOrder(listOf(b, e, c, d, a).iterator());
+		assertEquals(listOf(b, e, c, d, a), flat3);
+
+		List<Table> flat4 = dependencyOrder(listOf(e, d, c, e, b).iterator());
+		assertEquals(listOf(b, e, c, d, a), flat4);
 	}
 
 	@Test
@@ -97,5 +120,20 @@ class FlattenerTest {
 
 		List<Table> flat3 = dependencyOrder(listOf(d, h, f, e, a, c, i, g, b).iterator());
 		assertEquals(listOf(i, h, g, f, e, d, c, b, a), flat3);
+	}
+
+	@DisplayName("For the case of cyclic dependencies, test that the algorithm terminates and contains all the nodes exactly once (order is arbitrary)")
+	@Test
+	void testCycle() {
+		// A -> D -> C -> B |
+		// ^----------------<
+		Table b = table("B", listOf());
+		Table c = table("C", listOf(fk(b.name)));
+		Table d = table("D", listOf(fk(c.name)));
+		Table a = table("A", listOf(fk(d.name)));
+		b.references.add(fk(a.name));
+
+		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d).iterator());
+		assertEquals(new HashSet<>(listOf(a, b, c, d)), new HashSet<>(flat1));
 	}
 }
