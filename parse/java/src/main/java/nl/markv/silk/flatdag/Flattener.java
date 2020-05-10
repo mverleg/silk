@@ -13,6 +13,8 @@ import javax.annotation.Nonnull;
 import nl.markv.silk.types.ForeignKey;
 import nl.markv.silk.types.Table;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 public class Flattener {
 
 	/**
@@ -53,7 +55,7 @@ public class Flattener {
 		}
 		Table currentTable = todos.remove(currentTableName);
 		for (ForeignKey referenceTable : currentTable.references) {
-			recursivelyAddDependencies(reverseList, todos, referenceTable.targetTableName);
+			recursivelyAddDependencies(reverseList, todos, notNull(referenceTable.targetTable.name));
 		}
 		reverseList.add(currentTable);
 	}

@@ -8,13 +8,16 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import nl.markv.silk.types.ForeignKey;
 import nl.markv.silk.types.Table;
 
+import static java.util.Collections.indexOfSubList;
 import static nl.markv.silk.flatdag.Flattener.dependencyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class FlattenerTest {
 
@@ -26,9 +29,9 @@ class FlattenerTest {
 	}
 
 	@Nonnull
-	private ForeignKey fk(@Nonnull String name) {
+	private ForeignKey fk(@Nonnull Table table) {
 		ForeignKey fk = new ForeignKey();
-		fk.name = name;
+		fk.targetTable = table;
 		return fk;
 	}
 
@@ -40,100 +43,144 @@ class FlattenerTest {
 		return fk;
 	}
 
-	@Test
-	void testLinear() {
+	@Nested
+	class TestLinear {
 		// A -> D -> C -> E -> B
 		Table b = table("B", listOf());
-		Table e = table("E", listOf(fk(b.name)));
-		Table c = table("C", listOf(fk(e.name)));
-		Table d = table("D", listOf(fk(c.name)));
-		Table a = table("A", listOf(fk(d.name)));
+		Table e = table("E", listOf(fk(b)));
+		Table c = table("C", listOf(fk(e)));
+		Table d = table("D", listOf(fk(c)));
+		Table a = table("A", listOf(fk(d)));
 
-		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d, e).iterator());
-		assertEquals(listOf(b, e, c, d, a), flat1);
+		@Test
+		void input1() {
+			List<Table> flat = dependencyOrder(listOf(a, b, c, d, e).iterator());
+			assertEquals(listOf(a, d, c, e, b), flat);
+		}
 
-		List<Table> flat2 = dependencyOrder(listOf(e, d, c, b, a).iterator());
-		assertEquals(listOf(b, e, c, d, a), flat2);
+		@Test
+		void input2() {
+			List<Table> flat = dependencyOrder(listOf(e, d, c, b, a).iterator());
+			assertEquals(listOf(a, d, c, e, b), flat);
+		}
 
-		List<Table> flat3 = dependencyOrder(listOf(b, e, c, d, a).iterator());
-		assertEquals(listOf(b, e, c, d, a), flat3);
+		@Test
+		void input3() {
+			List<Table> flat = dependencyOrder(listOf(b, e, c, d, a).iterator());
+			assertEquals(listOf(a, d, c, e, b), flat);
+		}
 
-		List<Table> flat4 = dependencyOrder(listOf(e, d, c, e, b).iterator());
-		assertEquals(listOf(b, e, c, d, a), flat4);
+		@Test
+		void input4() {
+			List<Table> flat = dependencyOrder(listOf(a, d, c, e, b).iterator());
+			assertEquals(listOf(a, d, c, e, b), flat);
+		}
 	}
 
-	@Test
-	void testFlatDiamond() {
+	@Nested
+	class TestFlatDiamond {
 		//   A
 		//   B
 		//  C D
 		//   E
 		//  F G
 		Table a = table("A", listOf());
-		ForeignKey ra = fk(a.name);
+		ForeignKey ra = fk(a);
 		Table b = table("B", listOf(ra));
-		ForeignKey rb = fk(b.name);
+		ForeignKey rb = fk(b);
 		Table c = table("C", listOf(rb));
 		Table d = table("D", listOf(rb));
-		ForeignKey rc = fk(c.name);
-		ForeignKey rd = fk(d.name);
+		ForeignKey rc = fk(c);
+		ForeignKey rd = fk(d);
 		Table e = table("E", listOf(rc, rd));
-		ForeignKey re = fk(e.name);
+		ForeignKey re = fk(e);
 		Table f = table("F", listOf(re));
 		Table g = table("G", listOf(re));
 
-		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d, e, f, g).iterator());
-		assertEquals(listOf(g, f, e, d, c, b, a), flat1);
+		@Test
+		void input1() {
+			List<Table> flat = dependencyOrder(listOf(a, b, c, d, e, f, g).iterator());
+			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+		}
 
-		List<Table> flat2 = dependencyOrder(listOf(g, c, a, d, e, f, b).iterator());
-		assertEquals(listOf(g, f, e, d, c, b, a), flat2);
+		@Test
+		void input2() {
+			List<Table> flat = dependencyOrder(listOf(g, c, a, d, e, f, b).iterator());
+			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+		}
 
-		List<Table> flat3 = dependencyOrder(listOf(g, f, e, d, c, b, a).iterator());
-		assertEquals(listOf(g, f, e, d, c, b, a), flat3);
+		@Test
+		void input3() {
+			List<Table> flat = dependencyOrder(listOf(g, f, e, d, c, b, a).iterator());
+			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+		}
 
-		List<Table> flat4 = dependencyOrder(listOf(f, c, g, a, d, b, e).iterator());
-		assertEquals(listOf(g, f, e, d, c, b, a), flat4);
+		@Test
+		void input4() {
+			List<Table> flat = dependencyOrder(listOf(f, c, g, a, d, b, e).iterator());
+			assertEquals(listOf(g, f, e, d, c, b, a), flat);
+		}
+
 	}
 
-	@Test
-	void testIndependent() {
+	@Nested
+	class TestDisjoint {
 		//   AB  G
 		//  FEDC H I
 		Table a = table("A", listOf());
 		Table b = table("B", listOf());
-		ForeignKey ra = fk(a.name);
-		ForeignKey rb = fk(b.name);
+		ForeignKey ra = fk(a);
+		ForeignKey rb = fk(b);
 		Table f = table("F", listOf(ra, rb));
 		Table e = table("E", listOf(rb, rb));
 		Table d = table("D", listOf(ra, rb));
 		Table c = table("C", listOf(ra, rb));
 		Table g = table("G", listOf());
-		ForeignKey rg = fk(g.name);
+		ForeignKey rg = fk(g);
 		Table h = table("H", listOf(rg));
 		Table i = table("I", listOf());
 
-		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d, e, f, g, h, i).iterator());
-		assertEquals(listOf(f, e, d, c, b, a, h, g, i), flat1);
+		void validate(@Nonnull List<Table> flat) {
+			// This check is too strict; A and B can switch, as can any of CDEF.
+			assertNotEquals(-1, indexOfSubList(flat, listOf(f, e, d, c, b, a)));
+			assertNotEquals(-1, indexOfSubList(flat, listOf(h, g)));
+			assertNotEquals(-1, indexOfSubList(flat, listOf(i)));
+		}
 
-		List<Table> flat2 = dependencyOrder(listOf(i, h, g, f, e, d, c, b, a).iterator());
-		assertEquals(listOf(i, h, g, f, e, d, c, b, a), flat2);
+		@Test
+		void input1() {
+			List<Table> flat = dependencyOrder(listOf(a, b, c, d, e, f, g, h, i).iterator());
+			validate(flat);
+		}
 
-		List<Table> flat3 = dependencyOrder(listOf(d, h, f, e, a, c, i, g, b).iterator());
-		assertEquals(listOf(i, h, g, f, e, d, c, b, a), flat3);
+		@Test
+		void input2() {
+			List<Table> flat = dependencyOrder(listOf(i, h, g, f, e, d, c, b, a).iterator());
+			validate(flat);
+		}
+
+		@Test
+		void input3() {
+			List<Table> flat = dependencyOrder(listOf(d, h, f, e, a, c, i, g, b).iterator());
+			validate(flat);
+		}
 	}
 
 	@DisplayName("For the case of cyclic dependencies, test that the algorithm terminates and contains all the nodes exactly once (order is arbitrary)")
-	@Test
-	void testCycle() {
+	@Nested
+	class testCycle {
 		// A -> D -> C -> B |
 		// ^----------------<
 		Table b = table("B", listOf());
-		Table c = table("C", listOf(fk(b.name)));
-		Table d = table("D", listOf(fk(c.name)));
-		Table a = table("A", listOf(fk(d.name)));
-		b.references.add(fk(a.name));
+		Table c = table("C", listOf(fk(b)));
+		Table d = table("D", listOf(fk(c)));
+		Table a = table("A", listOf(fk(d)));
+		{ b.references.add(fk(a)); }
 
-		List<Table> flat1 = dependencyOrder(listOf(a, b, c, d).iterator());
-		assertEquals(new HashSet<>(listOf(a, b, c, d)), new HashSet<>(flat1));
+		@Test
+		void terminates() {
+			List<Table> flat1 = dependencyOrder(listOf(a, b, c, d).iterator());
+			assertEquals(new HashSet<>(listOf(a, b, c, d)), new HashSet<>(flat1));
+		}
 	}
 }
