@@ -71,7 +71,7 @@
           { "name": "timestamp_a", "type": "timestamp", "nullable": true, "default_value": "null" },
           { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "'2020-05-10 18:00:00.000'" },
           { "name": "timestamp_c", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
-          { "name": "timestmap_d", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+          { "name": "timestamp_d", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
         "primary_key": [ "id1", "id2", "id3" ],
         "references": [
@@ -83,13 +83,13 @@
           { "columns": [ "int", "decimal1", "text_lim" ] }
         ],
         "check_constraints": [
-          { "name": "id_is_id2_for_some_reason", "condition": "is2 is null OR id = id2" },
+          { "name": "id_is_id2_for_some_reason", "condition": "id2 is null OR id1 = id2" },
           { "condition": "timestamp_d >= timestamp_c" },
           { "condition": "int < uint or text = 'h4x'" }
         ]
       },
       {
-        "name": "buttom",
+        "name": "bottom",
         "group": "group_2",
         "description": "Composite FK, database specific properties, keywords as names",
         "columns": [
@@ -97,9 +97,9 @@
           { "name": "id1", "type": "uint", "nullable": true },
           { "name": "id2", "type": "uint", "nullable": true },
           { "name": "id3", "type": "uint", "nullable": true },
-          { "name": "select", "type": "text", "nullable": false, "default_value": "insert info" },
-          { "name": "case", "type": "text", "nullable": false, "default_value": "drop table" },
-          { "name": "from", "type": "text", "nullable": false, "default_value": "--" }
+          { "name": "select", "type": "text", "nullable": false, "default_value": "'insert info'" },
+          { "name": "case", "type": "text", "nullable": false, "default_value": "'drop table'" },
+          { "name": "from", "type": "text", "nullable": false, "default_value": "'--'" }
         ],
         "primary_key": [ "id" ],
         "references": [
