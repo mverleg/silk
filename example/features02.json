@@ -1,6 +1,4 @@
 {
-  //TODO @mark: test sql keywords
-  //TODO @mark: capitalization
   "silk": "https://silk.markv.nl/v0.2.0.json",
   "db": {
     "name": "features",
@@ -11,7 +9,9 @@
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
           { "name": "very_long_column_name_db_limit", "type": "text", "nullable": true },
-          { "name": "nrs_0123456789_", "type": "int", "nullable": true }
+          { "name": "nrs_0123456789_", "type": "int", "nullable": true },
+          { "name": "THIS_SHOULD_BE_UPPERCASE", "type": "int", "nullable": true },
+          { "name": "this_lowercase", "type": "int", "nullable": true }
         ],
         "primary_key": [ "id" ],
         "references": [],
@@ -50,7 +50,7 @@
         ],
         "unique_constraints": [
           { "name":  "random_columns_123", "columns": [ "int", "decimal1", "timestamp" ] },
-          { "name":  "random_columns_", "columns": [ "int", "decimal1", "name" ] }
+          { "name":  "random_columns_", "columns": [ "int", "decimal1", "text" ] }
         ],
         "check_constraints": []
       },
@@ -79,8 +79,8 @@
           { "targetTable": "top", "columns": [{ "from": "uint", "to": "id" }] }
         ],
         "unique_constraints": [
-          { "columns": [ "int", "decimal1", "timestamp" ] },
-          { "columns": [ "int", "decimal1", "name" ] }
+          { "columns": [ "int", "decimal1", "timestamp_a", "timestamp_b" ] },
+          { "columns": [ "int", "decimal1", "text_lim" ] }
         ],
         "check_constraints": [
           { "name": "id_is_id2_for_some_reason", "condition": "is2 is null OR id = id2" },
@@ -91,20 +91,23 @@
       {
         "name": "buttom",
         "group": "group_2",
-        "description": "Composite FK, database specific properties",
+        "description": "Composite FK, database specific properties, keywords as names",
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
           { "name": "id1", "type": "uint", "nullable": true },
           { "name": "id2", "type": "uint", "nullable": true },
-          { "name": "id3", "type": "uint", "nullable": true }
+          { "name": "id3", "type": "uint", "nullable": true },
+          { "name": "select", "type": "text", "nullable": false, "default_value": "insert info" },
+          { "name": "case", "type": "text", "nullable": false, "default_value": "drop table" },
+          { "name": "from", "type": "text", "nullable": false, "default_value": "--" }
         ],
         "primary_key": [ "id" ],
         "references": [
           { "name": "bottom_to_left", "targetTable": "left", "columns": [{ "from": "id1", "to": "id" }] },
           { "targetTable": "right", "columns": [
-            { "from": "id1", "to": "id" },
-            { "from": "id2", "to": "id" },
-            { "from": "id3", "to": "id" }
+            { "from": "id1", "to": "id1" },
+            { "from": "id2", "to": "id2" },
+            { "from": "id3", "to": "id3" }
           ] }
         ],
         "database_specific": {

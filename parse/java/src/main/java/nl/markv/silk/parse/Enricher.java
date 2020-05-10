@@ -66,14 +66,20 @@ public class Enricher {
 		for (nl.markv.silk.pojos.v0_2_0.Table pojoTable : pojoTables) {
 			Table richTable = notNull(tables.get(tableIdentifier(pojoTable.name)));
 			convertPrimaryKey(richTable, pojoTable.primaryKey);
-			for (nl.markv.silk.pojos.v0_2_0.ForeignKey pojoReference : pojoTable.references) {
-				convertReferences(richTable, pojoReference);
+			if (pojoTable.references != null) {
+				for (nl.markv.silk.pojos.v0_2_0.ForeignKey pojoReference : pojoTable.references) {
+					convertReferences(richTable, pojoReference);
+				}
 			}
-			for (nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint : pojoTable.uniqueConstraints) {
-				convertUniqueConstraints(richTable, pojoUniqueConstraint);
+			if (pojoTable.uniqueConstraints != null) {
+				for (nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint : pojoTable.uniqueConstraints) {
+					convertUniqueConstraints(richTable, pojoUniqueConstraint);
+				}
 			}
-			for (nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint : pojoTable.checkConstraints) {
-				convertCheckConstraints(richTable, pojoCheckConstraint);
+			if (pojoTable.checkConstraints != null) {
+				for (nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint : pojoTable.checkConstraints) {
+					convertCheckConstraints(richTable, pojoCheckConstraint);
+				}
 			}
 		}
 
@@ -100,7 +106,7 @@ public class Enricher {
 				null,  // checkConstraints set later
 				convertDbSpecific(table.databaseSpecific)
 		);
-		isTrue(!tables.containsKey(tableIdentifier(table.name)), "table " + table.name + " not unique in database " +
+		isTrue(!tables.containsKey(tableIdentifier(table.name)), "table '" + table.name + "' not unique in database " +
 				"(note that at this time, it must be unique across all groups)");
 		tables.put(tableIdentifier(table.name), richTable);
 		return richTable;
@@ -118,7 +124,8 @@ public class Enricher {
 		);
 		richTable.columns.add(richColumn);
 		Pair<String, String> columnIdentifier = columnIdentifier(richTable, richColumn.name);
-		isTrue(!columns.containsKey(columnIdentifier), "column " + richColumn.name + " not unique in table " + richTable.name);
+		isTrue(!columns.containsKey(columnIdentifier), "column '" + richColumn.name + "' not unique in table '" + richTable.name +
+				"' (note that at this time, this is case-insensitive, so 'column_a' equals 'Column_A')");
 		columns.put(columnIdentifier, richColumn);
 		return richColumn;
 	}
@@ -135,8 +142,8 @@ public class Enricher {
 		richTable.primaryKey = pojoPrimaryKey.stream()
 				.map(colName -> columnIdentifier(richTable, colName))
 				.map(colIden -> notNull(columns.get(colIden),
-						"Primary key refers to column " + colIden.getRight() + " in table " +
-						colIden.getLeft() + " but the column does not exist"))
+						"Primary key refers to column '" + colIden.getRight() + "' in table '" +
+						colIden.getLeft() + "' but the column does not exist"))
 				.collect(Collectors.toList());
 		richTable.primaryKeyNames = richTable.primaryKey.stream()
 				.map(c -> c.name)
@@ -145,16 +152,16 @@ public class Enricher {
 
 	private void convertReferences(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
 		Table targetTable = notNull(tables.get(tableIdentifier(pojoForeignKey.targetTable)),
-				"Reference from " + richSourceTable.name + " to " + pojoForeignKey.targetTable +
-				" but the target table (" + pojoForeignKey.targetTable + ") was not found");
+				"Reference from '" + richSourceTable.name + "' to '" + pojoForeignKey.targetTable +
+				"' but the target table ('" + pojoForeignKey.targetTable + "') was not found");
 		List<ColumnMapping> columnMappings = new ArrayList<>();
 		for (nl.markv.silk.pojos.v0_2_0.ColumnMapping pojoMap : pojoForeignKey.columns) {
-			String name = "Reference from " + richSourceTable.name + "." + pojoMap.from +
-					" to " + targetTable.name + "." + pojoMap.to;
+			String name = "Reference from '" + richSourceTable.name + "." + pojoMap.from +
+					"' to '" + targetTable.name + "." + pojoMap.to + "'";
 			Column fromCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.from)),
-					name + " failed because from-column " + pojoMap.from + " does not exist");
+					name + " failed because from-column '" + richSourceTable.name + "." + pojoMap.from + "' does not exist");
 			Column toCol = notNull(columns.get(columnIdentifier(targetTable, pojoMap.to)),
-					name + " failed because to-column " + pojoMap.to + " does not exist");
+					name + " failed because to-column '" + targetTable.name + "." + pojoMap.to + "' does not exist");
 			ColumnMapping richMap = new ColumnMapping(
 					null,  // foreignKey filled later
 					fromCol,
@@ -178,8 +185,8 @@ public class Enricher {
 				pojoUniqueConstraint.name,
 				pojoUniqueConstraint.columns.stream()
 						.map(colName -> notNull(columns.get(columnIdentifier(richTable, colName)),
-								"Unique constraint on table " + richTable.name +
-								" includes non-existent column " + colName))
+								"Unique constraint on table '" + richTable.name +
+								"' includes non-existent column '" + colName + "'"))
 						.collect(Collectors.toList())
 		);
 		richTable.uniqueConstraints.add(richUniqueConstraint);
