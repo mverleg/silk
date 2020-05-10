@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+
+/**
+ * A combination of a column in the source table (from) that refers to a column in the target table (to) as part of a foreign key reference.
+ * 
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "from",
@@ -14,18 +19,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class ColumnMapping {
 
     /**
-     * A column in the table that the foreign key belongs to.
+     * A name of a table, column or similar in the database.
      * 
      */
     @JsonProperty("from")
-    @JsonPropertyDescription("A column in the table that the foreign key belongs to.")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String from;
     /**
-     * A column in the target table that the 'from' column refers to.
+     * A name of a table, column or similar in the database.
      * 
      */
     @JsonProperty("to")
-    @JsonPropertyDescription("A column in the target table that the 'from' column refers to.")
+    @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String to;
 
     /**
