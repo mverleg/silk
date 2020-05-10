@@ -124,9 +124,10 @@
     },
     "column_mapping": {
       "type": "object",
+      "description": "A combination of a column in the source table (from) that refers to a column in the target table (to) as part of a foreign key reference.",
       "properties": {
-        "from": { "type":  "string", "description": "A column in the table that the foreign key belongs to." },
-        "to": { "type":  "string", "description": "A column in the target table that the 'from' column refers to." }
+        "from": { "$ref": "#/definitions/identifier" },
+        "to": { "$ref": "#/definitions/identifier" }
       },
       "additionalProperties": false
     },
