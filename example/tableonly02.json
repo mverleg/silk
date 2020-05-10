@@ -1,0 +1,27 @@
+{
+  "silk": "https://silk.markv.nl/v0.2.0.json",
+  "table": {
+    "name": "product",
+    "description": "This is just a random table to see if single-table mode works.",
+    "group": "shop",
+    "columns": [
+      { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+      { "name": "category_id", "type": "uint", "nullable": false },
+      { "name": "name", "type": "text", "nullable": false },
+      { "name": "description", "type": "text", "nullable": true },
+      { "name": "buy_price", "type": "decimal(10,2)", "nullable": false },
+      { "name": "sell_price", "type": "decimal(10,2)", "nullable": false },
+      { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+      { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+    ],
+    "primary_key": [ "id" ],
+    "references": [],
+    "unique_constraints": [
+      { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
+    ],
+    "check_constraints": [
+      { "name": "no_free_lunch", "condition": "sell_price > 0" },
+      { "name": "profit", "condition": "buy_price < sell_price" }
+    ]
+  }
+}

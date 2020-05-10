@@ -18,6 +18,8 @@ public class Examples {
 	public static final String[] SILK_EXAMPLES = new String[]{
 			//"/silk/example/shop01.json",
 			"/silk/example/shop02.json",
+			"/silk/example/features02.json",
+			"/silk/example/tableonly02.json",
 	};
 
 	private List<SilkSchema> cachedJsonExamples;

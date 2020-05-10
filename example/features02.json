@@ -1,38 +1,37 @@
 {
   "silk": "https://silk.markv.nl/v0.2.0.json",
   "db": {
-    "name": "shop",
-    "description": "Webshop database",
+    "name": "features",
+    "description": "Just a meaningless combination of data\nfor testing Silk features",
     "tables": [
       {
-        "name": "product",
-        "group": "shop",
+        "name": "very_long_table_name_db_limits",
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
-          { "name": "category_id", "type": "uint", "nullable": false },
-          { "name": "name", "type": "text", "nullable": false },
-          { "name": "description", "type": "text", "nullable": true },
-          { "name": "buy_price", "type": "decimal(10,2)", "nullable": false },
-          { "name": "sell_price", "type": "decimal(10,2)", "nullable": false },
-          { "name": "created_at", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
-          { "name": "updated_at", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+          { "name": "very_long_column_name_db_limit", "type": "text", "nullable": true },
+          { "name": "nrs_0123456789_", "type": "int", "nullable": true }
         ],
         "primary_key": [ "id" ],
-        "references": [
-          { "targetTable":  "category", "columns": [{ "from": "category_id", "to": "id" }] }
-        ],
-        "unique_constraints": [
-          { "name": "product_name_in_category", "columns": [ "category_id", "name" ] }
-        ],
-        "check_constraints": [
-          { "name": "no_free_lunch", "condition": "sell_price > 0" },
-          { "name": "profit", "condition": "buy_price < sell_price" }
-        ],
-        "database_specific": {}
+        "references": [],
+        "unique_constraints": [],
+        "check_constraints": []
       },
       {
-        "name": "category",
-        "group": "shop",
+        "name": "top",
+        "description": "No group, single column, null for constraints",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+        ],
+        "primary_key": [ "id" ],
+        "references": null,
+        "unique_constraints": null,
+        "check_constraints": null,
+        "database_specific": null
+      },
+      {
+        "name": "left",
+        "description": "All the column types",
+        "group": "group_1",
         "columns": [
           { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
           { "name": "name", "type": "text", "nullable": false },
