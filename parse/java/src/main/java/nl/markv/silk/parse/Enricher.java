@@ -138,6 +138,9 @@ public class Enricher {
 						"Primary key refers to column " + colIden.getRight() + " in table " +
 						colIden.getLeft() + " but the column does not exist"))
 				.collect(Collectors.toList());
+		richTable.primaryKeyNames = richTable.primaryKey.stream()
+				.map(c -> c.name)
+				.collect(Collectors.toList());
 	}
 
 	private void convertReferences(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {

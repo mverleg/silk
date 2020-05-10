@@ -4,6 +4,7 @@ package nl.markv.silk.types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -53,16 +54,16 @@ public class ForeignKey {
     }
 
     @Nonnull
-    public List<Column> fromColumns() {
+    public <U> List<U> sourceColumns(@Nonnull Function<Column, U> map) {
         return columns.stream()
-                .map(m -> m.from)
+                .map(m -> map.apply(m.from))
                 .collect(Collectors.toList());
     }
 
     @Nonnull
-    public List<Column> toColumns() {
+    public <U> List<U> targetColumns(@Nonnull Function<Column, U> map) {
         return columns.stream()
-                .map(m -> m.to)
+                .map(m -> map.apply(m.to))
                 .collect(Collectors.toList());
     }
 
