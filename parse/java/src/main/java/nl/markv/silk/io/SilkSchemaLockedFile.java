@@ -25,11 +25,10 @@ public class SilkSchemaLockedFile extends SilkSchemaAbstractFile {
 	 */
 	@Nonnull
 	public SilkSchemaUnlockedFile saveAndUnlock() {
-		try {
-			directlySave(schema, schemaPath);
-		} finally {
-			return unlock();
-		}
+		// Intentionally not updating timestamp here, to 'encourage' using the return object.
+		assertNotChangedByOtherProcess();
+		directlySave(schema, schemaPath);
+		return unlock();
 	}
 
 	/**
@@ -39,7 +38,9 @@ public class SilkSchemaLockedFile extends SilkSchemaAbstractFile {
 	 */
 	@Nonnull
 	public SilkSchemaUnlockedFile saveNewAndUnlock(@Nonnull Path newSchemaPath) {
+		// Intentionally not updating timestamp here, to 'encourage' using the return object.
 		waitForLockFileOrFail(newSchemaPath);
+		assertNotChangedByOtherProcess();
 		directlySave(schema, newSchemaPath);
 		unlock();
 		return new SilkSchemaUnlockedFile(schema, newSchemaPath);
@@ -49,7 +50,9 @@ public class SilkSchemaLockedFile extends SilkSchemaAbstractFile {
 	 * Save the changes but keep the lock.
 	 */
 	public void saveWithoutUnlock() {
+		assertNotChangedByOtherProcess();
 		directlySave(schema, schemaPath);
+		updateLastChanged();
 	}
 
 	/**

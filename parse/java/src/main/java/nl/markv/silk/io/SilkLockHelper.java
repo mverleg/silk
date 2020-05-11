@@ -55,7 +55,8 @@ public class SilkLockHelper {
 
 	static void lock(@Nonnull Path schemaPath) {
 		if (!Files.exists(schemaPath)) {
-			throw new IllegalStateException("Could not lock schema at '" + schemaPath + "' because it does not exist");
+			throw new IllegalStateException("Could not lock schema at '" + schemaPath +
+					"' because it does not exist");
 		}
 		Path lockFile = lockFilePath(schemaPath);
 		waitForLockFileOrFail(lockFile);

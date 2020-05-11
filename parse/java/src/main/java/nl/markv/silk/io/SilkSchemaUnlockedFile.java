@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import nl.markv.silk.types.SilkSchema;
 
 import static nl.markv.silk.io.SilkLockHelper.directlySave;
-import static nl.markv.silk.io.SilkLockHelper.lockFilePath;
 import static nl.markv.silk.io.SilkLockHelper.waitForLockFileOrFail;
 
 /**
@@ -24,14 +23,20 @@ public class SilkSchemaUnlockedFile extends SilkSchemaAbstractFile {
 	 */
 	public void save() {
 		waitForLockFileOrFail(schemaPath);
+		assertNotChangedByOtherProcess();
 		directlySave(schema, schemaPath);
+		updateLastChanged();
 	}
 
 	/**
 	 * Save the changes to a new file, waiting for any other processes that may have locked it if it exists.
 	 */
-	public void saveNew(@Nonnull Path newSchemaPath) {
+	@Nonnull
+	public SilkSchemaUnlockedFile saveNew(@Nonnull Path newSchemaPath) {
+		// Intentionally not updating timestamp here, to 'encourage' using the return object.
 		waitForLockFileOrFail(newSchemaPath);
+		assertNotChangedByOtherProcess();
 		directlySave(schema, newSchemaPath);
+		return new SilkSchemaUnlockedFile(schema, newSchemaPath);
 	}
 }

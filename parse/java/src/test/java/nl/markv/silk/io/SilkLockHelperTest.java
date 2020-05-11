@@ -5,6 +5,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.Test;
 
 import nl.markv.silk.example.Examples;
@@ -20,5 +21,6 @@ class SilkLockHelperTest {
 			SilkSchemaLockedFile schemaFile = lockAndLoad(pth);
 			schemaFile.saveAndUnlock();
 		}
+		throw new NotImplementedException("");
 	}
 }
