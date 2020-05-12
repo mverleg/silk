@@ -58,13 +58,18 @@ public class SilkSchema {
 	}
 
 	@Nonnull
-	public static SilkSchema db(@Nonnull String schemaName, @Nonnull String silkVersion, @Nonnull Db db) {
-		return new SilkSchema(schemaName, silkVersion, db, null);
+	public static SilkSchema db(@Nonnull String schemaName, @Nonnull String silkUrl, @Nonnull Db db) {
+		return new SilkSchema(schemaName, silkUrl, db, null);
 	}
 
 	@Nonnull
-	public static SilkSchema table(@Nonnull String schemaName, @Nonnull String silkVersion, @Nonnull Table table) {
-		return new SilkSchema(schemaName, silkVersion, null, table);
+	public static SilkSchema table(@Nonnull String schemaName, @Nonnull String silkUrl, @Nonnull Table table) {
+		return new SilkSchema(schemaName, silkUrl, null, table);
+	}
+
+	@Nonnull
+	public static SilkSchema empty(@Nonnull String schemaName, @Nonnull String silkUrl) {
+		return new SilkSchema(schemaName, silkUrl, null, null);
 	}
 
 	public static String parseVersion(@Nonnull String url) {

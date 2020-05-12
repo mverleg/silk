@@ -63,6 +63,11 @@ public class SilkVersion {
 	}
 
 	@Nonnull
+	public static String versionUrl() {
+		return "https://silk.markv.nl/v" + inst.cacheVersion + ".json";
+	}
+
+	@Nonnull
 	public static String versionDirname() {
 		return inst.cacheVersionDirname;
 	}

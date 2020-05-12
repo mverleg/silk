@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "name",
+    "description",
     "type",
     "nullable",
     "default_value",
@@ -28,6 +29,8 @@ public class LongColumn {
     @JsonProperty("name")
     @JsonPropertyDescription("A name of a table, column or similar in the database.")
     public String name;
+    @JsonProperty("description")
+    public String description;
     /**
      * Type of the data that can be stored in the column.
      * (Required)
@@ -71,12 +74,14 @@ public class LongColumn {
      * @param nullable
      * @param defaultValue
      * @param name
+     * @param description
      * @param type
      * @param autoValue
      */
-    public LongColumn(String name, String type, boolean nullable, String defaultValue, LongColumn.AutoOptions autoValue) {
+    public LongColumn(String name, String description, String type, boolean nullable, String defaultValue, LongColumn.AutoOptions autoValue) {
         super();
         this.name = name;
+        this.description = description;
         this.type = type;
         this.nullable = nullable;
         this.defaultValue = defaultValue;
@@ -90,6 +95,10 @@ public class LongColumn {
         sb.append("name");
         sb.append('=');
         sb.append(((this.name == null)?"<null>":this.name));
+        sb.append(',');
+        sb.append("description");
+        sb.append('=');
+        sb.append(((this.description == null)?"<null>":this.description));
         sb.append(',');
         sb.append("type");
         sb.append('=');
@@ -118,10 +127,11 @@ public class LongColumn {
     @Override
     public int hashCode() {
         int result = 1;
-        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
-        result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
         result = ((result* 31)+(this.nullable? 1 : 0));
         result = ((result* 31)+((this.defaultValue == null)? 0 :this.defaultValue.hashCode()));
+        result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
+        result = ((result* 31)+((this.description == null)? 0 :this.description.hashCode()));
+        result = ((result* 31)+((this.type == null)? 0 :this.type.hashCode()));
         result = ((result* 31)+((this.autoValue == null)? 0 :this.autoValue.hashCode()));
         return result;
     }
@@ -135,7 +145,7 @@ public class LongColumn {
             return false;
         }
         LongColumn rhs = ((LongColumn) other);
-        return ((((((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name)))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&(this.nullable == rhs.nullable))&&((this.defaultValue == rhs.defaultValue)||((this.defaultValue!= null)&&this.defaultValue.equals(rhs.defaultValue))))&&((this.autoValue == rhs.autoValue)||((this.autoValue!= null)&&this.autoValue.equals(rhs.autoValue))));
+        return ((((((this.nullable == rhs.nullable)&&((this.defaultValue == rhs.defaultValue)||((this.defaultValue!= null)&&this.defaultValue.equals(rhs.defaultValue))))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.description == rhs.description)||((this.description!= null)&&this.description.equals(rhs.description))))&&((this.type == rhs.type)||((this.type!= null)&&this.type.equals(rhs.type))))&&((this.autoValue == rhs.autoValue)||((this.autoValue!= null)&&this.autoValue.equals(rhs.autoValue))));
     }
 
 

@@ -47,4 +47,25 @@ public class SilkLoader {
 	public static SilkSchemaLockedFile lockAndLoad(@Nonnull Path schemaPath) {
 		return SilkLockHelper.lockAndLoad(schemaPath);
 	}
+
+
+	/**
+	 * Create a new Silk schema. It will save an empty schema file if unlocked, without locking.
+	 *
+	 * You should fill either 'db' or 'table' in the new schema.
+	 */
+	@Nonnull
+	public static SilkSchemaUnlockedFile newUnlocked(@Nonnull Path schemaPath) {
+		return SilkLockHelper.newUnlocked(schemaPath);
+	}
+
+	/**
+	 * Create a new Silk schema. It will save an empty schema file and lock it.
+	 *
+	 * You should fill either 'db' or 'table' in the new schema.
+	 */
+	@Nonnull
+	public static SilkSchemaUnlockedFile newLocked(@Nonnull Path schemaPath) {
+		return SilkLockHelper.newLocked(schemaPath);
+	}
 }

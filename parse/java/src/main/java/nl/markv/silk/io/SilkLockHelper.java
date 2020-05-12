@@ -9,7 +9,10 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import jdk.nashorn.internal.runtime.Version;
 import nl.markv.silk.types.SilkSchema;
+
+import static nl.markv.silk.SilkVersion.versionUrl;
 
 
 /**
@@ -43,6 +46,28 @@ public class SilkLockHelper {
 		return new SilkSchemaLockedFile(schema, path);
 	}
 
+	/**
+	 * Create a new Silk schema. It will save an empty schema file if unlocked, without locking.
+	 */
+	@Nonnull
+	public static SilkSchemaUnlockedFile newUnlocked(@Nonnull Path schemaPath) {
+		waitForLockFileOrFail(schemaPath);
+		SilkSchema schema = SilkSchema.empty(schemaPath.getFileName().toString(), versionUrl());
+		directlySave(schema, schemaPath);
+		return new SilkSchemaUnlockedFile(schema, schemaPath);
+	}
+
+	/**
+	 * Create a new Silk schema. It will save an empty schema file and lock it.
+	 */
+	@Nonnull
+	public static SilkSchemaUnlockedFile newLocked(@Nonnull Path schemaPath) {
+		lock(schemaPath);
+		SilkSchema schema = SilkSchema.empty(schemaPath.getFileName().toString(), versionUrl());
+		directlySave(schema, schemaPath);
+		return new SilkSchemaUnlockedFile(schema, schemaPath);
+	}
+
 	@Nonnull
 	@CheckReturnValue
 	static SilkSchema directlyLoad(@Nonnull Path schemaPath) {
@@ -58,8 +83,8 @@ public class SilkLockHelper {
 			throw new IllegalStateException("Could not lock schema at '" + schemaPath +
 					"' because it does not exist");
 		}
+		waitForLockFileOrFail(schemaPath);
 		Path lockFile = lockFilePath(schemaPath);
-		waitForLockFileOrFail(lockFile);
 		try {
 			Files.createFile(lockFile);
 		} catch (IOException ex) {
@@ -110,6 +135,7 @@ public class SilkLockHelper {
 	 * Like {@link #waitForLockFile(Path, int)}, but throws if the lock is not obtained in 30s.
 	 */
 	static void waitForLockFileOrFail(@Nonnull Path schemaPath) {
+		assert !schemaPath.endsWith(".lock~");
 		Path lockPath = lockFilePath(schemaPath);
 		if (!waitForLockFile(lockPath, 30_000)) {
 			throw new IllegalStateException("Could not lock Silk schema at '" + schemaPath +
