@@ -16,16 +16,16 @@ import static org.apache.commons.lang3.Validate.isTrue;
 public class Examples {
 
 	public static final String[] SILK_EXAMPLES = new String[]{
-			//"/silk/example/shop01.json",
-			"/silk/example/shop02.json",
-			"/silk/example/features02.json",
-			"/silk/example/tableonly02.json",
+			//"/silk/example/shop01.silk.json",
+			"/silk/example/shop02.silk.json",
+			"/silk/example/features02.silk.json",
+			"/silk/example/tableonly02.silk.json",
 	};
 
 	private List<SilkSchema> cachedJsonExamples;
 
 	@Nonnull
-	public List<SilkSchema> jsons() {
+	public List<SilkSchema> schemas() {
 		if (cachedJsonExamples != null) {
 			return cachedJsonExamples;
 		}

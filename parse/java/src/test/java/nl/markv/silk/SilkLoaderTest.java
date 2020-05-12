@@ -5,7 +5,6 @@ import java.nio.file.Paths;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.io.TempDir;
 import nl.markv.silk.io.SilkLockHelper;
 import nl.markv.silk.io.SilkSchemaUnlockedFile;
 
+import static nl.markv.silk.SilkLoader.loadWithoutLock;
 import static nl.markv.silk.SilkLoader.newLocked;
 import static nl.markv.silk.SilkLoader.newUnlocked;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,17 +41,27 @@ class SilkLoaderTest {
 	class NewUnlocked {
 		@Test
 		void doesNotLock (@TempDir Path tempDir){
-			Path newPth = Paths.get(tempDir.toString(), "test_schema.silk.json");
-			newUnlocked(newPth);
-			newUnlocked(newPth);
+			Path pth = Paths.get(tempDir.toString(), "no_lock.silk.json");
+			newUnlocked(pth);
+			newUnlocked(pth);
+			//noinspection ResultOfMethodCallIgnored
+			loadWithoutLock(pth);
 		}
 
 		@Test
 		void waitsForLock (@TempDir Path tempDir){
-			Path newPth = Paths.get(tempDir.toString(), "test_schema.silk.json");
-			newLocked(newPth);
-			//TODO @mark: does this test take 30s?
-			assertThrows(RuntimeException.class, () -> newUnlocked(newPth));
+			Path pth = Paths.get(tempDir.toString(), "locked.silk.json");
+			newLocked(pth);
+			assertThrows(RuntimeException.class, () -> newUnlocked(pth));
+		}
+
+		@Test
+		void checksTimestamp (@TempDir Path tempDir){
+			Path pth = Paths.get(tempDir.toString(), "timestamp.silk.json");
+			SilkSchemaUnlockedFile schema1 = newUnlocked(pth);
+			SilkSchemaUnlockedFile schema2 = newUnlocked(pth);
+			schema1.save();
+			assertThrows(RuntimeException.class, () -> schema2.save());
 		}
 	}
 

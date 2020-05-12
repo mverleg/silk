@@ -1,17 +1,21 @@
 package nl.markv.silk.io;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import nl.markv.silk.parse.Jackson2SilkParser;
 import nl.markv.silk.types.SilkSchema;
 
 import static nl.markv.silk.SilkVersion.versionUrl;
+import static org.apache.commons.lang3.Validate.isTrue;
 
 
 /**
@@ -73,7 +77,8 @@ public class SilkLockHelper {
 	@Nonnull
 	@CheckReturnValue
 	static SilkSchema directlyLoad(@Nonnull Path schemaPath) {
-		throw new NotImplementedException("todo");  //TODO @mark: implement
+		Jackson2SilkParser parser = new Jackson2SilkParser();
+		return parser.parse(schemaPath);
 	}
 
 	static void directlySave(@Nonnull SilkSchema silkSchema, @Nonnull Path schemaPath) {
