@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import jdk.nashorn.internal.runtime.Version;
 import nl.markv.silk.types.SilkSchema;
 
 import static nl.markv.silk.SilkVersion.versionUrl;
@@ -19,6 +18,8 @@ import static nl.markv.silk.SilkVersion.versionUrl;
  * Implements the locking described by {@link nl.markv.silk.SilkLoader}.
  */
 public class SilkLockHelper {
+
+	public static int LOCK_DURATION_MS = 30_000;
 
 	/**
 	 * Load the Silk schema. If it is locked, waits a while, and fails if lock cannot be obtained.
@@ -62,9 +63,10 @@ public class SilkLockHelper {
 	 */
 	@Nonnull
 	public static SilkSchemaUnlockedFile newLocked(@Nonnull Path schemaPath) {
-		lock(schemaPath);
+		waitForLockFileOrFail(schemaPath);
 		SilkSchema schema = SilkSchema.empty(schemaPath.getFileName().toString(), versionUrl());
 		directlySave(schema, schemaPath);
+		lock(schemaPath);
 		return new SilkSchemaUnlockedFile(schema, schemaPath);
 	}
 
@@ -137,7 +139,7 @@ public class SilkLockHelper {
 	static void waitForLockFileOrFail(@Nonnull Path schemaPath) {
 		assert !schemaPath.endsWith(".lock~");
 		Path lockPath = lockFilePath(schemaPath);
-		if (!waitForLockFile(lockPath, 30_000)) {
+		if (!waitForLockFile(lockPath, LOCK_DURATION_MS)) {
 			throw new IllegalStateException("Could not lock Silk schema at '" + schemaPath +
 					"' because it is already locked, and was not released quickly enough " +
 					"(if you are sure that no other program uses the schema, delete the " +

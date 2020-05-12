@@ -28,6 +28,7 @@ import nl.markv.silk.io.SilkSchemaUnlockedFile;
  * schemaFile.saveAndUnlock();
  * </pre></code>
  */
+//TODO @mark: add validation on save
 public class SilkLoader {
 
 	/**
