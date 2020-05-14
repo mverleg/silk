@@ -67,6 +67,9 @@ public class Table {
     @JsonIgnore
     public List<Column> primaryKey;
 
+    @JsonIgnore
+    public List<ForeignKey> incomingReferences = new ArrayList<>();
+
     public Table() {}
 
     public Table(

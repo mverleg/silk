@@ -68,17 +68,17 @@ public class Enricher {
 			convertPrimaryKey(richTable, pojoTable.primaryKey);
 			if (pojoTable.references != null) {
 				for (nl.markv.silk.pojos.v0_2_0.ForeignKey pojoReference : pojoTable.references) {
-					convertReferences(richTable, pojoReference);
+					convertReference(richTable, pojoReference);
 				}
 			}
 			if (pojoTable.uniqueConstraints != null) {
 				for (nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint : pojoTable.uniqueConstraints) {
-					convertUniqueConstraints(richTable, pojoUniqueConstraint);
+					convertUniqueConstraint(richTable, pojoUniqueConstraint);
 				}
 			}
 			if (pojoTable.checkConstraints != null) {
 				for (nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint : pojoTable.checkConstraints) {
-					convertCheckConstraints(richTable, pojoCheckConstraint);
+					convertCheckConstraint(richTable, pojoCheckConstraint);
 				}
 			}
 		}
@@ -150,7 +150,7 @@ public class Enricher {
 				.collect(Collectors.toList());
 	}
 
-	private void convertReferences(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
+	private void convertReference(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
 		Table targetTable = notNull(tables.get(tableIdentifier(pojoForeignKey.targetTable)),
 				"Reference from '" + richSourceTable.name + "' to '" + pojoForeignKey.targetTable +
 				"' but the target table ('" + pojoForeignKey.targetTable + "') was not found");
@@ -177,9 +177,10 @@ public class Enricher {
 		);
 		columnMappings.forEach(map -> map.foreignKey = richForeignKey);
 		richSourceTable.references.add(richForeignKey);
+		targetTable.incomingReferences.add(richForeignKey);
 	}
 
-	private void convertUniqueConstraints(Table richTable, nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint) {
+	private void convertUniqueConstraint(Table richTable, nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint) {
 		UniqueConstraint richUniqueConstraint = new UniqueConstraint(
 				richTable,
 				pojoUniqueConstraint.name,
@@ -192,7 +193,7 @@ public class Enricher {
 		richTable.uniqueConstraints.add(richUniqueConstraint);
 	}
 
-	private void convertCheckConstraints(Table richTable, nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint) {
+	private void convertCheckConstraint(Table richTable, nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint) {
 		CheckConstraint richCheckConstraint = new CheckConstraint(
 				richTable,
 				pojoCheckConstraint.name,
