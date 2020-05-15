@@ -1,7 +1,7 @@
 package nl.markv.silk.types;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,18 +12,18 @@ public class Data {
 
 	// Map to columns of data (as Objects, because the type may differ).
 	@Nonnull
-	Map<String, Object[]> generic = new HashMap<>();
+	public Map<String, Object[]> generic = new HashMap<>();
 
 	// Map to columns of specific type.
 	@Nonnull
-	Map<String, String[]> strings = new HashMap<>();
+	public Map<String, String[]> strings = new HashMap<>();
 	@Nonnull
-	Map<String, LocalDate[]> dates = new HashMap<>();
+	public Map<String, LocalDateTime[]> dates = new HashMap<>();
 	@Nonnull
-	Map<String, BigDecimal[]> decimals = new HashMap<>();
+	public Map<String, BigDecimal[]> decimals = new HashMap<>();
 	@Nonnull
-	Map<String, double[]> doubles = new HashMap<>();
+	public Map<String, Double[]> doubles = new HashMap<>();
 	@Nonnull
-	Map<String, int[]> integers = new HashMap<>();
+	public Map<String, Integer[]> integers = new HashMap<>();
 
 }

@@ -1,11 +1,16 @@
 package nl.markv.silk.types;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static org.apache.commons.lang.Validate.isTrue;
 
 //TODO @mark: equals / hashCode?
@@ -105,6 +110,18 @@ public abstract class DataType {
 			isTrue(min == 0);
 			return "uint";
 		}
+
+		@Nullable
+		public Integer valueFromStr(@Nullable String txt) {
+			if (txt == null) {
+				return null;
+			}
+			try {
+				return Integer.parseInt(txt);
+			} catch (NumberFormatException ex) {
+				throw new IllegalArgumentException("Got value '" + txt + "' where an integer was expected");
+			}
+		}
 	}
 
 	public static class Decimal extends DataType {
@@ -137,12 +154,34 @@ public abstract class DataType {
 			}
 			return "decimal";
 		}
+
+		@Nullable
+		public BigDecimal valueFromStr(@Nullable String txt) {
+			if (txt == null) {
+				return null;
+			}
+			//TODO @mark: fix scale
+			return new BigDecimal(txt);
+		}
 	}
 
 	public static class Timestamp extends DataType {
 		@Override
 		public String toString() {
 			return "timestamp";
+		}
+
+		@Nullable
+		public LocalDateTime valueFromStr(@Nullable String txt) {
+			if (txt == null) {
+				return null;
+			}
+			try {
+				return LocalDateTime.parse(txt, ISO_LOCAL_DATE_TIME);
+			} catch (DateTimeParseException ex) {
+				throw new IllegalArgumentException("Got value '" + txt +
+						"' where a iso datetime was expected, e.g. '2011-12-03T10:15:30'");
+			}
 		}
 	}
 

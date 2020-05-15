@@ -1,5 +1,8 @@
 package nl.markv.silk.parse;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,6 +21,7 @@ import nl.markv.silk.flatdag.Flattener;
 import nl.markv.silk.types.CheckConstraint;
 import nl.markv.silk.types.Column;
 import nl.markv.silk.types.ColumnMapping;
+import nl.markv.silk.types.DataType;
 import nl.markv.silk.types.DatabaseSpecific;
 import nl.markv.silk.types.Db;
 import nl.markv.silk.types.ForeignKey;
@@ -110,12 +114,47 @@ public class Enricher {
 
 			for (Column column :  richTable.columns) {
 				// All required columns without default value must be present. (I am assuming the name's case to match).
+				boolean hasData = columnDatas.containsKey(column.name);
 				if (!column.nullable && column.autoValue != null && column.defaultValue != null) {
-					isTrue(!columnDatas.containsKey(column.name), "Table '" + richTable.name +
-							"' has non-null column '" + column.name + "', but no data was provided");
+					isTrue(!hasData, "Table '" + richTable.name + "' has non-null column '" +
+							column.name + "', but no data was provided");
 				}
+				if (!hasData) {
+					continue;
+				}
+				List<String> columnData = notNull(columnDatas.get(column.name));
 
 				// Parse all the data into Java types.
+				if (column.type instanceof DataType.Text) {
+					String[] data = new String[columnData.size()];
+					columnData.toArray(data);
+					richTable.data.generic.put(column.nameLowercase, data);
+					richTable.data.strings.put(column.nameLowercase, data);
+				} else if (column.type instanceof DataType.Int) {
+					DataType.Int typ = (DataType.Int) column.type;
+					Integer[] data = columnData.stream()
+							.map(v -> typ.valueFromStr(v))
+							.toArray(Integer[]::new);
+					richTable.data.generic.put(column.nameLowercase, data);
+					richTable.data.integers.put(column.nameLowercase, data);
+				} else if (column.type instanceof DataType.Decimal) {
+					DataType.Decimal typ = (DataType.Decimal) column.type;
+					BigDecimal[] data = columnData.stream()
+							.map(v -> typ.valueFromStr(v))
+							.toArray(BigDecimal[]::new);
+					richTable.data.generic.put(column.nameLowercase, data);
+					richTable.data.decimals.put(column.nameLowercase, data);
+				} else if (column.type instanceof DataType.Timestamp) {
+					DataType.Timestamp typ = (DataType.Timestamp) column.type;
+					LocalDateTime[] data = columnData.stream()
+							.map(v -> typ.valueFromStr(v))
+							.toArray(LocalDateTime[]::new);
+					richTable.data.generic.put(column.nameLowercase, data);
+					richTable.data.dates.put(column.nameLowercase, data);
+				}
+
+
+
 				//TODO @mark: do that for default values too
 
 			}
