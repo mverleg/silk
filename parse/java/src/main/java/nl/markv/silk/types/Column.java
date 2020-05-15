@@ -62,12 +62,16 @@ public class Column {
     @JsonIgnore
     public Table table;
 
+    @JsonIgnore
+    public String nameLowercase;
+
     public Column() {}
 
     public Column(@Nonnull Table table, @Nonnull String name, @Nonnull DataType type, boolean nullable, @Nullable String defaultValue, @Nullable AutoOptions autoValue) {
         super();
         this.table = table;
         this.name = name;
+        this.nameLowercase = name.toLowerCase();
         this.type = type;
         this.typeName = type.toString();
         this.nullable = nullable;

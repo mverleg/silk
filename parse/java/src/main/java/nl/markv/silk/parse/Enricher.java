@@ -83,6 +83,44 @@ public class Enricher {
 			}
 		}
 
+		// Import the data into the table.
+		for (nl.markv.silk.pojos.v0_3_0.Table pojoTable : pojoTables) {
+			if (pojoTable.data == null || pojoTable.data.getAdditionalProperties().isEmpty()) {
+				continue;
+			}
+			Map<String, List<String>> columnDatas = pojoTable.data.getAdditionalProperties();
+			Table richTable = notNull(tables.get(tableIdentifier(pojoTable.name)));
+
+			Map.Entry<String, List<String>> referenceColumnData = columnDatas.entrySet().iterator().next();
+			for (Map.Entry<String, List<String>> columnData : columnDatas.entrySet()) {
+				if (columnData.getValue() == null || columnData.getValue().isEmpty()) {
+					continue;
+				}
+
+				// All columns provided must exist.
+				isTrue(columns.containsKey(columnIdentifier(richTable, columnData.getKey())), "Table '" + richTable.name +
+						"' has data for column '" + columnData.getKey() + "', but that column was not declared");
+
+				// All provided columns must have the same length.
+				isTrue(referenceColumnData.getValue().size() == columnData.getValue().size(),
+						"Data rows do not have the same size for table '" + richTable.name + "'; column '" +
+						referenceColumnData.getKey() + "' has " + referenceColumnData.getValue().size() +
+						" while column '" + columnData.getKey() + "' has " + columnData.getValue().size());
+			}
+
+			for (Column column :  richTable.columns) {
+				// All required columns without default value must be present. (I am assuming the name's case to match).
+				if (!column.nullable && column.autoValue != null && column.defaultValue != null) {
+					isTrue(!columnDatas.containsKey(column.name), "Table '" + richTable.name +
+							"' has non-null column '" + column.name + "', but no data was provided");
+				}
+
+				// Parse all the data into Java types.
+				//TODO @mark: do that for default values too
+
+			}
+		}
+
 		// Now that tables are done, do the database-level metadata.
 		if (pojoSchema.db != null) {
 			return SilkSchema.db(schemaName, pojoSchema.silk, convertDb(pojoSchema.db));
@@ -123,6 +161,7 @@ public class Enricher {
 				convertAutoValue(pojoColumn.autoValue)
 		);
 		richTable.columns.add(richColumn);
+		richTable.columnLookupLowercase.put(richColumn.name.toLowerCase(), richColumn);
 		Pair<String, String> columnIdentifier = columnIdentifier(richTable, richColumn.name);
 		isTrue(!columns.containsKey(columnIdentifier), "column '" + richColumn.name + "' not unique in table '" + richTable.name +
 				"' (note that at this time, this is case-insensitive, so 'column_a' equals 'Column_A')");

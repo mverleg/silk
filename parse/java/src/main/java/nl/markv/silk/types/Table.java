@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,9 @@ public class Table {
     public List<Column> primaryKey;
 
     @JsonIgnore
+    public Map<String, Column> columnLookupLowercase;
+
+    @JsonIgnore
     public List<ForeignKey> incomingReferences = new ArrayList<>();
 
     public Table() {}
@@ -90,6 +94,8 @@ public class Table {
         this.group = group;
         this.description = description;
         this.columns = columns;
+        this.columnLookupLowercase = columns.stream()
+                .collect(Collectors.toMap(c -> c.name.toLowerCase(), c -> c));
         this.primaryKey = primaryKey;
         this.primaryKeyNames = primaryKey.stream()
                 .map(col -> col.name)
