@@ -1,0 +1,126 @@
+{
+  "silk": "https://silk.markv.nl/v0.3.0.json",
+  "db": {
+    "name": "features",
+    "description": "Just a meaningless combination of data\nfor testing Silk features",
+    "tables": [
+      {
+        "name": "very_long_table_name_db_limits",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "very_long_column_name_db_limit", "type": "text", "nullable": true },
+          { "name": "nrs_0123456789_", "type": "int", "nullable": true },
+          { "name": "THIS_SHOULD_BE_UPPERCASE", "type": "int", "nullable": true },
+          { "name": "this_lowercase", "type": "int", "nullable": true }
+        ],
+        "primary_key": [ "id" ],
+        "references": [],
+        "unique_constraints": [],
+        "check_constraints": []
+      },
+      {
+        "name": "top",
+        "description": "No group, single column, null for constraints",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" }
+        ],
+        "primary_key": [ "id" ],
+        "references": null,
+        "unique_constraints": null,
+        "check_constraints": null,
+        "database_specific": null
+      },
+      {
+        "name": "left",
+        "description": "All the column types, composite unique constraint",
+        "group": "group_1",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "text", "type": "text", "nullable": true },
+          { "name": "text_lim", "type": "text(12)", "nullable": true },
+          { "name": "int", "type": "int", "nullable": true },
+          { "name": "uint", "type": "uint", "nullable": true },
+          { "name": "decimal1", "type": "decimal(12)", "nullable": true },
+          { "name": "decimal2", "type": "decimal(10,5)", "nullable": true },
+          { "name": "timestamp", "type": "timestamp", "nullable": true }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "reference_to_top", "targetTable": "top", "columns": [{ "from": "int", "to": "id" }] }
+        ],
+        "unique_constraints": [
+          { "name":  "random_columns_123", "columns": [ "int", "decimal1", "timestamp" ] },
+          { "name":  "random_columns_", "columns": [ "int", "decimal1", "text" ] }
+        ],
+        "check_constraints": []
+      },
+      {
+        "name": "right",
+        "description": "All the automatic options, and composite PK",
+        "group": "group_2",
+        "columns": [
+          { "name": "id1", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "id2", "type": "uint", "nullable": true, "auto_value": "increment" },
+          { "name": "id3", "type": "uint", "nullable": false },
+          { "name": "text", "type": "text", "nullable": false, "default_value": "'abc'" },
+          { "name": "text_lim", "type": "text(12)", "nullable": false, "default_value": "'abcdefghijkl'" },
+          { "name": "int", "type": "int", "nullable": false, "default_value": "-123456" },
+          { "name": "uint", "type": "uint", "nullable": false, "default_value": "1" },
+          { "name": "decimal1", "type": "decimal(12)", "nullable": false, "default_value": "1234.56789" },
+          { "name": "decimal2", "type": "decimal(10,5)", "nullable": false, "default_value": "-1234.56789" },
+          { "name": "timestamp_a", "type": "timestamp", "nullable": true, "default_value": "null" },
+          { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "'2020-05-10 18:00:00.000'" },
+          { "name": "timestamp_c", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
+          { "name": "timestamp_d", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
+        ],
+        "primary_key": [ "id1", "id2", "id3" ],
+        "references": [
+          { "targetTable": "top", "columns": [{ "from": "int", "to": "id" }] },
+          { "targetTable": "top", "columns": [{ "from": "uint", "to": "id" }] }
+        ],
+        "unique_constraints": [
+          { "columns": [ "int", "decimal1", "timestamp_a", "timestamp_b" ] },
+          { "columns": [ "int", "decimal1", "text_lim" ] }
+        ],
+        "check_constraints": [
+          { "name": "id_is_id2_for_some_reason", "condition": "id2 is null OR id1 = id2" },
+          { "condition": "timestamp_d >= timestamp_c" },
+          { "condition": "int < uint or text = 'h4x'" }
+        ]
+      },
+      {
+        "name": "bottom",
+        "group": "group_2",
+        "description": "Composite FK, database specific properties, keywords as names",
+        "columns": [
+          { "name": "id", "type": "uint", "nullable": false, "auto_value": "increment" },
+          { "name": "id1", "type": "uint", "nullable": true },
+          { "name": "id2", "type": "uint", "nullable": true },
+          { "name": "id3", "type": "uint", "nullable": true },
+          { "name": "select", "type": "text", "nullable": false, "default_value": "'insert info'" },
+          { "name": "case", "type": "text", "nullable": false, "default_value": "'drop table'" },
+          { "name": "from", "type": "text", "nullable": false, "default_value": "'--'" }
+        ],
+        "primary_key": [ "id" ],
+        "references": [
+          { "name": "bottom_to_left", "targetTable": "left", "columns": [{ "from": "id1", "to": "id" }] },
+          { "targetTable": "right", "columns": [
+            { "from": "id1", "to": "id1" },
+            { "from": "id2", "to": "id2" },
+            { "from": "id3", "to": "id3" }
+          ] }
+        ],
+        "database_specific": {
+          "indices": [["id"], ["id1", "id2", "id3"]],
+          "raw_sql_before": ["create or replace function recalculate_id() return trigger as ... end;"],
+          "triggers": ["CREATE TRIGGER id1_change\nBEFORE UPDATE\nON id1\nFOR EACH ROW\nEXECUTE PROCEDURE recalculate_id();"]
+        }
+      }
+    ],
+    "database_type": "postgres",
+    "database_specific": {
+      "raw_sql_before": "set schema to features",
+      "raw_sql_after": "set schema to postgres"
+    }
+  }
+}
