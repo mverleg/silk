@@ -22,8 +22,6 @@ public class Data {
 	@Nonnull
 	public Map<String, BigDecimal[]> decimals = new HashMap<>();
 	@Nonnull
-	public Map<String, Double[]> doubles = new HashMap<>();
-	@Nonnull
 	public Map<String, Integer[]> integers = new HashMap<>();
 
 }

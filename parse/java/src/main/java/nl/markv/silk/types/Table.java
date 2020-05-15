@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonPropertyOrder({
     "name",
     "group",
@@ -121,15 +121,13 @@ public class Table {
     }
 
     @JsonProperty("data")
-    Map<String, List<String>> encodeData() {
+    Map<String, List<Object>> encodeData() {
         //TODO @mark: test/improve this! e.g. string escaping
         if (data.generic.isEmpty()) {
-            return Collections.emptyMap();
+            return null;
         }
         return data.generic.entrySet().stream()
-                .map(e -> Pair.of(e.getKey(), Arrays.stream(e.getValue())
-                        .map(v -> v == null ? null : v.toString())
-                        .collect(Collectors.toList())))
+                .map(e -> Pair.of(e.getKey(), Arrays.asList(e.getValue())))
                 .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
     }
 

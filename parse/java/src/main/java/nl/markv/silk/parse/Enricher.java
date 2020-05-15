@@ -153,8 +153,6 @@ public class Enricher {
 					richTable.data.dates.put(column.nameLowercase, data);
 				}
 
-
-
 				//TODO @mark: do that for default values too
 
 			}
