@@ -2,6 +2,8 @@
 package nl.markv.silk.types;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -9,6 +11,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -74,6 +78,8 @@ public class Table {
     @JsonIgnore
     public List<ForeignKey> incomingReferences = new ArrayList<>();
 
+    public Data data = new Data();
+
     public Table() {}
 
     public Table(
@@ -112,6 +118,19 @@ public class Table {
         if (databaseSpecific != null) {
             this.databaseSpecific = databaseSpecific;
         }
+    }
+
+    @JsonProperty("data")
+    Map<String, List<String>> encodeData() {
+        //TODO @mark: test/improve this! e.g. string escaping
+        if (data.generic.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return data.generic.entrySet().stream()
+                .map(e -> Pair.of(e.getKey(), Arrays.stream(e.getValue())
+                        .map(v -> v == null ? null : v.toString())
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
     }
 
     @Override
