@@ -50,7 +50,7 @@
           { "name": "category_slug_ck", "condition": "slug similar to '^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]?$'" }
         ],
         "data": {
-          "id": [0, 1, 2, 3, 4],
+          "id": [1, 2, 3, 4, 5],
           "name": ["Home", "Garden", "Children", "Teenagers", "Office supplies"],
           "slug": ["home", "garden", "kids", "teens", "office"]
         }

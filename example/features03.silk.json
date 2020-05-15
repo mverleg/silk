@@ -16,7 +16,8 @@
         "primary_key": [ "id" ],
         "references": [],
         "unique_constraints": [],
-        "check_constraints": []
+        "check_constraints": [],
+        "data": []
       },
       {
         "name": "top",
@@ -28,6 +29,7 @@
         "references": null,
         "unique_constraints": null,
         "check_constraints": null,
+        "data": null,
         "database_specific": null
       },
       {
@@ -69,7 +71,7 @@
           { "name": "decimal1", "type": "decimal(12)", "nullable": false, "default_value": "1234.56789" },
           { "name": "decimal2", "type": "decimal(10,5)", "nullable": false, "default_value": "-1234.56789" },
           { "name": "timestamp_a", "type": "timestamp", "nullable": true, "default_value": "null" },
-          { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "'2020-05-10 18:00:00.000'" },
+          { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "2020-05-10T18:16:59Z" },
           { "name": "timestamp_c", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
           { "name": "timestamp_d", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],
@@ -86,7 +88,20 @@
           { "name": "id_is_id2_for_some_reason", "condition": "id2 is null OR id1 = id2" },
           { "condition": "timestamp_d >= timestamp_c" },
           { "condition": "int < uint or text = 'h4x'" }
-        ]
+        ],
+        "data": {
+          "id2": [1, null],
+          "id3": [1, 2],
+          "text":  ["hello", ""],
+          "text_lim": ["abcdefghijkl", "?"],
+          "int":  [-123456, 7],
+          "uint": [1, 999999999],
+          "decimal1":  [1234.56789, 100000000001],
+          "decimal2": [1000000.00001, -1234.56789],
+          "timestamp_a": ["2020-05-10T18:16:59Z", null],
+          "timestamp_b": ["2020-05-11T15:00:00Z", "2000-01-01T00:00:00Z"],
+          "timestamp_c": ["2020-05-11T15:00:00Z", "2000-01-01T00:00:00Z"]
+        }
       },
       {
         "name": "bottom",
