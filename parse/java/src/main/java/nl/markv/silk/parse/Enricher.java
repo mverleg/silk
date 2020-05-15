@@ -45,39 +45,39 @@ public class Enricher {
 
 	@Nonnull
 	@CheckReturnValue
-	public SilkSchema enrich(@Nonnull String schemaName, @Nonnull nl.markv.silk.pojos.v0_2_0.SilkSchema pojoSchema) {
+	public SilkSchema enrich(@Nonnull String schemaName, @Nonnull nl.markv.silk.pojos.v0_3_0.SilkSchema pojoSchema) {
 		reset();
 
 		// Do all the table and lower level processing first.
-		Collection<nl.markv.silk.pojos.v0_2_0.Table> pojoTables = pojoSchema.db != null
+		Collection<nl.markv.silk.pojos.v0_3_0.Table> pojoTables = pojoSchema.db != null
 				? pojoSchema.db.tables : Collections.singleton(pojoSchema.table);
-		for (nl.markv.silk.pojos.v0_2_0.Table pojoTable : pojoTables) {
+		for (nl.markv.silk.pojos.v0_3_0.Table pojoTable : pojoTables) {
 
 			// First convert all the tables.
 			Table richTable = convertMinimalTable(pojoTable);
 
 			// Add all the columns to them.
-			for (nl.markv.silk.pojos.v0_2_0.LongColumn pojoColumn : pojoTable.columns) {
+			for (nl.markv.silk.pojos.v0_3_0.LongColumn pojoColumn : pojoTable.columns) {
 				convertMinimalColumn(richTable, pojoColumn);
 			}
 		}
 
 		// Now other entities can refer to their target objects.
-		for (nl.markv.silk.pojos.v0_2_0.Table pojoTable : pojoTables) {
+		for (nl.markv.silk.pojos.v0_3_0.Table pojoTable : pojoTables) {
 			Table richTable = notNull(tables.get(tableIdentifier(pojoTable.name)));
 			convertPrimaryKey(richTable, pojoTable.primaryKey);
 			if (pojoTable.references != null) {
-				for (nl.markv.silk.pojos.v0_2_0.ForeignKey pojoReference : pojoTable.references) {
+				for (nl.markv.silk.pojos.v0_3_0.ForeignKey pojoReference : pojoTable.references) {
 					convertReference(richTable, pojoReference);
 				}
 			}
 			if (pojoTable.uniqueConstraints != null) {
-				for (nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint : pojoTable.uniqueConstraints) {
+				for (nl.markv.silk.pojos.v0_3_0.UniqueConstraint pojoUniqueConstraint : pojoTable.uniqueConstraints) {
 					convertUniqueConstraint(richTable, pojoUniqueConstraint);
 				}
 			}
 			if (pojoTable.checkConstraints != null) {
-				for (nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint : pojoTable.checkConstraints) {
+				for (nl.markv.silk.pojos.v0_3_0.CheckConstraint pojoCheckConstraint : pojoTable.checkConstraints) {
 					convertCheckConstraint(richTable, pojoCheckConstraint);
 				}
 			}
@@ -93,7 +93,7 @@ public class Enricher {
 	}
 
 	@Nonnull
-	private Table convertMinimalTable(nl.markv.silk.pojos.v0_2_0.Table table) {
+	private Table convertMinimalTable(nl.markv.silk.pojos.v0_3_0.Table table) {
 		Table richTable = new Table(
 				null,  // database set later
 				table.name,
@@ -113,7 +113,7 @@ public class Enricher {
 	}
 
 	@Nonnull
-	private Column convertMinimalColumn(@Nonnull Table richTable, @Nonnull nl.markv.silk.pojos.v0_2_0.LongColumn pojoColumn) {
+	private Column convertMinimalColumn(@Nonnull Table richTable, @Nonnull nl.markv.silk.pojos.v0_3_0.LongColumn pojoColumn) {
 		Column richColumn = new Column(
 				richTable,
 				pojoColumn.name,
@@ -131,7 +131,7 @@ public class Enricher {
 	}
 
 	@Nullable
-	private Column.AutoOptions convertAutoValue(@Nullable nl.markv.silk.pojos.v0_2_0.LongColumn.AutoOptions autoValue) {
+	private Column.AutoOptions convertAutoValue(@Nullable nl.markv.silk.pojos.v0_3_0.LongColumn.AutoOptions autoValue) {
 		if (autoValue == null) {
 			return null;
 		}
@@ -150,12 +150,12 @@ public class Enricher {
 				.collect(Collectors.toList());
 	}
 
-	private void convertReference(Table richSourceTable, nl.markv.silk.pojos.v0_2_0.ForeignKey pojoForeignKey) {
+	private void convertReference(Table richSourceTable, nl.markv.silk.pojos.v0_3_0.ForeignKey pojoForeignKey) {
 		Table targetTable = notNull(tables.get(tableIdentifier(pojoForeignKey.targetTable)),
 				"Reference from '" + richSourceTable.name + "' to '" + pojoForeignKey.targetTable +
 				"' but the target table ('" + pojoForeignKey.targetTable + "') was not found");
 		List<ColumnMapping> columnMappings = new ArrayList<>();
-		for (nl.markv.silk.pojos.v0_2_0.ColumnMapping pojoMap : pojoForeignKey.columns) {
+		for (nl.markv.silk.pojos.v0_3_0.ColumnMapping pojoMap : pojoForeignKey.columns) {
 			String name = "Reference from '" + richSourceTable.name + "." + pojoMap.from +
 					"' to '" + targetTable.name + "." + pojoMap.to + "'";
 			Column fromCol = notNull(columns.get(columnIdentifier(richSourceTable, pojoMap.from)),
@@ -180,7 +180,7 @@ public class Enricher {
 		targetTable.incomingReferences.add(richForeignKey);
 	}
 
-	private void convertUniqueConstraint(Table richTable, nl.markv.silk.pojos.v0_2_0.UniqueConstraint pojoUniqueConstraint) {
+	private void convertUniqueConstraint(Table richTable, nl.markv.silk.pojos.v0_3_0.UniqueConstraint pojoUniqueConstraint) {
 		UniqueConstraint richUniqueConstraint = new UniqueConstraint(
 				richTable,
 				pojoUniqueConstraint.name,
@@ -193,7 +193,7 @@ public class Enricher {
 		richTable.uniqueConstraints.add(richUniqueConstraint);
 	}
 
-	private void convertCheckConstraint(Table richTable, nl.markv.silk.pojos.v0_2_0.CheckConstraint pojoCheckConstraint) {
+	private void convertCheckConstraint(Table richTable, nl.markv.silk.pojos.v0_3_0.CheckConstraint pojoCheckConstraint) {
 		CheckConstraint richCheckConstraint = new CheckConstraint(
 				richTable,
 				pojoCheckConstraint.name,
@@ -203,7 +203,7 @@ public class Enricher {
 	}
 
 	@Nonnull
-	private Db convertDb(@Nonnull nl.markv.silk.pojos.v0_2_0.Db db) {
+	private Db convertDb(@Nonnull nl.markv.silk.pojos.v0_3_0.Db db) {
 		List<Table> dbTables = Flattener.dependencyOrder(tables.values().iterator());
 		Db richDb = new Db(
 				db.name,
@@ -227,7 +227,7 @@ public class Enricher {
 	}
 
 	@Nullable
-	private DatabaseSpecific convertDbSpecific(@Nullable nl.markv.silk.pojos.v0_2_0.DatabaseSpecific databaseSpecific) {
+	private DatabaseSpecific convertDbSpecific(@Nullable nl.markv.silk.pojos.v0_3_0.DatabaseSpecific databaseSpecific) {
 		if (databaseSpecific == null) {
 			return null;
 		}

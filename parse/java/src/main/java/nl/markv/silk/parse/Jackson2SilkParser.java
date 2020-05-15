@@ -15,16 +15,16 @@ public class Jackson2SilkParser implements SilkParser {
 	@Override
 	@Nonnull
 	public SilkSchema parse(@Nonnull String name, @Nonnull BufferedReader reader) {
-		nl.markv.silk.pojos.v0_2_0.SilkSchema schema = deserialize(reader);
+		nl.markv.silk.pojos.v0_3_0.SilkSchema schema = deserialize(reader);
 		return enricher.enrich(name, schema);
 	}
 
 	@Nonnull
-	private nl.markv.silk.pojos.v0_2_0.SilkSchema deserialize(@Nonnull BufferedReader reader) {
+	private nl.markv.silk.pojos.v0_3_0.SilkSchema deserialize(@Nonnull BufferedReader reader) {
 		ObjectMapper mapper = new ObjectMapper();
-		nl.markv.silk.pojos.v0_2_0.SilkSchema result;
+		nl.markv.silk.pojos.v0_3_0.SilkSchema result;
 		try {
-			result = mapper.readValue(reader, nl.markv.silk.pojos.v0_2_0.SilkSchema.class);
+			result = mapper.readValue(reader, nl.markv.silk.pojos.v0_3_0.SilkSchema.class);
 		} catch (IOException ex) {
 			throw new IllegalArgumentException(ex);
 		}
