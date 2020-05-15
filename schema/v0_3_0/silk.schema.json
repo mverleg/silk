@@ -96,6 +96,17 @@
           "type": "array",
           "items": { "$ref": "#/definitions/check_constraint" }
         },
+        "data": {
+          "type": "object",
+          "description": "Data in the table, with column names as keys, and a column of data as values. Columns with default values may be skipped.",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/value_literal" }
+          },
+          "propertyNames": {
+            "pattern": "^[A-Za-z][A-Za-z0-9_]*[A-Za-z0-9]?$"
+          }
+        },
         "database_specific": { "$ref": "#/definitions/database_specific" }
       },
       "required": ["name", "columns", "primary_key"],

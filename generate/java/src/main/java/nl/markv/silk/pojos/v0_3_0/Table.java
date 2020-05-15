@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "references",
     "unique_constraints",
     "check_constraints",
+    "data",
     "database_specific"
 })
 public class Table {
@@ -60,6 +61,13 @@ public class Table {
     @JsonProperty("check_constraints")
     public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
     /**
+     * Data in the table, with column names as keys, and a column of data as values. Columns with default values may be skipped.
+     * 
+     */
+    @JsonProperty("data")
+    @JsonPropertyDescription("Data in the table, with column names as keys, and a column of data as values. Columns with default values may be skipped.")
+    public Data data;
+    /**
      * Properties for the specific database, not controlled by Silk.
      * 
      */
@@ -79,6 +87,7 @@ public class Table {
      * @param checkConstraints
      * @param references
      * @param uniqueConstraints
+     * @param data
      * @param columns
      * @param name
      * @param description
@@ -86,7 +95,7 @@ public class Table {
      * @param primaryKey
      * @param databaseSpecific
      */
-    public Table(String name, String group, String description, List<LongColumn> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, DatabaseSpecific databaseSpecific) {
+    public Table(String name, String group, String description, List<LongColumn> columns, List<String> primaryKey, List<ForeignKey> references, List<UniqueConstraint> uniqueConstraints, List<CheckConstraint> checkConstraints, Data data, DatabaseSpecific databaseSpecific) {
         super();
         this.name = name;
         this.group = group;
@@ -96,6 +105,7 @@ public class Table {
         this.references = references;
         this.uniqueConstraints = uniqueConstraints;
         this.checkConstraints = checkConstraints;
+        this.data = data;
         this.databaseSpecific = databaseSpecific;
     }
 
@@ -135,6 +145,10 @@ public class Table {
         sb.append('=');
         sb.append(((this.checkConstraints == null)?"<null>":this.checkConstraints));
         sb.append(',');
+        sb.append("data");
+        sb.append('=');
+        sb.append(((this.data == null)?"<null>":this.data));
+        sb.append(',');
         sb.append("databaseSpecific");
         sb.append('=');
         sb.append(((this.databaseSpecific == null)?"<null>":this.databaseSpecific));
@@ -153,6 +167,7 @@ public class Table {
         result = ((result* 31)+((this.checkConstraints == null)? 0 :this.checkConstraints.hashCode()));
         result = ((result* 31)+((this.references == null)? 0 :this.references.hashCode()));
         result = ((result* 31)+((this.uniqueConstraints == null)? 0 :this.uniqueConstraints.hashCode()));
+        result = ((result* 31)+((this.data == null)? 0 :this.data.hashCode()));
         result = ((result* 31)+((this.columns == null)? 0 :this.columns.hashCode()));
         result = ((result* 31)+((this.name == null)? 0 :this.name.hashCode()));
         result = ((result* 31)+((this.description == null)? 0 :this.description.hashCode()));
@@ -171,7 +186,7 @@ public class Table {
             return false;
         }
         Table rhs = ((Table) other);
-        return ((((((((((this.checkConstraints == rhs.checkConstraints)||((this.checkConstraints!= null)&&this.checkConstraints.equals(rhs.checkConstraints)))&&((this.references == rhs.references)||((this.references!= null)&&this.references.equals(rhs.references))))&&((this.uniqueConstraints == rhs.uniqueConstraints)||((this.uniqueConstraints!= null)&&this.uniqueConstraints.equals(rhs.uniqueConstraints))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.description == rhs.description)||((this.description!= null)&&this.description.equals(rhs.description))))&&((this.group == rhs.group)||((this.group!= null)&&this.group.equals(rhs.group))))&&((this.primaryKey == rhs.primaryKey)||((this.primaryKey!= null)&&this.primaryKey.equals(rhs.primaryKey))))&&((this.databaseSpecific == rhs.databaseSpecific)||((this.databaseSpecific!= null)&&this.databaseSpecific.equals(rhs.databaseSpecific))));
+        return (((((((((((this.checkConstraints == rhs.checkConstraints)||((this.checkConstraints!= null)&&this.checkConstraints.equals(rhs.checkConstraints)))&&((this.references == rhs.references)||((this.references!= null)&&this.references.equals(rhs.references))))&&((this.uniqueConstraints == rhs.uniqueConstraints)||((this.uniqueConstraints!= null)&&this.uniqueConstraints.equals(rhs.uniqueConstraints))))&&((this.data == rhs.data)||((this.data!= null)&&this.data.equals(rhs.data))))&&((this.columns == rhs.columns)||((this.columns!= null)&&this.columns.equals(rhs.columns))))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.description == rhs.description)||((this.description!= null)&&this.description.equals(rhs.description))))&&((this.group == rhs.group)||((this.group!= null)&&this.group.equals(rhs.group))))&&((this.primaryKey == rhs.primaryKey)||((this.primaryKey!= null)&&this.primaryKey.equals(rhs.primaryKey))))&&((this.databaseSpecific == rhs.databaseSpecific)||((this.databaseSpecific!= null)&&this.databaseSpecific.equals(rhs.databaseSpecific))));
     }
 
 }
