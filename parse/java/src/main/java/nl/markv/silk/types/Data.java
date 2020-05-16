@@ -1,7 +1,7 @@
 package nl.markv.silk.types;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class Data {
 	@Nonnull
 	public Map<String, String[]> strings = new HashMap<>();
 	@Nonnull
-	public Map<String, LocalDateTime[]> dates = new HashMap<>();
+	public Map<String, ZonedDateTime[]> dates = new HashMap<>();
 	@Nonnull
 	public Map<String, BigDecimal[]> decimals = new HashMap<>();
 	@Nonnull

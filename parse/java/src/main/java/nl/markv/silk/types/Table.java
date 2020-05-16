@@ -3,7 +3,8 @@ package nl.markv.silk.types;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,8 +12,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -126,9 +125,15 @@ public class Table {
         if (data.generic.isEmpty()) {
             return null;
         }
-        return data.generic.entrySet().stream()
-                .map(e -> Pair.of(e.getKey(), Arrays.asList(e.getValue())))
-                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+        HashMap<String, List<Object>> formattedData = new LinkedHashMap<>();
+        for (Map.Entry<String, Object[]> entry : data.generic.entrySet()) {
+            Column column = columnLookupLowercase.get(entry.getKey());
+            List<Object> values = Arrays.stream(entry.getValue())
+                    .map(v -> column.type.valueToJson(v))
+                    .collect(Collectors.toList());
+            formattedData.put(column.name, values);
+        }
+        return formattedData;
     }
 
     @Override

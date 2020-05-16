@@ -1,8 +1,7 @@
 package nl.markv.silk.parse;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -146,9 +145,9 @@ public class Enricher {
 					richTable.data.decimals.put(column.nameLowercase, data);
 				} else if (column.type instanceof DataType.Timestamp) {
 					DataType.Timestamp typ = (DataType.Timestamp) column.type;
-					LocalDateTime[] data = columnData.stream()
+					ZonedDateTime[] data = columnData.stream()
 							.map(v -> typ.valueFromStr(v))
-							.toArray(LocalDateTime[]::new);
+							.toArray(ZonedDateTime[]::new);
 					richTable.data.generic.put(column.nameLowercase, data);
 					richTable.data.dates.put(column.nameLowercase, data);
 				}

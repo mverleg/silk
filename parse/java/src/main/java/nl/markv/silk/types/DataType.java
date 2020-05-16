@@ -1,8 +1,7 @@
 package nl.markv.silk.types;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
@@ -62,6 +61,9 @@ public abstract class DataType {
 	private DataType() {
 	}
 
+	@Nullable
+	public abstract Object valueToJson(@Nullable Object value);
+
 	public static class Text extends DataType {
 
 		public final Integer maxLength;
@@ -72,6 +74,13 @@ public abstract class DataType {
 
 		public Text() {
 			this.maxLength = null;
+		}
+
+		@Nullable
+		@Override
+		public Object valueToJson(@Nullable Object value) {
+			assert value == null || value instanceof String;
+			return value;
 		}
 
 		@Override
@@ -107,6 +116,13 @@ public abstract class DataType {
 
 		public static Int unsigned() {
 			return unsigned(null);
+		}
+
+		@Nullable
+		@Override
+		public Object valueToJson(@Nullable Object value) {
+			assert value == null || value instanceof Integer;
+			return value;
 		}
 
 		@Override
@@ -151,6 +167,19 @@ public abstract class DataType {
 			this.scale = scale;
 		}
 
+		@Nullable
+		@Override
+		public Object valueToJson(@Nullable Object value) {
+			if (value == null) {
+				return null;
+			}
+			assert value instanceof BigDecimal;
+			if (scale != null) {
+				((BigDecimal) value).setScale(scale);
+			}
+			return value;
+		}
+
 		@Override
 		public String toString() {
 			if (scale != null) {
@@ -188,14 +217,14 @@ public abstract class DataType {
 		}
 
 		@Nullable
-		public LocalDateTime valueFromStr(@Nullable String txt) {
+		public ZonedDateTime valueFromStr(@Nullable String txt) {
 			if (txt == null) {
 				return null;
 			}
-			LocalDateTime dt = null;
+			ZonedDateTime dt = null;
 			for (DateTimeFormatter format : DATE_TIME_FORMATS) {
 				try {
-					dt = LocalDateTime.parse(txt, format);
+					dt = ZonedDateTime.parse(txt, format);
 				} catch (DateTimeParseException ex) {
 					// Try the next format
 				}
@@ -205,6 +234,16 @@ public abstract class DataType {
 						"' where a iso datetime was expected, e.g. '2011-12-03T10:15:30Z'");
 			}
 			return dt;
+		}
+
+		@Nullable
+		@Override
+		public Object valueToJson(@Nullable Object value) {
+			if (value == null) {
+				return null;
+			}
+			assert value instanceof ZonedDateTime;
+			return ((ZonedDateTime)value).format(ISO_OFFSET_DATE_TIME);
 		}
 	}
 
