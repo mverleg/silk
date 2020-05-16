@@ -48,7 +48,7 @@ public class Column {
      */
     @JsonProperty("default_value")
     @JsonPropertyDescription("A literal column value (type is not checked by silk)")
-    public String defaultValue;
+    public Object defaultValue;
     /**
      * Automatic way to fill the column
      */
@@ -67,7 +67,7 @@ public class Column {
 
     public Column() {}
 
-    public Column(@Nonnull Table table, @Nonnull String name, @Nonnull DataType type, boolean nullable, @Nullable String defaultValue, @Nullable AutoOptions autoValue) {
+    public Column(@Nonnull Table table, @Nonnull String name, @Nonnull DataType type, boolean nullable, @Nullable Object defaultValue, @Nullable AutoOptions autoValue) {
         super();
         this.table = table;
         this.name = name;

@@ -132,21 +132,21 @@ public class Enricher {
 				} else if (column.type instanceof DataType.Int) {
 					DataType.Int typ = (DataType.Int) column.type;
 					Integer[] data = columnData.stream()
-							.map(v -> typ.valueFromStr(v))
+							.map(v -> typ.valueFromJson(v))
 							.toArray(Integer[]::new);
 					richTable.data.generic.put(column.nameLowercase, data);
 					richTable.data.integers.put(column.nameLowercase, data);
 				} else if (column.type instanceof DataType.Decimal) {
 					DataType.Decimal typ = (DataType.Decimal) column.type;
 					BigDecimal[] data = columnData.stream()
-							.map(v -> typ.valueFromStr(v))
+							.map(v -> typ.valueFromJson(v))
 							.toArray(BigDecimal[]::new);
 					richTable.data.generic.put(column.nameLowercase, data);
 					richTable.data.decimals.put(column.nameLowercase, data);
 				} else if (column.type instanceof DataType.Timestamp) {
 					DataType.Timestamp typ = (DataType.Timestamp) column.type;
 					ZonedDateTime[] data = columnData.stream()
-							.map(v -> typ.valueFromStr(v))
+							.map(v -> typ.valueFromJson(v))
 							.toArray(ZonedDateTime[]::new);
 					richTable.data.generic.put(column.nameLowercase, data);
 					richTable.data.dates.put(column.nameLowercase, data);

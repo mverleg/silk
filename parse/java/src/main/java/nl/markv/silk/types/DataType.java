@@ -77,6 +77,13 @@ public abstract class DataType {
 		}
 
 		@Nullable
+		public Object valueFromJson(@Nullable Object value) {
+			assert value == null || value instanceof String: "Expected String but got '" + value
+					+ "' of type " + value.getClass().getSimpleName();
+			return value;
+		}
+
+		@Nullable
 		@Override
 		public Object valueToJson(@Nullable Object value) {
 			assert value == null || value instanceof String;
@@ -135,14 +142,19 @@ public abstract class DataType {
 		}
 
 		@Nullable
-		public Integer valueFromStr(@Nullable String txt) {
-			if (txt == null) {
+		public Integer valueFromJson(@Nullable Object obj) {
+			if (obj == null) {
 				return null;
 			}
+			if (obj instanceof Integer) {
+				return (Integer)obj;
+			}
+			assert obj instanceof String: "Expected String, but '" + obj
+					+ "' of type " + obj.getClass().getSimpleName();
 			try {
-				return Integer.parseInt(txt);
+				return Integer.parseInt((String)obj);
 			} catch (NumberFormatException ex) {
-				throw new IllegalArgumentException("Got value '" + txt + "' where an integer was expected");
+				throw new IllegalArgumentException("Got value '" + obj + "' where an integer was expected");
 			}
 		}
 	}
@@ -173,7 +185,8 @@ public abstract class DataType {
 			if (value == null) {
 				return null;
 			}
-			assert value instanceof BigDecimal;
+			assert value instanceof BigDecimal: "Expected BigDecimal but got '" + value
+					+ "' of type " + value.getClass().getSimpleName();
 			if (scale != null) {
 				((BigDecimal) value).setScale(scale);
 			}
@@ -192,12 +205,26 @@ public abstract class DataType {
 		}
 
 		@Nullable
-		public BigDecimal valueFromStr(@Nullable String txt) {
-			if (txt == null) {
+		public BigDecimal valueFromJson(@Nullable Object obj) {
+			if (obj == null) {
 				return null;
 			}
 			//TODO @mark: fix scale
-			return new BigDecimal(txt);
+			if (obj instanceof BigDecimal) {
+				// This seems unlikely, but just in case
+				return (BigDecimal)obj;
+			}
+			if (obj instanceof String) {
+				return new BigDecimal((String)obj);
+			}
+			if (obj instanceof Double) {
+				return BigDecimal.valueOf((Double)obj);
+			}
+			if (obj instanceof Integer) {
+				return BigDecimal.valueOf((Integer)obj);
+			}
+			throw new IllegalStateException("Cannot convert to BigDecimal from '" + obj
+					+ "' of type " + obj.getClass().getSimpleName());
 		}
 	}
 
@@ -217,10 +244,14 @@ public abstract class DataType {
 		}
 
 		@Nullable
-		public ZonedDateTime valueFromStr(@Nullable String txt) {
-			if (txt == null) {
+		public ZonedDateTime valueFromJson(@Nullable Object obj) {
+			if (obj == null) {
 				return null;
 			}
+			//TODO @mark: maybe accept double/int timestamps
+			assert obj instanceof String: "Expected String, but '" + obj
+					+ "' of type " + obj.getClass().getSimpleName();
+			String txt = (String)obj;
 			ZonedDateTime dt = null;
 			for (DateTimeFormatter format : DATE_TIME_FORMATS) {
 				try {
@@ -242,11 +273,27 @@ public abstract class DataType {
 			if (value == null) {
 				return null;
 			}
-			assert value instanceof ZonedDateTime;
+			assert value instanceof ZonedDateTime: "Expected ZonedDateTime but got '" + value
+					+ "' of type " + value.getClass().getSimpleName();
 			return ((ZonedDateTime)value).format(ISO_OFFSET_DATE_TIME);
 		}
 	}
 
 	@Override
 	public abstract String toString();
+
+	public Object fromJson(@Nullable Object value) {
+
+		if (this instanceof DataType.Text) {
+			return ((DataType.Text)this).valueFromJson(value);
+		} else if (this instanceof DataType.Int) {
+			return ((DataType.Int)this).valueFromJson(value);
+		} else if (this instanceof DataType.Decimal) {
+			return ((DataType.Decimal)this).valueFromJson(value);
+		} else if (this instanceof DataType.Timestamp) {
+			return ((DataType.Timestamp)this).valueFromJson(value);
+		} else {
+			throw new IllegalStateException("Unsupported data type " + this);
+		}
+	}
 }
