@@ -69,7 +69,7 @@
           { "name": "decimal1", "type": "decimal(12)", "nullable": false, "default_value": "1234.56789" },
           { "name": "decimal2", "type": "decimal(10,5)", "nullable": false, "default_value": "-1234.56789" },
           { "name": "timestamp_a", "type": "timestamp", "nullable": true, "default_value": null },
-          { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "2020-05-10 18:00:00.000" },
+          { "name": "timestamp_b", "type": "timestamp", "nullable": false, "default_value": "2020-05-10T18:00:00Z" },
           { "name": "timestamp_c", "type": "timestamp", "nullable": false, "auto_value": "created_timestamp" },
           { "name": "timestamp_d", "type": "timestamp", "nullable": false, "auto_value": "updated_timestamp" }
         ],

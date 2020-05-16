@@ -75,7 +75,7 @@ public class Column {
         this.type = type;
         this.typeName = type.toString();
         this.nullable = nullable;
-        this.defaultValue = defaultValue;
+        this.defaultValue = type.valueFromJson(defaultValue);
         this.autoValue = autoValue;
     }
 

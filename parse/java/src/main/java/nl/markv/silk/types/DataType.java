@@ -64,6 +64,9 @@ public abstract class DataType {
 	@Nullable
 	public abstract Object valueToJson(@Nullable Object value);
 
+	@Nullable
+	public abstract Object valueFromJson(@Nullable Object defaultValue);
+
 	public static class Text extends DataType {
 
 		public final Integer maxLength;
@@ -281,19 +284,4 @@ public abstract class DataType {
 
 	@Override
 	public abstract String toString();
-
-	public Object fromJson(@Nullable Object value) {
-
-		if (this instanceof DataType.Text) {
-			return ((DataType.Text)this).valueFromJson(value);
-		} else if (this instanceof DataType.Int) {
-			return ((DataType.Int)this).valueFromJson(value);
-		} else if (this instanceof DataType.Decimal) {
-			return ((DataType.Decimal)this).valueFromJson(value);
-		} else if (this instanceof DataType.Timestamp) {
-			return ((DataType.Timestamp)this).valueFromJson(value);
-		} else {
-			throw new IllegalStateException("Unsupported data type " + this);
-		}
-	}
 }
