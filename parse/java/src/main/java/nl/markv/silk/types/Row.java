@@ -2,10 +2,13 @@ package nl.markv.silk.types;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * A data row in a table, used for iteration.
@@ -34,6 +37,15 @@ public class Row {
 				.map(col -> table.data.generic.get(col.nameLowercase))
 				.filter(row -> row != null)
 				.map(row -> row[rowNr]);
+	}
+
+	@Nonnull
+	public Stream<Object> cells(@Nonnull BiFunction<Column, Object, Object> map) {
+		return table.columns.stream()
+				.map(col -> Pair.of(col, table.data.generic.get(col.nameLowercase)))
+				.filter(col_val -> col_val.getRight() != null)
+				.map(col_val -> Pair.of(col_val.getLeft(), col_val.getRight()[rowNr]))
+				.map(col_val -> map.apply(col_val.getLeft(), col_val.getRight()));
 	}
 
 	@Nullable
