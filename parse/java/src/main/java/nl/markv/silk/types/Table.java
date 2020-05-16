@@ -9,13 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import org.apache.commons.lang.math.IntRange;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -81,7 +77,7 @@ public class Table {
     @JsonIgnore
     public List<ForeignKey> incomingReferences = new ArrayList<>();
 
-    public Data data = new Data();
+    public Data data = new Data(this);
 
     public Table() {}
 
@@ -123,6 +119,7 @@ public class Table {
         }
     }
 
+    @SuppressWarnings("unused")
     @JsonProperty("data")
     Map<String, List<Object>> encodeData() {
         //TODO @mark: test/improve this! e.g. string escaping
@@ -138,12 +135,6 @@ public class Table {
             formattedData.put(column.name, values);
         }
         return formattedData;
-    }
-
-    @Nonnull
-    public Stream<Row> rows() {
-        return IntStream.range(0, data.size())
-                .mapToObj(rowNr -> new Row(this, rowNr));
     }
 
     @Override

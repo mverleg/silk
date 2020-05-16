@@ -31,7 +31,9 @@ public class Row {
 	@Nonnull
 	public Stream<Object> cells() {
 		return table.columns.stream()
-				.map(col -> table.data.generic.get(col.nameLowercase)[rowNr]);
+				.map(col -> table.data.generic.get(col.nameLowercase))
+				.filter(row -> row != null)
+				.map(row -> row[rowNr]);
 	}
 
 	@Nullable

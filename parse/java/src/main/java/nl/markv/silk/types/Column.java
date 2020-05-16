@@ -116,7 +116,7 @@ public class Column {
 
         @Nonnull
         public final String value;
-        private final static Map<String, AutoOptions> CONSTANTS = new HashMap<String, AutoOptions>();
+        private final static Map<String, AutoOptions> CONSTANTS = new HashMap<>();
 
         static {
             for (AutoOptions c: values()) {

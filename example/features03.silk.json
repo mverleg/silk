@@ -112,9 +112,9 @@
           { "name": "id1", "type": "uint", "nullable": true },
           { "name": "id2", "type": "uint", "nullable": true },
           { "name": "id3", "type": "uint", "nullable": true },
-          { "name": "select", "type": "text", "nullable": false, "default_value": "'insert info'" },
-          { "name": "case", "type": "text", "nullable": false, "default_value": "'drop table'" },
-          { "name": "from", "type": "text", "nullable": false, "default_value": "'--'" }
+          { "name": "select", "type": "text", "nullable": false, "default_value": "insert info" },
+          { "name": "case", "type": "text", "nullable": false, "default_value": "drop table" },
+          { "name": "from", "type": "text", "nullable": false, "default_value": "--" }
         ],
         "primary_key": [ "id" ],
         "references": [
