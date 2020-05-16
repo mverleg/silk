@@ -20,6 +20,7 @@ public class Examples {
 			"/silk/example/shop02.silk.json",
 			"/silk/example/shop03.silk.json",
 			"/silk/example/features02.silk.json",
+			"/silk/example/features03.silk.json",
 			"/silk/example/tableonly02.silk.json",
 	};
 

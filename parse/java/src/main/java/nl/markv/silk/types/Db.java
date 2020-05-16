@@ -41,7 +41,7 @@ public class Db {
      */
     @JsonProperty("tables")
     @JsonPropertyDescription("The tables in the database")
-    public List<Table> tables = new ArrayList<Table>();
+    public List<Table> tables = new ArrayList<>();
     /**
      * A name of a table, column or similar in the database
      */

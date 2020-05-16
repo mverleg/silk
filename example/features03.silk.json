@@ -17,7 +17,7 @@
         "references": [],
         "unique_constraints": [],
         "check_constraints": [],
-        "data": []
+        "data": {}
       },
       {
         "name": "top",

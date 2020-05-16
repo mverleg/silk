@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +11,13 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+import static java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME;
+import static java.util.Arrays.asList;
 import static org.apache.commons.lang.Validate.isTrue;
 
 //TODO @mark: equals / hashCode?
@@ -166,6 +173,15 @@ public abstract class DataType {
 	}
 
 	public static class Timestamp extends DataType {
+		private static final Iterable<? extends DateTimeFormatter> DATE_TIME_FORMATS = asList(
+				ISO_INSTANT,
+				ISO_DATE,
+				ISO_LOCAL_DATE,
+				ISO_LOCAL_DATE_TIME,
+				ISO_OFFSET_DATE_TIME,
+				ISO_ZONED_DATE_TIME
+		);
+
 		@Override
 		public String toString() {
 			return "timestamp";
@@ -176,12 +192,19 @@ public abstract class DataType {
 			if (txt == null) {
 				return null;
 			}
-			try {
-				return LocalDateTime.parse(txt, ISO_LOCAL_DATE_TIME);
-			} catch (DateTimeParseException ex) {
-				throw new IllegalArgumentException("Got value '" + txt +
-						"' where a iso datetime was expected, e.g. '2011-12-03T10:15:30'");
+			LocalDateTime dt = null;
+			for (DateTimeFormatter format : DATE_TIME_FORMATS) {
+				try {
+					dt = LocalDateTime.parse(txt, format);
+				} catch (DateTimeParseException ex) {
+					// Try the next format
+				}
 			}
+			if (dt == null) {
+				throw new IllegalArgumentException("Got value '" + txt +
+						"' where a iso datetime was expected, e.g. '2011-12-03T10:15:30Z'");
+			}
+			return dt;
 		}
 	}
 

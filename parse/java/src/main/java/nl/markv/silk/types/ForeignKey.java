@@ -33,7 +33,7 @@ public class ForeignKey {
      */
     @JsonProperty("columns")
     @JsonPropertyDescription("The mapping of columns in the reference.")
-    public List<ColumnMapping> columns = new ArrayList<ColumnMapping>();
+    public List<ColumnMapping> columns = new ArrayList<>();
 
     @JsonIgnore
     public Table targetTable;

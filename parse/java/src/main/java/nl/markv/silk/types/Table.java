@@ -49,15 +49,15 @@ public class Table {
     @JsonProperty("description")
     public String description;
     @JsonProperty("columns")
-    public List<Column> columns = new ArrayList<Column>();
+    public List<Column> columns = new ArrayList<>();
     @JsonProperty("primary_key")
-    public List<String> primaryKeyNames = new ArrayList<String>();
+    public List<String> primaryKeyNames = new ArrayList<>();
     @JsonProperty("references")
-    public List<ForeignKey> references = new ArrayList<ForeignKey>();
+    public List<ForeignKey> references = new ArrayList<>();
     @JsonProperty("unique_constraints")
-    public List<UniqueConstraint> uniqueConstraints = new ArrayList<UniqueConstraint>();
+    public List<UniqueConstraint> uniqueConstraints = new ArrayList<>();
     @JsonProperty("check_constraints")
-    public List<CheckConstraint> checkConstraints = new ArrayList<CheckConstraint>();
+    public List<CheckConstraint> checkConstraints = new ArrayList<>();
     /**
      * Properties for the specific database, not controlled by Silk
      */

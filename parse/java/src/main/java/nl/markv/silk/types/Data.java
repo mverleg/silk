@@ -3,6 +3,7 @@ package nl.markv.silk.types;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -12,7 +13,7 @@ public class Data {
 
 	// Map to columns of data (as Objects, because the type may differ).
 	@Nonnull
-	public Map<String, Object[]> generic = new HashMap<>();
+	public Map<String, Object[]> generic = new LinkedHashMap<>();
 
 	// Map to columns of specific type.
 	@Nonnull
