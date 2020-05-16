@@ -19,10 +19,17 @@ public class Data {
 	@Nonnull
 	public Map<String, String[]> strings = new HashMap<>();
 	@Nonnull
-	public Map<String, ZonedDateTime[]> dates = new HashMap<>();
+	public Map<String, Integer[]> integers = new HashMap<>();
 	@Nonnull
 	public Map<String, BigDecimal[]> decimals = new HashMap<>();
 	@Nonnull
-	public Map<String, Integer[]> integers = new HashMap<>();
+	public Map<String, ZonedDateTime[]> dates = new HashMap<>();
 
+	public int size() {
+		if (generic.isEmpty()) {
+			return 0;
+		}
+		Object[] col = generic.entrySet().iterator().next().getValue();
+		return col.length;
+	}
 }
